@@ -6,15 +6,36 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='main.css'>
-
 </head>
 
 <body>
-    <p id="x"></p>
-    <p id="y"></p>
-    <p id="z"></p>
+    <p id="x">X</p>
+    <p id="y">Y</p>
+    <p id="z">Z</p>
+
 </body>
-<script src='Gyroscope.js'></script>
+<script>
+    init();
+
+    function init() {
+        let sensor = new Gyroscope();
+        sensor.start();
+        if (navigator.userAgent.match(/iphone/i)) {
+            if (confirm('Schon gewusst, dass es eine Fan-App im AppStore gibt? Jetzt die kostenlose App downloaden!')) {
+                window.location.href = "http://goo.gl/NK1kr3";
+            }
+        }
+        console.log("HALLLo");
+
+
+        sensor.onreading = () => {
+            let x = document.getElementById("x");
+            let y = document.getElementById("y");
+            let z = document.getElementById("z");
+            x.innerHTML = "Angular velocity around the X-axis " + sensor.x;
+            y.innerHTML = "Angular velocity around the Y-axis " + sensor.y;
+            z.innerHTML = "Angular velocity around the Z-axis " + sensor.z;
+        };
+    }</script>
 
 </html>
