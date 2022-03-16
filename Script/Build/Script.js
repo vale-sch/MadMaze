@@ -57,7 +57,7 @@ var Script;
         }
         // setup the viewport
         let cmpCamera = new FudgeCore.ComponentCamera();
-        cmpCamera.mtxPivot.translateY(75);
+        cmpCamera.mtxPivot.translateY(80);
         cmpCamera.mtxPivot.translateX(5);
         cmpCamera.mtxPivot.rotateX(90);
         cmpCamera.mtxPivot.rotateZ(90);
@@ -107,7 +107,7 @@ var Script;
                         xAccelartion.innerHTML = "X: " + (-event.gamma).toString();
                         yAccelartion.innerHTML = "Y: " + (-event.alpha).toString();
                         zAccelartion.innerHTML = "Z: " + (-event.beta).toString();
-                        rgdbdyBall.applyForce(new f.Vector3(-event.gamma / 5, event.alpha / 10, -event.beta / 5));
+                        rgdbdyBall.applyForce(new f.Vector3(-event.gamma, event.alpha / 10, -event.beta));
                         //let rotation_degrees: number = event.alpha;
                         //let frontToBack_degrees: number = event.beta;
                         //let leftToRight_degrees: number = event.gamma;
