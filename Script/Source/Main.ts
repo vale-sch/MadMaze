@@ -67,6 +67,7 @@ namespace Script {
     if (_iOSDevice)
       (DeviceMotionEvent as any).requestPermission().then((response: string) => {
         if (response == 'granted') {
+          document.write(response);
           // Add a listener to get smartphone orientation 
           // in the alpha-beta-gamma axes (units in degrees)
           window.addEventListener('deviceorientation', (event) => {
