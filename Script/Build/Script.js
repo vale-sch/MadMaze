@@ -118,6 +118,9 @@ var Script;
                         // Since phones are narrower than they are long, double the increase to the x velocity
                     });
                 }
+                else {
+                    document.write(response);
+                }
             });
     }
 })(Script || (Script = {}));

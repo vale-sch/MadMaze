@@ -89,6 +89,8 @@ namespace Script {
 
 
           });
+        } else {
+          document.write(response);
         }
       });
   }
