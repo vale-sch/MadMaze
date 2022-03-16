@@ -1,71 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Accelerometer Demo</title>
+    <title>MadMaze</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="styles.css" />
 
-    <style>
-        .indicatorDot {
-            width: 30px;
-            height: 30px;
-            background-color: #ffab56;
-            border-radius: 50%;
-            position: fixed;
-        }
-    </style>
+    <!--Editor settings of this project-->
+    <meta type="settings" autoview="Graph|2022-03-16T16:05:06.910Z|36331"
+        project="{'name':'MadMaze','includeAutoViewScript':true,'graphAutoView':'Graph|2022-03-16T16:05:06.910Z|36331'}"
+        panels="[{'type':'PanelProject','state':{}},{'type':'PanelGraph','state':{'graph':'Graph|2022-03-16T16:05:06.910Z|36331'}}]" />
 
-    <script></script>
+    <!--Activate the following line to include the FUDGE-version of Oimo-Physics. You may want to download a local copy to work offline and be independent from future changes!-->
+    <!--<script type="text/javascript" src="../../../Physics/OimoPhysics.js"></script>-->
+
+    <!--Load FUDGE. You may want to download local copies to work offline and be independent from future changes! Developers working on FUDGE itself may want to create symlinks-->
+    <script type="text/javascript" src="/Physics/OimoPhysics.js"></script>
+    <script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Core/Build/FudgeCore.js"></script>
+    <script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Aid/Build/FudgeAid.js"></script>
+
+    <!--Link internal resources. The editor only loads the first, but at runtime, multiple files can contribute-->
+    <link type="resources" src="Internal.json" />
+
+    <!--Load custom scripts-->
+    <script type="text/javascript" src="Script/Build/Script.js" editor="true"></script>
+
+    <script name="autoView">
+    </script>
 </head>
 
-<body style="background-color:lightblue;">
-    <button id="accelPermsButton" style="height:50px;" onclick="getAccel()">
-        <h1>Get Accelerometer Permissions</h1>
-    </button>
-    <div class="indicatorDot" style="left:30%; top:30%;"></div>
+<body>
+    <!--Dialog shown at startup only-->
+    <div style="position: absolute; background-color: transparent;">
+        <p style="font-size: larger; color: aliceblue;" id="x">
+        </p>
+        <p style="font-size: larger; color: aliceblue;" id="y">
+        </p>
+        <p style="font-size: larger; color: aliceblue;" id="z">
+        </p>
+    </div>
+
+    <!--Canvas for FUDGE to render to-->
+    <canvas class="fullscreen">
+
+    </canvas>
+
+
+
+
+
+
+
+
+
 </body>
-<script>var px = 50; // Position x and y
-    var py = 50;
-    var vx = 0.0; // Velocity x and y
-    var vy = 0.0;
-    var updateRate = 1 / 60; // Sensor refresh rate
-
-    function getAccel() {
-        DeviceMotionEvent.requestPermission().then(response => {
-            if (response == 'granted') {
-                // Add a listener to get smartphone orientation 
-                // in the alpha-beta-gamma axes (units in degrees)
-                window.addEventListener('deviceorientation', (event) => {
-                    // Expose each orientation angle in a more readable way
-                    rotation_degrees = event.alpha;
-                    frontToBack_degrees = event.beta;
-                    leftToRight_degrees = event.gamma;
-
-                    // Update velocity according to how tilted the phone is
-                    // Since phones are narrower than they are long, double the increase to the x velocity
-                    vx = vx + leftToRight_degrees * updateRate * 2;
-                    vy = vy + frontToBack_degrees * updateRate;
-
-                    // Update position and clip it to bounds
-                    px = px + vx * .5;
-                    if (px > 98 || px < 0) {
-                        px = Math.max(0, Math.min(98, px)) // Clip px between 0-98
-                        vx = 0;
-                    }
-
-                    py = py + vy * .5;
-                    if (py > 98 || py < 0) {
-                        py = Math.max(0, Math.min(98, py)) // Clip py between 0-98
-                        vy = 0;
-                    }
-
-                    dot = document.getElementsByClassName("indicatorDot")[0]
-                    dot.setAttribute('style', "left:" + (px) + "%;" +
-                        "top:" + (py) + "%;");
-
-                });
-            }
-        });
-    }</script>
 
 </html>
