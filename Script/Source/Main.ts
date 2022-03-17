@@ -45,11 +45,13 @@ namespace Script {
     canvas.dispatchEvent(new CustomEvent("interactiveViewportStarted", { bubbles: true, detail: viewport }));
 
   } (document.head.querySelector("meta[autoView]").getAttribute("autoView"));
-
+  let rgdbdyBall: f.ComponentRigidbody
   function start(_event: CustomEvent): void {
     viewport = _event.detail;
-    let rgdbdyBall: f.ComponentRigidbody = madeMazeGraph.getChild(0).getComponent(f.ComponentRigidbody);
-    getAccel(rgdbdyBall);
+    rgdbdyBall = madeMazeGraph.getChild(0).getComponent(f.ComponentRigidbody);
+    let accelButt: HTMLElement = document.getElementById("accelButton");
+    accelButt.addEventListener("click", getAccel);
+
     f.Loop.addEventListener(f.EVENT.LOOP_FRAME, update);
     f.Loop.start();  // start the game loop to continously draw the viewport, update the audiosystem and drive the physics i/a
   }
@@ -59,7 +61,8 @@ namespace Script {
     viewport.draw();
     //f.AudioManager.default.update();
   }
-  function getAccel(rgdbdyBall: f.ComponentRigidbody) {
+  function getAccel() {
+    console.log("jojo");
     let _iOSDevice: boolean = !!navigator.platform.match(/iPhone|iPod|iPad/);
     let xAccelartion: HTMLElement = document.getElementById("x");
     let yAccelartion: HTMLElement = document.getElementById("y");
