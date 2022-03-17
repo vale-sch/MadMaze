@@ -97,18 +97,22 @@ var Script;
         let xAccelartion = document.getElementById("x");
         let yAccelartion = document.getElementById("y");
         let zAccelartion = document.getElementById("z");
+        let oldYAcceleration = 0;
         if (_iOSDevice)
             DeviceMotionEvent.requestPermission().then((response) => {
                 if (response == 'granted') {
                     console.log("Access acceleration: " + response);
                     window.addEventListener('deviceorientation', (event) => {
-                        xAccelartion.innerHTML = "X: " + (-event.gamma).toString();
-                        yAccelartion.innerHTML = "Y: " + (-event.alpha).toString();
-                        zAccelartion.innerHTML = "Z: " + (-event.beta).toString();
-                        if (!upSideDownBool)
+                        xAccelartion.innerHTML = "X: " + (event.gamma).toString();
+                        yAccelartion.innerHTML = "Y: " + (event.alpha).toString();
+                        zAccelartion.innerHTML = "Z: " + (event.beta).toString();
+                        if (!upSideDownBool) {
                             rgdbdyBall.applyForce(new f.Vector3(-event.gamma, 0, -event.beta));
+                            oldYAcceleration = event.alpha;
+                        }
                         if (upSideDownBool)
-                            rgdbdyBall.applyForce(new f.Vector3(0, event.alpha, 0));
+                            if (Math.abs(event.alpha - oldYAcceleration) > 20)
+                                rgdbdyBall.applyForce(new f.Vector3(0, event.alpha, 0));
                     });
                 }
                 else {

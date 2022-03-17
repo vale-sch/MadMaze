@@ -70,23 +70,23 @@ namespace Script {
     let xAccelartion: HTMLElement = document.getElementById("x");
     let yAccelartion: HTMLElement = document.getElementById("y");
     let zAccelartion: HTMLElement = document.getElementById("z");
-
+    let oldYAcceleration: number = 0;
     if (_iOSDevice)
       (DeviceMotionEvent as any).requestPermission().then((response: string) => {
         if (response == 'granted') {
           console.log("Access acceleration: " + response);
-
           window.addEventListener('deviceorientation', (event) => {
-
-            xAccelartion.innerHTML = "X: " + (-event.gamma).toString();
-            yAccelartion.innerHTML = "Y: " + (-event.alpha).toString();
-            zAccelartion.innerHTML = "Z: " + (-event.beta).toString();
-            if (!upSideDownBool)
+            xAccelartion.innerHTML = "X: " + (event.gamma).toString();
+            yAccelartion.innerHTML = "Y: " + (event.alpha).toString();
+            zAccelartion.innerHTML = "Z: " + (event.beta).toString();
+            if (!upSideDownBool) {
               rgdbdyBall.applyForce(new f.Vector3(-event.gamma, 0, -event.beta));
+              oldYAcceleration = event.alpha;
+
+            }
             if (upSideDownBool)
-              rgdbdyBall.applyForce(new f.Vector3(0, event.alpha, 0));
-
-
+              if (Math.abs(event.alpha - oldYAcceleration) > 20)
+                rgdbdyBall.applyForce(new f.Vector3(0, event.alpha, 0));
           });
         } else {
           console.log("Access acceleration: " + response);
