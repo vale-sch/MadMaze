@@ -111,7 +111,7 @@ var Script;
                             oldYAcceleration = event.alpha;
                         }
                         if (upSideDownBool)
-                            if (Math.abs(event.alpha - oldYAcceleration) > 20)
+                            if (Math.abs(event.alpha - oldYAcceleration) > 50)
                                 rgdbdyBall.applyForce(new f.Vector3(0, event.alpha, 0));
                     });
                 }
