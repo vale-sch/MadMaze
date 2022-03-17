@@ -42,16 +42,22 @@ var Script;
     f.Debug.info("Main Program Template running!");
     let viewport;
     let madeMazeGraph;
-    document.addEventListener("interactiveViewportStarted", start);
+    let rgdbdyBall;
+    //let accelButt: HTMLElement = ;
+    document.getElementById("accelButton").addEventListener("click", getAccel);
+    document.getElementById("accelButton").addEventListener("click", init);
     async function init() {
+        document.addEventListener("interactiveViewportStarted", start);
         await FudgeCore.Project.loadResourcesFromHTML();
         FudgeCore.Debug.log("Project:", FudgeCore.Project.resources);
         madeMazeGraph = (f.Project.resources["Graph|2022-03-16T16:05:06.910Z|36331"]);
+        rgdbdyBall = madeMazeGraph.getChild(0).getComponent(f.ComponentRigidbody);
         FudgeCore.Debug.log("Graph:", madeMazeGraph);
         if (!madeMazeGraph) {
             alert("Nothing to render. Create a graph with at least a mesh, material and probably some light");
             return;
         }
+        // setup the viewport
         let cmpCamera = new FudgeCore.ComponentCamera();
         cmpCamera.mtxPivot.translateY(80);
         cmpCamera.mtxPivot.translateX(5);
@@ -69,28 +75,23 @@ var Script;
     }
     (document.head.querySelector("meta[autoView]").getAttribute("autoView"));
     function start(_event) {
-        init();
         viewport = _event.detail;
-        let accelButt = document.getElementById("accelButton");
-        accelButt.addEventListener("click", getAccel);
         f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, update);
         f.Loop.start();
     }
     function update(_event) {
-        f.Physics.simulate(); // if physics is included and used
+        f.Physics.simulate();
         viewport.draw();
-        //f.AudioManager.default.update();
     }
     function getAccel() {
         let _iOSDevice = !!navigator.platform.match(/iPhone|iPod|iPad/);
         let xAccelartion = document.getElementById("x");
         let yAccelartion = document.getElementById("y");
         let zAccelartion = document.getElementById("z");
-        let rgdbdyBall = madeMazeGraph.getChild(0).getComponent(f.ComponentRigidbody);
         if (_iOSDevice)
             DeviceMotionEvent.requestPermission().then((response) => {
                 if (response == 'granted') {
-                    console.log("access acceleration:: " + response);
+                    console.log("Access acceleration: " + response);
                     window.addEventListener('deviceorientation', (event) => {
                         xAccelartion.innerHTML = "X: " + (-event.gamma).toString();
                         yAccelartion.innerHTML = "Y: " + (-event.alpha).toString();
@@ -99,10 +100,9 @@ var Script;
                     });
                 }
                 else {
-                    console.log("access acceleration: " + response);
+                    console.log("Access acceleration: " + response);
                 }
             });
-        init();
     }
 })(Script || (Script = {}));
 //# sourceMappingURL=Script.js.map
