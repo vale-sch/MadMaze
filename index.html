@@ -32,15 +32,17 @@
 
 <body>
     <!--Dialog shown at startup only-->
-    <div style="position: absolute; background-color: transparent;">
+    <div id="controlPanel" style="position: absolute; background-color: transparent;">
         <p style="font-size: larger; color: aliceblue;" id="x">
         </p>
         <p style="font-size: larger; color: aliceblue;" id="y">
         </p>
         <p style="font-size: larger; color: aliceblue;" id="z">
         </p>
-        <button id="accelButton" style="right: 50%;">Start</button>
+
     </div>
+    <button id="accelButton"
+        style="width: 100%; height: 100px; position: fixed; top: 50%; font-size: xx-large; ">Start</button>
 
     <!--Canvas for FUDGE to render to-->
     <canvas class="fullscreen">
