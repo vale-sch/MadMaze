@@ -6,8 +6,8 @@ namespace Script {
   let madeMazeGraph: f.Graph;
   let rgdbdyBall: f.ComponentRigidbody;
 
-  //let accelButt: HTMLElement = ;
-  document.getElementById("accelButton").addEventListener("click", getAccel);
+  let accelButt: HTMLElement = document.getElementById("accelButton");
+  accelButt.addEventListener("click", getAccel);
   document.getElementById("accelButton").addEventListener("click", init);
 
   async function init() {
@@ -55,7 +55,16 @@ namespace Script {
     viewport.draw();
 
   }
+  let upSideDownBool: boolean = false;
   function getAccel() {
+    accelButt.style.visibility = 'hidden';
+    let divPanel: HTMLElement = document.getElementById("controlPanel");
+    let upSideDownBut: HTMLElement = document.createElement("button");
+    upSideDownBut.style.width = "200px";
+    upSideDownBut.style.height = "50px";
+    divPanel.appendChild(upSideDownBut);
+    upSideDownBut.innerText = "UPSIDE DOWN";
+    upSideDownBut.addEventListener("click", changeUpSideDown);
 
     let _iOSDevice: boolean = !!navigator.platform.match(/iPhone|iPod|iPad/);
     let xAccelartion: HTMLElement = document.getElementById("x");
@@ -72,8 +81,10 @@ namespace Script {
             xAccelartion.innerHTML = "X: " + (-event.gamma).toString();
             yAccelartion.innerHTML = "Y: " + (-event.alpha).toString();
             zAccelartion.innerHTML = "Z: " + (-event.beta).toString();
-
-            rgdbdyBall.applyForce(new f.Vector3(-event.gamma, event.alpha / 10, -event.beta));
+            if (!upSideDownBool)
+              rgdbdyBall.applyForce(new f.Vector3(-event.gamma, 0, -event.beta));
+            if (upSideDownBool)
+              rgdbdyBall.applyForce(new f.Vector3(0, event.alpha, 0));
 
 
           });
@@ -82,6 +93,12 @@ namespace Script {
         }
       });
 
+  }
+  function changeUpSideDown() {
+    if (!upSideDownBool)
+      upSideDownBool = true;
+    else
+      upSideDownBool = false;
   }
 
 }

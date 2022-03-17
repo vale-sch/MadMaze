@@ -43,8 +43,8 @@ var Script;
     let viewport;
     let madeMazeGraph;
     let rgdbdyBall;
-    //let accelButt: HTMLElement = ;
-    document.getElementById("accelButton").addEventListener("click", getAccel);
+    let accelButt = document.getElementById("accelButton");
+    accelButt.addEventListener("click", getAccel);
     document.getElementById("accelButton").addEventListener("click", init);
     async function init() {
         document.addEventListener("interactiveViewportStarted", start);
@@ -83,7 +83,16 @@ var Script;
         f.Physics.simulate();
         viewport.draw();
     }
+    let upSideDownBool = false;
     function getAccel() {
+        accelButt.style.visibility = 'hidden';
+        let divPanel = document.getElementById("controlPanel");
+        let upSideDownBut = document.createElement("button");
+        upSideDownBut.style.width = "200px";
+        upSideDownBut.style.height = "50px";
+        divPanel.appendChild(upSideDownBut);
+        upSideDownBut.innerText = "UPSIDE DOWN";
+        upSideDownBut.addEventListener("click", changeUpSideDown);
         let _iOSDevice = !!navigator.platform.match(/iPhone|iPod|iPad/);
         let xAccelartion = document.getElementById("x");
         let yAccelartion = document.getElementById("y");
@@ -96,13 +105,22 @@ var Script;
                         xAccelartion.innerHTML = "X: " + (-event.gamma).toString();
                         yAccelartion.innerHTML = "Y: " + (-event.alpha).toString();
                         zAccelartion.innerHTML = "Z: " + (-event.beta).toString();
-                        rgdbdyBall.applyForce(new f.Vector3(-event.gamma, event.alpha / 10, -event.beta));
+                        if (!upSideDownBool)
+                            rgdbdyBall.applyForce(new f.Vector3(-event.gamma, 0, -event.beta));
+                        if (upSideDownBool)
+                            rgdbdyBall.applyForce(new f.Vector3(0, event.alpha, 0));
                     });
                 }
                 else {
                     console.log("Access acceleration: " + response);
                 }
             });
+    }
+    function changeUpSideDown() {
+        if (!upSideDownBool)
+            upSideDownBool = true;
+        else
+            upSideDownBool = false;
     }
 })(Script || (Script = {}));
 //# sourceMappingURL=Script.js.map
