@@ -81,7 +81,6 @@ var Script;
     }
     (document.head.querySelector("meta[autoView]").getAttribute("autoView"));
     function start(_event) {
-        document.write("HALLO");
         viewport = _event.detail;
         let rgdbdyBall = madeMazeGraph.getChild(0).getComponent(f.ComponentRigidbody);
         getAccel(rgdbdyBall);
@@ -123,8 +122,6 @@ var Script;
                     document.write(response);
                 }
             });
-        else
-            document.write("no ios device");
     }
 })(Script || (Script = {}));
 //# sourceMappingURL=Script.js.map

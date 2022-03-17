@@ -47,7 +47,6 @@ namespace Script {
   } (document.head.querySelector("meta[autoView]").getAttribute("autoView"));
 
   function start(_event: CustomEvent): void {
-    document.write("HALLO");
     viewport = _event.detail;
     let rgdbdyBall: f.ComponentRigidbody = madeMazeGraph.getChild(0).getComponent(f.ComponentRigidbody);
     getAccel(rgdbdyBall);
@@ -94,7 +93,5 @@ namespace Script {
           document.write(response);
         }
       });
-    else
-      document.write("no ios device");
   }
 }
