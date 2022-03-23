@@ -5,6 +5,7 @@
     <title>MadMaze</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="styles.css" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
 
     <!--Editor settings of this project-->
     <meta type="settings" autoview="Graph|2022-03-16T16:05:06.910Z|36331"
@@ -20,11 +21,8 @@
     <script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Core/Build/FudgeCore.js"></script>
     <script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Aid/Build/FudgeAid.js"></script>
 
-    <!--Link internal resources. The editor only loads the first, but at runtime, multiple files can contribute-->
     <link type="resources" src="Internal.json" />
-
-    <!--Load custom scripts-->
-
+    <link type="manifest" src="manifest.webmanifest" />
 
     <script name="autoView">
     </script>
@@ -33,11 +31,13 @@
 <body>
     <!--Dialog shown at startup only-->
     <div id="controlPanel" style="position: absolute; background-color: transparent;">
-        <p style="font-size: larger; color: aliceblue;" id="x">
+        <p style="font-size: larger; " id="x">
         </p>
-        <p style="font-size: larger; color: aliceblue;" id="y">
+        <p style="font-size: larger; " id="y">
         </p>
-        <p style="font-size: larger; color: aliceblue;" id="z">
+        <p style="font-size: larger; " id="z">
+        </p>
+        <p style="font-size: larger; " id="camera">
         </p>
     </div>
     <button id="accelButton"
@@ -48,7 +48,7 @@
 
     </canvas>
 
-
+    <script type="text/javascript" src="/Script/Build/Script.js" editor="true"></script>
 
 
 
