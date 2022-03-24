@@ -7,16 +7,9 @@
     <link rel="stylesheet" href="styles.css" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
 
-    <!--Editor settings of this project-->
     <meta type="settings" autoview="Graph|2022-03-16T16:05:06.910Z|36331"
         project="{'name':'MadMaze','includeAutoViewScript':true,'graphAutoView':'Graph|2022-03-16T16:05:06.910Z|36331'}"
         panels="[{'type':'PanelProject','state':{}},{'type':'PanelGraph','state':{'graph':'Graph|2022-03-16T16:05:06.910Z|36331'}}]" />
-
-    <!--Activate the following line to include the FUDGE-version of Oimo-Physics. You may want to download a local copy to work offline and be independent from future changes!-->
-    <!--<script type="text/javascript" src="../../../Physics/OimoPhysics.js"></script>-->
-
-    <!--Load FUDGE. You may want to download local copies to work offline and be independent from future changes! Developers working on FUDGE itself may want to create symlinks-->
-    <!--local  <script type="text/javascript" src="/Physics/OimoPhysics.js"></script>-->
     <script type="text/javascript" src="/MadMaze/Physics/OimoPhysics.js"></script>
     <script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Core/Build/FudgeCore.js"></script>
     <script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Aid/Build/FudgeAid.js"></script>
@@ -30,7 +23,8 @@
 
 <body>
     <!--Dialog shown at startup only-->
-    <div id="controlPanel" style="position: absolute; background-color: transparent;">
+    <div id="controlPanel"
+        style="position: absolute; left: 25%;top: 1%; padding: auto; margin: auto; background-color: transparent;">
         <p style="font-size: larger; " id="x">
         </p>
         <p style="font-size: larger; " id="y">
@@ -41,24 +35,13 @@
         </p>
     </div>
     <button id="accelButton"
-        style="width: 100%; height: 100px; position: fixed; top: 50%; font-size: xx-large; ">Start</button>
+        style="width: 100%; height: 100px; position: fixed; top: 50%; font-size: 75px; font-weight: bold; ">Start</button>
 
     <!--Canvas for FUDGE to render to-->
     <canvas class="fullscreen">
 
     </canvas>
-
-    <script type="text/javascript" src="/Script/Build/Script.js" editor="true"></script>
-
-
-
-
-
-
-
-
-
 </body>
-<script type="text/javascript" src="/MadMaze//Script/Build/Script.js" editor="true"></script>
+<script type="text/javascript" src="/MadMaze/Script/Build/Script.js" editor="true"></script>
 
 </html>
