@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <title>MadMaze</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="styles.css" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
 
-    <meta type="settings" autoview="Graph|2022-03-16T16:05:06.910Z|36331" project="{'name':'MadMaze','includeAutoViewScript':true,'graphAutoView':'Graph|2022-03-16T16:05:06.910Z|36331'}" panels="[{'type':'PanelProject','state':{}},{'type':'PanelGraph','state':{'graph':'Graph|2022-03-16T16:05:06.910Z|36331'}}]" />
+    <meta type="settings" autoview="Graph|2022-03-16T16:05:06.910Z|36331"
+        project="{'name':'MadMaze','includeAutoViewScript':true,'graphAutoView':'Graph|2022-03-16T16:05:06.910Z|36331'}"
+        panels="[{'type':'PanelProject','state':{}},{'type':'PanelGraph','state':{'graph':'Graph|2022-03-16T16:05:06.910Z|36331'}}]" />
     <script type="text/javascript" src="/Physics/OimoPhysics.js"></script>
     <script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Core/Build/FudgeCore.js"></script>
     <script type="text/javascript" src="https://jirkadelloro.github.io/FUDGE/Aid/Build/FudgeAid.js"></script>
@@ -20,7 +23,8 @@
 
 <body>
     <!--Dialog shown at startup only-->
-    <div id="controlPanel" style="position: absolute; background-color: transparent;">
+    <div id="controlPanel"
+        style="position: absolute; left: 25%;top: 1%; padding: auto; margin: auto; background-color: transparent;">
         <p style="font-size: larger; " id="x">
         </p>
         <p style="font-size: larger; " id="y">
@@ -31,22 +35,14 @@
         </p>
 
     </div>
-    <button id="accelButton" style="width: 100%; height: 100px; position: fixed; top: 50%; font-size: xx-large; ">Start</button>
+    <button id="accelButton"
+        style="width: 100%; height: 100px; position: fixed; top: 50%; font-size: 75px; font-weight: bold; ">Start</button>
 
     <!--Canvas for FUDGE to render to-->
     <canvas class="fullscreen">
 
     </canvas>
-
-    <script type="text/javascript" src="/Script/Build/Script.js" editor="true"></script>
-
-
-
-
-
-
-
-
-
 </body>
+<script type="text/javascript" src="/Script/Build/Script.js" editor="true"></script>
+
 </html>
