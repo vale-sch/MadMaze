@@ -12,6 +12,10 @@ namespace Script {
   let accelButt: HTMLElement = document.getElementById("accelButton");
   accelButt.addEventListener("click", getAccelPermission);
   accelButt.addEventListener("click", init);
+
+
+
+
   async function init() {
     document.addEventListener("interactiveViewportStarted", <EventListener>start);
 
@@ -44,11 +48,17 @@ namespace Script {
 
   } (document.head.querySelector("meta[autoView]").getAttribute("autoView"));
 
+
+
+
   function start(_event: CustomEvent): void {
     viewport = _event.detail;
     f.Loop.addEventListener(f.EVENT.LOOP_FRAME, update);
     f.Loop.start();
   }
+
+
+
 
   function update(_event: Event): void {
     f.Physics.simulate();
@@ -56,8 +66,61 @@ namespace Script {
   }
 
 
+
+
+  function getMobileOperatingSystem(): string {
+    var userAgent = navigator.userAgent || navigator.vendor;
+    if (/windows phone/i.test(userAgent)) {
+      return "Windows Phone";
+    }
+    if (/android/i.test(userAgent)) {
+      return "Android";
+    }
+    if (/iPad|iPhone|iPod/.test(userAgent)) {
+      return "iOS";
+    }
+    return "unknown";
+  }
+
+
+
   let upSideDownBool: boolean = false;
   function getAccelPermission() {
+
+    let device: string = getMobileOperatingSystem();
+    console.log(device);
+    switch (device) {
+      case ("iOS"):
+        (DeviceMotionEvent as any).requestPermission().then((response: string) => {
+          if (response == 'granted') {
+            console.log("Access acceleration: " + response);
+            window.addEventListener('deviceorientation', deviceMotion, true);
+          } else {
+            console.log("Access acceleration: " + response);
+          }
+        });
+        break;
+      case ("Android"):
+        (DeviceMotionEvent as any).requestPermission().then((response: string) => {
+          if (response == 'granted') {
+            console.log("Access acceleration: " + response);
+            window.addEventListener('deviceorientation', deviceMotion, true);
+          } else {
+            console.log("Access acceleration: " + response);
+          }
+        });
+        break;
+      case ("Windows Phone"):
+        console.log("not implemented yet");
+        break;
+    }
+    createButtons();
+  }
+
+
+
+
+  function createButtons(): void {
     document.body.removeChild(accelButt);
     let divPanel: HTMLElement = document.getElementById("controlPanel");
 
@@ -82,17 +145,8 @@ namespace Script {
       console.log(event);
       window.location.reload();
     });
-    let _iOSDevice: boolean = !!navigator.platform.match(/iPhone|iPod|iPad/);
-    if (_iOSDevice)
-      (DeviceMotionEvent as any).requestPermission().then((response: string) => {
-        if (response == 'granted') {
-          console.log("Access acceleration: " + response);
-          window.addEventListener('deviceorientation', deviceMotion)
-        } else {
-          console.log("Access acceleration: " + response);
-        }
-      });
   }
+
 
 
   let oldYAcceleration: number = 0;
@@ -124,8 +178,8 @@ namespace Script {
     if (upSideDownBool)
       if (Math.abs(_event.alpha - oldYAcceleration) > 10)
         rgdbdyBall.applyForce(new f.Vector3(0, _event.alpha, 0));
-
   }
+
 
   function changeUpSideDown() {
     if (!upSideDownBool)
@@ -133,6 +187,8 @@ namespace Script {
     else
       upSideDownBool = false;
   }
+
+
   function hndTriggerWin(_event: f.EventPhysics): void {
     if (_event.cmpRigidbody.node.name == "Ball") {
       alert("You have won the game!");

@@ -83,8 +83,53 @@ var Script;
         f.Physics.simulate();
         viewport.draw();
     }
+    function getMobileOperatingSystem() {
+        var userAgent = navigator.userAgent || navigator.vendor;
+        if (/windows phone/i.test(userAgent)) {
+            return "Windows Phone";
+        }
+        if (/android/i.test(userAgent)) {
+            return "Android";
+        }
+        if (/iPad|iPhone|iPod/.test(userAgent)) {
+            return "iOS";
+        }
+        return "unknown";
+    }
     let upSideDownBool = false;
     function getAccelPermission() {
+        let device = getMobileOperatingSystem();
+        console.log(device);
+        switch (device) {
+            case ("iOS"):
+                DeviceMotionEvent.requestPermission().then((response) => {
+                    if (response == 'granted') {
+                        console.log("Access acceleration: " + response);
+                        window.addEventListener('deviceorientation', deviceMotion, true);
+                    }
+                    else {
+                        console.log("Access acceleration: " + response);
+                    }
+                });
+                break;
+            case ("Android"):
+                DeviceMotionEvent.requestPermission().then((response) => {
+                    if (response == 'granted') {
+                        console.log("Access acceleration: " + response);
+                        window.addEventListener('deviceorientation', deviceMotion, true);
+                    }
+                    else {
+                        console.log("Access acceleration: " + response);
+                    }
+                });
+                break;
+            case ("Windows Phone"):
+                console.log("not implemented yet");
+                break;
+        }
+        createButtons();
+    }
+    function createButtons() {
         document.body.removeChild(accelButt);
         let divPanel = document.getElementById("controlPanel");
         let upSideDownBut = document.createElement("button");
@@ -106,17 +151,6 @@ var Script;
             console.log(event);
             window.location.reload();
         });
-        let _iOSDevice = !!navigator.platform.match(/iPhone|iPod|iPad/);
-        if (_iOSDevice)
-            DeviceMotionEvent.requestPermission().then((response) => {
-                if (response == 'granted') {
-                    console.log("Access acceleration: " + response);
-                    window.addEventListener('deviceorientation', deviceMotion);
-                }
-                else {
-                    console.log("Access acceleration: " + response);
-                }
-            });
     }
     let oldYAcceleration = 0;
     function deviceMotion(_event) {
