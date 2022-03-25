@@ -101,14 +101,8 @@ namespace Script {
         });
         break;
       case ("Android"):
-        (DeviceMotionEvent as any).requestPermission().then((response: string) => {
-          if (response == 'granted') {
-            console.log("Access acceleration: " + response);
-            window.addEventListener('deviceorientation', deviceMotion, true);
-          } else {
-            console.log("Access acceleration: " + response);
-          }
-        });
+        window.addEventListener("deviceorientation", deviceMotion, true);
+
         break;
       case ("Windows Phone"):
         console.log("not implemented yet");
