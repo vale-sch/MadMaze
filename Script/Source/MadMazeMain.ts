@@ -1,7 +1,7 @@
-namespace Script {
+namespace MadMaze {
   import f = FudgeCore;
   f.Debug.info("Main Program Template running!");
-
+  f.Project.registerScriptNamespace(MadMaze);
   let viewport: f.Viewport;
   let madeMazeGraph: f.Graph;
   let rgdbdyBall: f.ComponentRigidbody;
@@ -46,6 +46,16 @@ namespace Script {
     viewport.draw();
     canvas.dispatchEvent(new CustomEvent("interactiveViewportStarted", { bubbles: true, detail: viewport }));
 
+    let crosses: f.Node[] = madeMazeGraph.getChild(2).getChild(1).getChildren();
+    crosses.forEach(cross => {
+      cross.addComponent(new ObstaclesTranslator(cross));
+
+    });
+    let verticals: f.Node[] = madeMazeGraph.getChild(2).getChild(2).getChildren();
+    verticals.forEach(vertical => {
+      vertical.addComponent(new ObstaclesTranslator(vertical));
+
+    });
   } (document.head.querySelector("meta[autoView]").getAttribute("autoView"));
 
 
@@ -119,19 +129,23 @@ namespace Script {
     let divPanel: HTMLElement = document.getElementById("controlPanel");
 
     let upSideDownBut: HTMLElement = document.createElement("button");
-    upSideDownBut.style.width = "250px";
-    upSideDownBut.style.height = "75px";
+    upSideDownBut.style.width = "400px";
+    upSideDownBut.style.height = "100px";
     upSideDownBut.innerText = "UPSIDE DOWN";
-    upSideDownBut.style.fontSize = "20px";
+    upSideDownBut.style.fontSize = "40px";
     upSideDownBut.style.fontWeight = "bold";
     let refreshButt: HTMLElement = document.createElement("button");
-    refreshButt.style.width = "250px";
-    refreshButt.style.height = "75px";
+    refreshButt.style.width = "50px";
+    refreshButt.style.height = "50px";
     refreshButt.innerText = "REFRESH GAME";
-    refreshButt.style.fontSize = "20px";
+    refreshButt.style.fontSize = "5px";
     refreshButt.style.fontWeight = "bold";
+    refreshButt.style.position = "absolute";
+    refreshButt.style.top = "0%";
+    refreshButt.style.right = "0%";
     divPanel.appendChild(upSideDownBut);
-    divPanel.appendChild(refreshButt);
+    document.body.appendChild(refreshButt);
+
 
     upSideDownBut.addEventListener("pointerdown", changeUpSideDown);
 
@@ -156,22 +170,25 @@ namespace Script {
     zAccelartion.innerHTML = "Z: " + (_event.beta).toString();
     cameraRot.innerHTML = "camera_rot: " + (cmpCamera.mtxPivot.rotation).toString();*/
 
-    if (cmpCamera.mtxPivot.rotation.z > -1 && _event.gamma < 0)
+    if (cmpCamera.mtxPivot.rotation.z > -0.667 && _event.gamma < 0)
       cmpCamera.mtxPivot.rotateY(_event.gamma / 250);
-    if (cmpCamera.mtxPivot.rotation.z < 1 && _event.gamma > 0)
+    if (cmpCamera.mtxPivot.rotation.z < 0.667 && _event.gamma > 0)
       cmpCamera.mtxPivot.rotateY(_event.gamma / 250);
-    if (cmpCamera.mtxPivot.rotation.x > 89 && _event.beta > 0)
+    if (cmpCamera.mtxPivot.rotation.x > 89.336 && _event.beta > 0)
       cmpCamera.mtxPivot.rotateX(-_event.beta / 250);
-    if (cmpCamera.mtxPivot.rotation.x < 91 && _event.beta < 0)
+    if (cmpCamera.mtxPivot.rotation.x < 90.667 && _event.beta < 0)
       cmpCamera.mtxPivot.rotateX(-_event.beta / 250);
     if (!upSideDownBool) {
       rgdbdyBall.applyForce(new f.Vector3(-_event.gamma, 0, -_event.beta));
-      oldYAcceleration = _event.alpha;
+      oldYAcceleration = _event.beta;
 
     }
     if (upSideDownBool)
-      if (Math.abs(_event.alpha - oldYAcceleration) > 10)
-        rgdbdyBall.applyForce(new f.Vector3(0, _event.alpha, 0));
+      if (Math.abs(_event.beta - oldYAcceleration) > 10)
+        rgdbdyBall.applyForce(new f.Vector3(0, _event.beta, 0));
+      else
+        rgdbdyBall.applyForce(new f.Vector3(0, -25, 0));
+
   }
 
 

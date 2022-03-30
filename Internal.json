@@ -933,14 +933,14 @@
                                 "ComponentRigidbody": [
                                   {
                                     "ƒ.ComponentRigidbody": {
-                                      "initialization": "TO_PIVOT",
+                                      "initialization": "TO_MESH",
                                       "friction": 0.2,
                                       "restitution": 0.2,
                                       "mass": 1,
                                       "dampTranslation": 0.1,
                                       "dampRotation": 0.1,
                                       "effectGravity": 1,
-                                      "typeBody": "STATIC",
+                                      "typeBody": "KINEMATIC",
                                       "typeCollider": "CUBE",
                                       "isTrigger": false,
                                       "id": 19,
@@ -1020,14 +1020,14 @@
                                       "ComponentRigidbody": [
                                         {
                                           "ƒ.ComponentRigidbody": {
-                                            "initialization": "TO_PIVOT",
+                                            "initialization": "TO_MESH",
                                             "friction": 0.2,
                                             "restitution": 0.2,
                                             "mass": 1,
                                             "dampTranslation": 0.1,
                                             "dampRotation": 0.1,
                                             "effectGravity": 1,
-                                            "typeBody": "STATIC",
+                                            "typeBody": "KINEMATIC",
                                             "typeCollider": "CUBE",
                                             "isTrigger": false,
                                             "id": 18,
@@ -1101,14 +1101,14 @@
                                       "ComponentRigidbody": [
                                         {
                                           "ƒ.ComponentRigidbody": {
-                                            "initialization": "TO_PIVOT",
+                                            "initialization": "TO_MESH",
                                             "friction": 0.2,
                                             "restitution": 0.2,
                                             "mass": 1,
                                             "dampTranslation": 0.1,
                                             "dampRotation": 0.1,
                                             "effectGravity": 1,
-                                            "typeBody": "STATIC",
+                                            "typeBody": "KINEMATIC",
                                             "typeCollider": "CUBE",
                                             "isTrigger": false,
                                             "id": 19,
@@ -1209,14 +1209,14 @@
                                 "ComponentRigidbody": [
                                   {
                                     "ƒ.ComponentRigidbody": {
-                                      "initialization": "TO_PIVOT",
+                                      "initialization": "TO_MESH",
                                       "friction": 0.2,
                                       "restitution": 0.2,
                                       "mass": 1,
                                       "dampTranslation": 0.1,
                                       "dampRotation": 0.1,
                                       "effectGravity": 1,
-                                      "typeBody": "STATIC",
+                                      "typeBody": "KINEMATIC",
                                       "typeCollider": "CUBE",
                                       "isTrigger": false,
                                       "id": 17,
@@ -1311,14 +1311,14 @@
                                       "ComponentRigidbody": [
                                         {
                                           "ƒ.ComponentRigidbody": {
-                                            "initialization": "TO_PIVOT",
+                                            "initialization": "TO_MESH",
                                             "friction": 0.2,
                                             "restitution": 0.2,
                                             "mass": 1,
                                             "dampTranslation": 0.1,
                                             "dampRotation": 0.1,
                                             "effectGravity": 1,
-                                            "typeBody": "STATIC",
+                                            "typeBody": "KINEMATIC",
                                             "typeCollider": "CUBE",
                                             "isTrigger": false,
                                             "id": 20,
@@ -1392,14 +1392,14 @@
                                       "ComponentRigidbody": [
                                         {
                                           "ƒ.ComponentRigidbody": {
-                                            "initialization": "TO_PIVOT",
+                                            "initialization": "TO_MESH",
                                             "friction": 0.2,
                                             "restitution": 0.2,
                                             "mass": 1,
                                             "dampTranslation": 0.1,
                                             "dampRotation": 0.1,
                                             "effectGravity": 1,
-                                            "typeBody": "STATIC",
+                                            "typeBody": "KINEMATIC",
                                             "typeCollider": "CUBE",
                                             "isTrigger": false,
                                             "id": 21,
@@ -1500,14 +1500,14 @@
                                 "ComponentRigidbody": [
                                   {
                                     "ƒ.ComponentRigidbody": {
-                                      "initialization": "TO_PIVOT",
+                                      "initialization": "TO_MESH",
                                       "friction": 0.2,
                                       "restitution": 0.2,
                                       "mass": 1,
                                       "dampTranslation": 0.1,
                                       "dampRotation": 0.1,
                                       "effectGravity": 1,
-                                      "typeBody": "STATIC",
+                                      "typeBody": "KINEMATIC",
                                       "typeCollider": "CUBE",
                                       "isTrigger": false,
                                       "id": 15,
@@ -1602,14 +1602,14 @@
                                       "ComponentRigidbody": [
                                         {
                                           "ƒ.ComponentRigidbody": {
-                                            "initialization": "TO_PIVOT",
+                                            "initialization": "TO_MESH",
                                             "friction": 0.2,
                                             "restitution": 0.2,
                                             "mass": 1,
                                             "dampTranslation": 0.1,
                                             "dampRotation": 0.1,
                                             "effectGravity": 1,
-                                            "typeBody": "STATIC",
+                                            "typeBody": "KINEMATIC",
                                             "typeCollider": "CUBE",
                                             "isTrigger": false,
                                             "id": 22,
@@ -1683,14 +1683,14 @@
                                       "ComponentRigidbody": [
                                         {
                                           "ƒ.ComponentRigidbody": {
-                                            "initialization": "TO_PIVOT",
+                                            "initialization": "TO_MESH",
                                             "friction": 0.2,
                                             "restitution": 0.2,
                                             "mass": 1,
                                             "dampTranslation": 0.1,
                                             "dampRotation": 0.1,
                                             "effectGravity": 1,
-                                            "typeBody": "STATIC",
+                                            "typeBody": "KINEMATIC",
                                             "typeCollider": "CUBE",
                                             "isTrigger": false,
                                             "id": 23,
@@ -1791,14 +1791,14 @@
                                 "ComponentRigidbody": [
                                   {
                                     "ƒ.ComponentRigidbody": {
-                                      "initialization": "TO_PIVOT",
+                                      "initialization": "TO_MESH",
                                       "friction": 0.2,
                                       "restitution": 0.2,
                                       "mass": 1,
                                       "dampTranslation": 0.1,
                                       "dampRotation": 0.1,
                                       "effectGravity": 1,
-                                      "typeBody": "STATIC",
+                                      "typeBody": "KINEMATIC",
                                       "typeCollider": "CUBE",
                                       "isTrigger": false,
                                       "id": 13,
@@ -1893,14 +1893,14 @@
                                       "ComponentRigidbody": [
                                         {
                                           "ƒ.ComponentRigidbody": {
-                                            "initialization": "TO_PIVOT",
+                                            "initialization": "TO_MESH",
                                             "friction": 0.2,
                                             "restitution": 0.2,
                                             "mass": 1,
                                             "dampTranslation": 0.1,
                                             "dampRotation": 0.1,
                                             "effectGravity": 1,
-                                            "typeBody": "STATIC",
+                                            "typeBody": "KINEMATIC",
                                             "typeCollider": "CUBE",
                                             "isTrigger": false,
                                             "id": 24,
@@ -1974,14 +1974,14 @@
                                       "ComponentRigidbody": [
                                         {
                                           "ƒ.ComponentRigidbody": {
-                                            "initialization": "TO_PIVOT",
+                                            "initialization": "TO_MESH",
                                             "friction": 0.2,
                                             "restitution": 0.2,
                                             "mass": 1,
                                             "dampTranslation": 0.1,
                                             "dampRotation": 0.1,
                                             "effectGravity": 1,
-                                            "typeBody": "STATIC",
+                                            "typeBody": "KINEMATIC",
                                             "typeCollider": "CUBE",
                                             "isTrigger": false,
                                             "id": 25,
@@ -2082,14 +2082,14 @@
                                 "ComponentRigidbody": [
                                   {
                                     "ƒ.ComponentRigidbody": {
-                                      "initialization": "TO_PIVOT",
+                                      "initialization": "TO_MESH",
                                       "friction": 0.2,
                                       "restitution": 0.2,
                                       "mass": 1,
                                       "dampTranslation": 0.1,
                                       "dampRotation": 0.1,
                                       "effectGravity": 1,
-                                      "typeBody": "STATIC",
+                                      "typeBody": "KINEMATIC",
                                       "typeCollider": "CUBE",
                                       "isTrigger": false,
                                       "id": 11,
@@ -2184,14 +2184,14 @@
                                       "ComponentRigidbody": [
                                         {
                                           "ƒ.ComponentRigidbody": {
-                                            "initialization": "TO_PIVOT",
+                                            "initialization": "TO_MESH",
                                             "friction": 0.2,
                                             "restitution": 0.2,
                                             "mass": 1,
                                             "dampTranslation": 0.1,
                                             "dampRotation": 0.1,
                                             "effectGravity": 1,
-                                            "typeBody": "STATIC",
+                                            "typeBody": "KINEMATIC",
                                             "typeCollider": "CUBE",
                                             "isTrigger": false,
                                             "id": 26,
@@ -2265,14 +2265,14 @@
                                       "ComponentRigidbody": [
                                         {
                                           "ƒ.ComponentRigidbody": {
-                                            "initialization": "TO_PIVOT",
+                                            "initialization": "TO_MESH",
                                             "friction": 0.2,
                                             "restitution": 0.2,
                                             "mass": 1,
                                             "dampTranslation": 0.1,
                                             "dampRotation": 0.1,
                                             "effectGravity": 1,
-                                            "typeBody": "STATIC",
+                                            "typeBody": "KINEMATIC",
                                             "typeCollider": "CUBE",
                                             "isTrigger": false,
                                             "id": 27,
@@ -2373,14 +2373,14 @@
                                 "ComponentRigidbody": [
                                   {
                                     "ƒ.ComponentRigidbody": {
-                                      "initialization": "TO_PIVOT",
+                                      "initialization": "TO_MESH",
                                       "friction": 0.2,
                                       "restitution": 0.2,
                                       "mass": 1,
                                       "dampTranslation": 0.1,
                                       "dampRotation": 0.1,
                                       "effectGravity": 1,
-                                      "typeBody": "STATIC",
+                                      "typeBody": "KINEMATIC",
                                       "typeCollider": "CUBE",
                                       "isTrigger": false,
                                       "id": 9,
@@ -2475,14 +2475,14 @@
                                       "ComponentRigidbody": [
                                         {
                                           "ƒ.ComponentRigidbody": {
-                                            "initialization": "TO_PIVOT",
+                                            "initialization": "TO_MESH",
                                             "friction": 0.2,
                                             "restitution": 0.2,
                                             "mass": 1,
                                             "dampTranslation": 0.1,
                                             "dampRotation": 0.1,
                                             "effectGravity": 1,
-                                            "typeBody": "STATIC",
+                                            "typeBody": "KINEMATIC",
                                             "typeCollider": "CUBE",
                                             "isTrigger": false,
                                             "id": 28,
@@ -2556,14 +2556,14 @@
                                       "ComponentRigidbody": [
                                         {
                                           "ƒ.ComponentRigidbody": {
-                                            "initialization": "TO_PIVOT",
+                                            "initialization": "TO_MESH",
                                             "friction": 0.2,
                                             "restitution": 0.2,
                                             "mass": 1,
                                             "dampTranslation": 0.1,
                                             "dampRotation": 0.1,
                                             "effectGravity": 1,
-                                            "typeBody": "STATIC",
+                                            "typeBody": "KINEMATIC",
                                             "typeCollider": "CUBE",
                                             "isTrigger": false,
                                             "id": 29,
@@ -2652,14 +2652,14 @@
                           "ComponentRigidbody": [
                             {
                               "ƒ.ComponentRigidbody": {
-                                "initialization": "TO_PIVOT",
+                                "initialization": "TO_MESH",
                                 "friction": 0.2,
                                 "restitution": 0.2,
                                 "mass": 1,
                                 "dampTranslation": 0.1,
                                 "dampRotation": 0.1,
                                 "effectGravity": 1,
-                                "typeBody": "STATIC",
+                                "typeBody": "KINEMATIC",
                                 "typeCollider": "CUBE",
                                 "isTrigger": false,
                                 "id": 30,
@@ -2733,14 +2733,14 @@
                           "ComponentRigidbody": [
                             {
                               "ƒ.ComponentRigidbody": {
-                                "initialization": "TO_PIVOT",
+                                "initialization": "TO_MESH",
                                 "friction": 0.2,
                                 "restitution": 0.2,
                                 "mass": 1,
                                 "dampTranslation": 0.1,
                                 "dampRotation": 0.1,
                                 "effectGravity": 1,
-                                "typeBody": "STATIC",
+                                "typeBody": "KINEMATIC",
                                 "typeCollider": "CUBE",
                                 "isTrigger": false,
                                 "id": 31,
@@ -2814,14 +2814,14 @@
                           "ComponentRigidbody": [
                             {
                               "ƒ.ComponentRigidbody": {
-                                "initialization": "TO_PIVOT",
+                                "initialization": "TO_MESH",
                                 "friction": 0.2,
                                 "restitution": 0.2,
                                 "mass": 1,
                                 "dampTranslation": 0.1,
                                 "dampRotation": 0.1,
                                 "effectGravity": 1,
-                                "typeBody": "STATIC",
+                                "typeBody": "KINEMATIC",
                                 "typeCollider": "CUBE",
                                 "isTrigger": false,
                                 "id": 32,
@@ -2895,14 +2895,14 @@
                           "ComponentRigidbody": [
                             {
                               "ƒ.ComponentRigidbody": {
-                                "initialization": "TO_PIVOT",
+                                "initialization": "TO_MESH",
                                 "friction": 0.2,
                                 "restitution": 0.2,
                                 "mass": 1,
                                 "dampTranslation": 0.1,
                                 "dampRotation": 0.1,
                                 "effectGravity": 1,
-                                "typeBody": "STATIC",
+                                "typeBody": "KINEMATIC",
                                 "typeCollider": "CUBE",
                                 "isTrigger": false,
                                 "id": 33,
@@ -2976,14 +2976,14 @@
                           "ComponentRigidbody": [
                             {
                               "ƒ.ComponentRigidbody": {
-                                "initialization": "TO_PIVOT",
+                                "initialization": "TO_MESH",
                                 "friction": 0.2,
                                 "restitution": 0.2,
                                 "mass": 1,
                                 "dampTranslation": 0.1,
                                 "dampRotation": 0.1,
                                 "effectGravity": 1,
-                                "typeBody": "STATIC",
+                                "typeBody": "KINEMATIC",
                                 "typeCollider": "CUBE",
                                 "isTrigger": false,
                                 "id": 34,
@@ -3057,14 +3057,14 @@
                           "ComponentRigidbody": [
                             {
                               "ƒ.ComponentRigidbody": {
-                                "initialization": "TO_PIVOT",
+                                "initialization": "TO_MESH",
                                 "friction": 0.2,
                                 "restitution": 0.2,
                                 "mass": 1,
                                 "dampTranslation": 0.1,
                                 "dampRotation": 0.1,
                                 "effectGravity": 1,
-                                "typeBody": "STATIC",
+                                "typeBody": "KINEMATIC",
                                 "typeCollider": "CUBE",
                                 "isTrigger": false,
                                 "id": 35,
@@ -3138,14 +3138,14 @@
                           "ComponentRigidbody": [
                             {
                               "ƒ.ComponentRigidbody": {
-                                "initialization": "TO_PIVOT",
+                                "initialization": "TO_MESH",
                                 "friction": 0.2,
                                 "restitution": 0.2,
                                 "mass": 1,
                                 "dampTranslation": 0.1,
                                 "dampRotation": 0.1,
                                 "effectGravity": 1,
-                                "typeBody": "STATIC",
+                                "typeBody": "KINEMATIC",
                                 "typeCollider": "CUBE",
                                 "isTrigger": false,
                                 "id": 36,
@@ -3219,14 +3219,14 @@
                           "ComponentRigidbody": [
                             {
                               "ƒ.ComponentRigidbody": {
-                                "initialization": "TO_PIVOT",
+                                "initialization": "TO_MESH",
                                 "friction": 0.2,
                                 "restitution": 0.2,
                                 "mass": 1,
                                 "dampTranslation": 0.1,
                                 "dampRotation": 0.1,
                                 "effectGravity": 1,
-                                "typeBody": "STATIC",
+                                "typeBody": "KINEMATIC",
                                 "typeCollider": "CUBE",
                                 "isTrigger": false,
                                 "id": 37,
@@ -3300,14 +3300,14 @@
                           "ComponentRigidbody": [
                             {
                               "ƒ.ComponentRigidbody": {
-                                "initialization": "TO_PIVOT",
+                                "initialization": "TO_MESH",
                                 "friction": 0.2,
                                 "restitution": 0.2,
                                 "mass": 1,
                                 "dampTranslation": 0.1,
                                 "dampRotation": 0.1,
                                 "effectGravity": 1,
-                                "typeBody": "STATIC",
+                                "typeBody": "KINEMATIC",
                                 "typeCollider": "CUBE",
                                 "isTrigger": false,
                                 "id": 38,
@@ -3381,14 +3381,14 @@
                           "ComponentRigidbody": [
                             {
                               "ƒ.ComponentRigidbody": {
-                                "initialization": "TO_PIVOT",
+                                "initialization": "TO_MESH",
                                 "friction": 0.2,
                                 "restitution": 0.2,
                                 "mass": 1,
                                 "dampTranslation": 0.1,
                                 "dampRotation": 0.1,
                                 "effectGravity": 1,
-                                "typeBody": "STATIC",
+                                "typeBody": "KINEMATIC",
                                 "typeCollider": "CUBE",
                                 "isTrigger": false,
                                 "id": 39,
@@ -3462,14 +3462,14 @@
                           "ComponentRigidbody": [
                             {
                               "ƒ.ComponentRigidbody": {
-                                "initialization": "TO_PIVOT",
+                                "initialization": "TO_MESH",
                                 "friction": 0.2,
                                 "restitution": 0.2,
                                 "mass": 1,
                                 "dampTranslation": 0.1,
                                 "dampRotation": 0.1,
                                 "effectGravity": 1,
-                                "typeBody": "STATIC",
+                                "typeBody": "KINEMATIC",
                                 "typeCollider": "CUBE",
                                 "isTrigger": false,
                                 "id": 40,
@@ -3543,14 +3543,14 @@
                           "ComponentRigidbody": [
                             {
                               "ƒ.ComponentRigidbody": {
-                                "initialization": "TO_PIVOT",
+                                "initialization": "TO_MESH",
                                 "friction": 0.2,
                                 "restitution": 0.2,
                                 "mass": 1,
                                 "dampTranslation": 0.1,
                                 "dampRotation": 0.1,
                                 "effectGravity": 1,
-                                "typeBody": "STATIC",
+                                "typeBody": "KINEMATIC",
                                 "typeCollider": "CUBE",
                                 "isTrigger": false,
                                 "id": 41,

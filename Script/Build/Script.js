@@ -1,8 +1,8 @@
 "use strict";
-var Script;
-(function (Script) {
+var MadMaze;
+(function (MadMaze) {
     var ƒ = FudgeCore;
-    ƒ.Project.registerScriptNamespace(Script); // Register the namespace to FUDGE for serialization
+    ƒ.Project.registerScriptNamespace(MadMaze); // Register the namespace to FUDGE for serialization
     class CustomComponentScript extends ƒ.ComponentScript {
         // Register the script as component for use in the editor via drag&drop
         static iSubclass = ƒ.Component.registerSubclass(CustomComponentScript);
@@ -34,12 +34,13 @@ var Script;
             }
         };
     }
-    Script.CustomComponentScript = CustomComponentScript;
-})(Script || (Script = {}));
-var Script;
-(function (Script) {
+    MadMaze.CustomComponentScript = CustomComponentScript;
+})(MadMaze || (MadMaze = {}));
+var MadMaze;
+(function (MadMaze) {
     var f = FudgeCore;
     f.Debug.info("Main Program Template running!");
+    f.Project.registerScriptNamespace(MadMaze);
     let viewport;
     let madeMazeGraph;
     let rgdbdyBall;
@@ -72,6 +73,14 @@ var Script;
         FudgeCore.Debug.log("Audio:", FudgeCore.AudioManager.default);
         viewport.draw();
         canvas.dispatchEvent(new CustomEvent("interactiveViewportStarted", { bubbles: true, detail: viewport }));
+        let crosses = madeMazeGraph.getChild(2).getChild(1).getChildren();
+        crosses.forEach(cross => {
+            cross.addComponent(new MadMaze.ObstaclesTranslator(cross));
+        });
+        let verticals = madeMazeGraph.getChild(2).getChild(2).getChildren();
+        verticals.forEach(vertical => {
+            vertical.addComponent(new MadMaze.ObstaclesTranslator(vertical));
+        });
     }
     (document.head.querySelector("meta[autoView]").getAttribute("autoView"));
     function start(_event) {
@@ -125,19 +134,22 @@ var Script;
         document.body.removeChild(accelButt);
         let divPanel = document.getElementById("controlPanel");
         let upSideDownBut = document.createElement("button");
-        upSideDownBut.style.width = "250px";
-        upSideDownBut.style.height = "75px";
+        upSideDownBut.style.width = "400px";
+        upSideDownBut.style.height = "100px";
         upSideDownBut.innerText = "UPSIDE DOWN";
-        upSideDownBut.style.fontSize = "20px";
+        upSideDownBut.style.fontSize = "40px";
         upSideDownBut.style.fontWeight = "bold";
         let refreshButt = document.createElement("button");
-        refreshButt.style.width = "250px";
-        refreshButt.style.height = "75px";
+        refreshButt.style.width = "50px";
+        refreshButt.style.height = "50px";
         refreshButt.innerText = "REFRESH GAME";
-        refreshButt.style.fontSize = "20px";
+        refreshButt.style.fontSize = "5px";
         refreshButt.style.fontWeight = "bold";
+        refreshButt.style.position = "absolute";
+        refreshButt.style.top = "0%";
+        refreshButt.style.right = "0%";
         divPanel.appendChild(upSideDownBut);
-        divPanel.appendChild(refreshButt);
+        document.body.appendChild(refreshButt);
         upSideDownBut.addEventListener("pointerdown", changeUpSideDown);
         refreshButt.addEventListener("pointerdown", (event) => {
             console.log(event);
@@ -155,21 +167,23 @@ var Script;
         yAccelartion.innerHTML = "Y: " + (_event.alpha).toString();
         zAccelartion.innerHTML = "Z: " + (_event.beta).toString();
         cameraRot.innerHTML = "camera_rot: " + (cmpCamera.mtxPivot.rotation).toString();*/
-        if (cmpCamera.mtxPivot.rotation.z > -1 && _event.gamma < 0)
+        if (cmpCamera.mtxPivot.rotation.z > -0.667 && _event.gamma < 0)
             cmpCamera.mtxPivot.rotateY(_event.gamma / 250);
-        if (cmpCamera.mtxPivot.rotation.z < 1 && _event.gamma > 0)
+        if (cmpCamera.mtxPivot.rotation.z < 0.667 && _event.gamma > 0)
             cmpCamera.mtxPivot.rotateY(_event.gamma / 250);
-        if (cmpCamera.mtxPivot.rotation.x > 89 && _event.beta > 0)
+        if (cmpCamera.mtxPivot.rotation.x > 89.336 && _event.beta > 0)
             cmpCamera.mtxPivot.rotateX(-_event.beta / 250);
-        if (cmpCamera.mtxPivot.rotation.x < 91 && _event.beta < 0)
+        if (cmpCamera.mtxPivot.rotation.x < 90.667 && _event.beta < 0)
             cmpCamera.mtxPivot.rotateX(-_event.beta / 250);
         if (!upSideDownBool) {
             rgdbdyBall.applyForce(new f.Vector3(-_event.gamma, 0, -_event.beta));
-            oldYAcceleration = _event.alpha;
+            oldYAcceleration = _event.beta;
         }
         if (upSideDownBool)
-            if (Math.abs(_event.alpha - oldYAcceleration) > 10)
-                rgdbdyBall.applyForce(new f.Vector3(0, _event.alpha, 0));
+            if (Math.abs(_event.beta - oldYAcceleration) > 10)
+                rgdbdyBall.applyForce(new f.Vector3(0, _event.beta, 0));
+            else
+                rgdbdyBall.applyForce(new f.Vector3(0, -25, 0));
     }
     function changeUpSideDown() {
         if (!upSideDownBool)
@@ -182,5 +196,75 @@ var Script;
             alert("You have won the game!");
         }
     }
-})(Script || (Script = {}));
+})(MadMaze || (MadMaze = {}));
+var MadMaze;
+(function (MadMaze) {
+    var f = FudgeCore;
+    f.Project.registerScriptNamespace(MadMaze); // Register the namespace to FUDGE for serialization
+    class ObstaclesTranslator extends f.ComponentScript {
+        //public static readonly iSubclass: number = f.Component.registerSubclass(ObstaclesTranslator);
+        isCross;
+        verticalNeg = false;
+        verticalPos = false;
+        rndRotVel;
+        rndTransVel;
+        mySelf;
+        constructor(_mySelf) {
+            super();
+            if (f.Project.mode == f.MODE.EDITOR)
+                return;
+            this.mySelf = _mySelf;
+            this.rndRotVel = randomRangeFromInterval(0.5, 2);
+            this.rndTransVel = randomRangeFromInterval(0.0005, 0.001) * 0.01;
+            this.addEventListener("componentAdd" /* COMPONENT_ADD */, this.hndEvent);
+            this.addEventListener("componentRemove" /* COMPONENT_REMOVE */, this.hndEvent);
+            switch (this.mySelf.name) {
+                case "cross":
+                    this.isCross = true;
+                    break;
+                case "vertical":
+                    this.isCross = false;
+                    break;
+                default: break;
+            }
+        }
+        // Activate the functions of this component as response to events
+        hndEvent = (_event) => {
+            switch (_event.type) {
+                case "componentAdd" /* COMPONENT_ADD */:
+                    f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update);
+                    break;
+                case "componentRemove" /* COMPONENT_REMOVE */:
+                    this.removeEventListener("componentAdd" /* COMPONENT_ADD */, this.hndEvent);
+                    this.removeEventListener("componentRemove" /* COMPONENT_REMOVE */, this.hndEvent);
+                    break;
+            }
+        };
+        update = () => {
+            if (this.isCross) {
+                this.mySelf.getComponent(f.ComponentTransform).mtxLocal.rotateY(this.rndRotVel);
+            }
+            else {
+                if (this.mySelf.getComponent(f.ComponentTransform).mtxLocal.translation.x >= 1.74 && !this.verticalNeg) {
+                    this.mySelf.getComponent(f.ComponentTransform).mtxLocal.translateZ(-this.rndTransVel);
+                    if (this.mySelf.getComponent(f.ComponentTransform).mtxLocal.translation.x <= 1.75) {
+                        this.verticalNeg = true;
+                        this.verticalPos = false;
+                    }
+                }
+                else if (this.mySelf.getComponent(f.ComponentTransform).mtxLocal.translation.x <= 2.8 && !this.verticalPos) {
+                    this.mySelf.getComponent(f.ComponentTransform).mtxLocal.translateZ(+this.rndTransVel);
+                    if (this.mySelf.getComponent(f.ComponentTransform).mtxLocal.translation.x >= 2.79) {
+                        this.verticalNeg = false;
+                        this.verticalPos = true;
+                    }
+                }
+            }
+        };
+    }
+    MadMaze.ObstaclesTranslator = ObstaclesTranslator;
+    function randomRangeFromInterval(min, max) {
+        return (Math.random() * (max - min + 1) + min);
+    }
+})(MadMaze || (MadMaze = {}));
 //# sourceMappingURL=Script.js.map

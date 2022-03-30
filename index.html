@@ -1,15 +1,18 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
+
 <head>
     <title>MadMaze</title>
     <meta charset="utf-8" />
     <link rel="stylesheet" href="styles.css" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
 
-    <meta type="settings" autoview="Graph|2022-03-16T16:05:06.910Z|36331" project="{'name':'MadMaze','includeAutoViewScript':true,'graphAutoView':'Graph|2022-03-16T16:05:06.910Z|36331'}" panels="[{'type':'PanelProject','state':{}},{'type':'PanelGraph','state':{'graph':'Graph|2022-03-16T16:05:06.910Z|36331'}}]" />
-    <script type="text/javascript" src="/MadMaze/Physics/OimoPhysics.js"></script>
-    <script type="text/javascript" src="/MadMaze/Core/FudgeCore.js"></script>
-    <script type="text/javascript" src="/MadMaze/Aid/FudgeAid.js"></script>
+    <meta type="settings" autoview="Graph|2022-03-16T16:05:06.910Z|36331"
+        project="{'name':'MadMaze','includeAutoViewScript':true,'graphAutoView':'Graph|2022-03-16T16:05:06.910Z|36331'}"
+        panels="[{'type':'PanelProject','state':{}},{'type':'PanelGraph','state':{'graph':'Graph|2022-03-16T16:05:06.910Z|36331'}}]" />
+    <script type="text/javascript" src="/Physics/OimoPhysics.js"></script>
+    <script type="text/javascript" src="/Core/FudgeCore.js"></script>
+    <script type="text/javascript" src="/Aid/FudgeAid.js"></script>
 
     <link type="resources" src="Internal.json" />
     <link type="manifest" src="manifest.webmanifest" />
@@ -20,24 +23,28 @@
 
 <body>
     <!--Dialog shown at startup only-->
-    <div id="controlPanel" style="position: absolute; left: 25%;top: 1%; padding: auto; margin: auto; background-color: transparent;">
-        <p style="font-size: larger; " id="x">
+    <div id="controlPanel" style="position: absolute; left: 30%;top: 0%;   background-color: transparent;">
+        <p style="font-size: larger; color: red;" id="x">
         </p>
-        <p style="font-size: larger; " id="y">
+        <p style="font-size: larger; color: red;" id="y">
         </p>
-        <p style="font-size: larger; " id="z">
+        <p style="font-size: larger; color: red;" id="z">
         </p>
-        <p style="font-size: larger; " id="camera">
+        <p style="font-size: larger; color: red;" id="camera">
         </p>
     </div>
-    <button id="accelButton" style="width: 100%; height: 100px; position: fixed; top: 50%; font-size: 75px; font-weight: bold; ">Start</button>
+    <button id="accelButton"
+        style="width: 100%; height: 100px; position: fixed; top: 50%; font-size: 75px; font-weight: bold; ">Start</button>
 
     <!--Canvas for FUDGE to render to-->
     <canvas class="fullscreen">
 
     </canvas>
 
-<script type="text/javascript" src="/MadMaze/Script/Build/Script.js" editor="true"></script>
+    <script type="text/javascript" src="/Script/Build/Script.js" editor="true"></script>
+
+
 
 </body>
+
 </html>
