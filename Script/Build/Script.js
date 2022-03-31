@@ -1,28 +1,42 @@
 "use strict";
 var MadMaze;
 (function (MadMaze) {
-    var ƒ = FudgeCore;
-    ƒ.Project.registerScriptNamespace(MadMaze); // Register the namespace to FUDGE for serialization
-    class CustomComponentScript extends ƒ.ComponentScript {
-        // Register the script as component for use in the editor via drag&drop
-        static iSubclass = ƒ.Component.registerSubclass(CustomComponentScript);
-        // Properties may be mutated by users in the editor via the automatically created user interface
-        message = "CustomComponentScript added to ";
+    var f = FudgeCore;
+    f.Project.registerScriptNamespace(MadMaze); // Register the namespace to FUDGE for serialization
+    class CustomComponentScript extends f.ComponentScript {
+        static iSubclass = f.Component.registerSubclass(CustomComponentScript);
+        isCross;
+        verticalNeg = false;
+        verticalPos = false;
+        rndRotVel;
+        rndTransVel;
+        mySelf;
         constructor() {
             super();
-            // Don't start when running in editor
-            if (ƒ.Project.mode == ƒ.MODE.EDITOR)
+            if (f.Project.mode == f.MODE.EDITOR)
                 return;
+            this.mySelf = this.node;
+            this.rndRotVel = this.randomRangeFromInterval(0.5, 2);
+            this.rndTransVel = this.randomRangeFromInterval(0.0005, 0.001) * 0.01;
             // Listen to this component being added to or removed from a node
             this.addEventListener("componentAdd" /* COMPONENT_ADD */, this.hndEvent);
             this.addEventListener("componentRemove" /* COMPONENT_REMOVE */, this.hndEvent);
             this.addEventListener("nodeDeserialized" /* NODE_DESERIALIZED */, this.hndEvent);
+            switch (this.mySelf.name) {
+                case "cross":
+                    this.isCross = true;
+                    break;
+                case "vertical":
+                    this.isCross = false;
+                    break;
+                default: break;
+            }
         }
         // Activate the functions of this component as response to events
         hndEvent = (_event) => {
             switch (_event.type) {
                 case "componentAdd" /* COMPONENT_ADD */:
-                    ƒ.Debug.log(this.message, this.node);
+                    f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update);
                     break;
                 case "componentRemove" /* COMPONENT_REMOVE */:
                     this.removeEventListener("componentAdd" /* COMPONENT_ADD */, this.hndEvent);
@@ -33,6 +47,30 @@ var MadMaze;
                     break;
             }
         };
+        update = () => {
+            if (this.isCross) {
+                this.mySelf.getComponent(f.ComponentTransform).mtxLocal.rotateY(this.rndRotVel);
+            }
+            else {
+                if (this.mySelf.getComponent(f.ComponentTransform).mtxLocal.translation.x >= 1.74 && !this.verticalNeg) {
+                    this.mySelf.getComponent(f.ComponentTransform).mtxLocal.translateZ(-this.rndTransVel);
+                    if (this.mySelf.getComponent(f.ComponentTransform).mtxLocal.translation.x <= 1.75) {
+                        this.verticalNeg = true;
+                        this.verticalPos = false;
+                    }
+                }
+                else if (this.mySelf.getComponent(f.ComponentTransform).mtxLocal.translation.x <= 2.8 && !this.verticalPos) {
+                    this.mySelf.getComponent(f.ComponentTransform).mtxLocal.translateZ(+this.rndTransVel);
+                    if (this.mySelf.getComponent(f.ComponentTransform).mtxLocal.translation.x >= 2.79) {
+                        this.verticalNeg = false;
+                        this.verticalPos = true;
+                    }
+                }
+            }
+        };
+        randomRangeFromInterval(min, max) {
+            return (Math.random() * (max - min + 1) + min);
+        }
     }
     MadMaze.CustomComponentScript = CustomComponentScript;
 })(MadMaze || (MadMaze = {}));
@@ -130,6 +168,7 @@ var MadMaze;
         }
         createButtons();
     }
+    let upSideDownButBool;
     function createButtons() {
         document.body.removeChild(accelButt);
         let divPanel = document.getElementById("controlPanel");
@@ -139,11 +178,13 @@ var MadMaze;
         upSideDownBut.innerText = "UPSIDE DOWN";
         upSideDownBut.style.fontSize = "40px";
         upSideDownBut.style.fontWeight = "bold";
+        upSideDownBut.style.backgroundColor = 'salmon';
+        upSideDownBut.style.color = 'white';
         let refreshButt = document.createElement("button");
-        refreshButt.style.width = "50px";
-        refreshButt.style.height = "50px";
-        refreshButt.innerText = "REFRESH GAME";
-        refreshButt.style.fontSize = "5px";
+        refreshButt.style.width = "100px";
+        refreshButt.style.height = "75px";
+        refreshButt.innerText = "REFRESH";
+        refreshButt.style.fontSize = "15px";
         refreshButt.style.fontWeight = "bold";
         refreshButt.style.position = "absolute";
         refreshButt.style.top = "0%";
@@ -151,6 +192,18 @@ var MadMaze;
         divPanel.appendChild(upSideDownBut);
         document.body.appendChild(refreshButt);
         upSideDownBut.addEventListener("pointerdown", changeUpSideDown);
+        upSideDownBut.addEventListener('click', function onClick() {
+            if (!upSideDownButBool) {
+                upSideDownBut.style.backgroundColor = 'green';
+                upSideDownBut.style.color = 'white';
+                upSideDownButBool = true;
+            }
+            else {
+                upSideDownBut.style.backgroundColor = 'salmon';
+                upSideDownBut.style.color = 'white';
+                upSideDownButBool = false;
+            }
+        });
         refreshButt.addEventListener("pointerdown", (event) => {
             console.log(event);
             window.location.reload();
@@ -183,7 +236,7 @@ var MadMaze;
             if (Math.abs(_event.beta - oldYAcceleration) > 10)
                 rgdbdyBall.applyForce(new f.Vector3(0, _event.beta, 0));
             else
-                rgdbdyBall.applyForce(new f.Vector3(0, -25, 0));
+                rgdbdyBall.applyForce(new f.Vector3(0, -50, 0));
     }
     function changeUpSideDown() {
         if (!upSideDownBool)

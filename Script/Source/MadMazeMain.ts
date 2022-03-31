@@ -123,7 +123,7 @@ namespace MadMaze {
 
 
 
-
+  let upSideDownButBool: boolean;
   function createButtons(): void {
     document.body.removeChild(accelButt);
     let divPanel: HTMLElement = document.getElementById("controlPanel");
@@ -134,11 +134,13 @@ namespace MadMaze {
     upSideDownBut.innerText = "UPSIDE DOWN";
     upSideDownBut.style.fontSize = "40px";
     upSideDownBut.style.fontWeight = "bold";
+    upSideDownBut.style.backgroundColor = 'salmon';
+    upSideDownBut.style.color = 'white';
     let refreshButt: HTMLElement = document.createElement("button");
-    refreshButt.style.width = "50px";
-    refreshButt.style.height = "50px";
-    refreshButt.innerText = "REFRESH GAME";
-    refreshButt.style.fontSize = "5px";
+    refreshButt.style.width = "100px";
+    refreshButt.style.height = "75px";
+    refreshButt.innerText = "REFRESH";
+    refreshButt.style.fontSize = "15px";
     refreshButt.style.fontWeight = "bold";
     refreshButt.style.position = "absolute";
     refreshButt.style.top = "0%";
@@ -148,6 +150,18 @@ namespace MadMaze {
 
 
     upSideDownBut.addEventListener("pointerdown", changeUpSideDown);
+    upSideDownBut.addEventListener('click', function onClick() {
+      if (!upSideDownButBool) {
+        upSideDownBut.style.backgroundColor = 'green';
+        upSideDownBut.style.color = 'white';
+        upSideDownButBool = true;
+      } else {
+        upSideDownBut.style.backgroundColor = 'salmon';
+        upSideDownBut.style.color = 'white';
+        upSideDownButBool = false;
+      }
+
+    });
 
     refreshButt.addEventListener("pointerdown", (event) => {
       console.log(event);
@@ -187,7 +201,7 @@ namespace MadMaze {
       if (Math.abs(_event.beta - oldYAcceleration) > 10)
         rgdbdyBall.applyForce(new f.Vector3(0, _event.beta, 0));
       else
-        rgdbdyBall.applyForce(new f.Vector3(0, -25, 0));
+        rgdbdyBall.applyForce(new f.Vector3(0, -50, 0));
 
   }
 

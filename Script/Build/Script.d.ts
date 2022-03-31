@@ -1,10 +1,17 @@
 declare namespace MadMaze {
-    import ƒ = FudgeCore;
-    class CustomComponentScript extends ƒ.ComponentScript {
+    import f = FudgeCore;
+    class CustomComponentScript extends f.ComponentScript {
         static readonly iSubclass: number;
-        message: string;
+        private isCross;
+        private verticalNeg;
+        private verticalPos;
+        private rndRotVel;
+        private rndTransVel;
+        private mySelf;
         constructor();
         hndEvent: (_event: Event) => void;
+        private update;
+        private randomRangeFromInterval;
     }
 }
 declare namespace MadMaze {
