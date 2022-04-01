@@ -10,11 +10,12 @@ var MadMaze;
     let cmpCamera;
     let winTrigger;
     let accelButt = document.getElementById("accelButton");
-    accelButt.addEventListener("click", getAccelPermission);
-    accelButt.addEventListener("click", init);
+    if (f.Project.mode != f.MODE.EDITOR) {
+        accelButt.addEventListener("click", getAccelPermission);
+        accelButt.addEventListener("click", init);
+    }
     async function init() {
-        document.addEventListener("interactiveViewportStarted", start);
-        await FudgeCore.Project.loadResourcesFromHTML();
+        await FudgeCore.Project.loadResources("Internal.json");
         FudgeCore.Debug.log("Project:", FudgeCore.Project.resources);
         madeMazeGraph = (f.Project.resources["Graph|2022-03-16T16:05:06.910Z|36331"]);
         winTrigger = madeMazeGraph.getChild(madeMazeGraph.nChildren - 1).getChild(0).getComponent(f.ComponentRigidbody);
@@ -30,24 +31,17 @@ var MadMaze;
         cmpCamera.mtxPivot.translateY(18.5);
         cmpCamera.mtxPivot.rotateX(90);
         let canvas = document.querySelector("canvas");
-        let viewport = new FudgeCore.Viewport();
+        viewport = new FudgeCore.Viewport();
         viewport.initialize("InteractiveViewport", madeMazeGraph, cmpCamera, canvas);
-        FudgeCore.Debug.log("Viewport:", viewport);
-        FudgeCore.Debug.log("Audio:", FudgeCore.AudioManager.default);
         viewport.draw();
-        canvas.dispatchEvent(new CustomEvent("interactiveViewportStarted", { bubbles: true, detail: viewport }));
         let crosses = madeMazeGraph.getChild(2).getChild(1).getChildren();
         crosses.forEach(cross => {
-            cross.addComponent(new MadMaze.ObstaclesTranslator(cross));
+            cross.addComponent(new MadMaze.ObstaclesTranslator());
         });
         let verticals = madeMazeGraph.getChild(2).getChild(2).getChildren();
         verticals.forEach(vertical => {
-            vertical.addComponent(new MadMaze.ObstaclesTranslator(vertical));
+            vertical.addComponent(new MadMaze.ObstaclesTranslator());
         });
-    }
-    (document.head.querySelector("meta[autoView]").getAttribute("autoView"));
-    function start(_event) {
-        viewport = _event.detail;
         f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, update);
         f.Loop.start();
     }
@@ -180,37 +174,35 @@ var MadMaze;
     var f = FudgeCore;
     f.Project.registerScriptNamespace(MadMaze); // Register the namespace to FUDGE for serialization
     class ObstaclesTranslator extends f.ComponentScript {
-        //public static readonly iSubclass: number = f.Component.registerSubclass(ObstaclesTranslator);
+        static iSubclass = f.Component.registerSubclass(ObstaclesTranslator);
         isCross;
         verticalNeg = false;
         verticalPos = false;
         rndRotVel;
         rndTransVel;
-        mySelf;
-        constructor(_mySelf) {
+        constructor() {
             super();
             if (f.Project.mode == f.MODE.EDITOR)
                 return;
-            this.mySelf = _mySelf;
             this.rndRotVel = randomRangeFromInterval(0.5, 2);
             this.rndTransVel = randomRangeFromInterval(0.0005, 0.001) * 0.01;
             this.addEventListener("componentAdd" /* COMPONENT_ADD */, this.hndEvent);
             this.addEventListener("componentRemove" /* COMPONENT_REMOVE */, this.hndEvent);
-            switch (this.mySelf.name) {
-                case "cross":
-                    this.isCross = true;
-                    break;
-                case "vertical":
-                    this.isCross = false;
-                    break;
-                default: break;
-            }
         }
         // Activate the functions of this component as response to events
         hndEvent = (_event) => {
             switch (_event.type) {
                 case "componentAdd" /* COMPONENT_ADD */:
                     f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update);
+                    switch (this.node.name) {
+                        case "cross":
+                            this.isCross = true;
+                            break;
+                        case "vertical":
+                            this.isCross = false;
+                            break;
+                        default: break;
+                    }
                     break;
                 case "componentRemove" /* COMPONENT_REMOVE */:
                     this.removeEventListener("componentAdd" /* COMPONENT_ADD */, this.hndEvent);
@@ -220,19 +212,19 @@ var MadMaze;
         };
         update = () => {
             if (this.isCross) {
-                this.mySelf.getComponent(f.ComponentTransform).mtxLocal.rotateY(this.rndRotVel);
+                this.node.getComponent(f.ComponentTransform).mtxLocal.rotateY(this.rndRotVel);
             }
             else {
-                if (this.mySelf.getComponent(f.ComponentTransform).mtxLocal.translation.x >= 1.74 && !this.verticalNeg) {
-                    this.mySelf.getComponent(f.ComponentTransform).mtxLocal.translateZ(-this.rndTransVel);
-                    if (this.mySelf.getComponent(f.ComponentTransform).mtxLocal.translation.x <= 1.75) {
+                if (this.node.getComponent(f.ComponentTransform).mtxLocal.translation.x >= 1.74 && !this.verticalNeg) {
+                    this.node.getComponent(f.ComponentTransform).mtxLocal.translateZ(-this.rndTransVel);
+                    if (this.node.getComponent(f.ComponentTransform).mtxLocal.translation.x <= 1.75) {
                         this.verticalNeg = true;
                         this.verticalPos = false;
                     }
                 }
-                else if (this.mySelf.getComponent(f.ComponentTransform).mtxLocal.translation.x <= 2.8 && !this.verticalPos) {
-                    this.mySelf.getComponent(f.ComponentTransform).mtxLocal.translateZ(+this.rndTransVel);
-                    if (this.mySelf.getComponent(f.ComponentTransform).mtxLocal.translation.x >= 2.79) {
+                else if (this.node.getComponent(f.ComponentTransform).mtxLocal.translation.x <= 2.8 && !this.verticalPos) {
+                    this.node.getComponent(f.ComponentTransform).mtxLocal.translateZ(+this.rndTransVel);
+                    if (this.node.getComponent(f.ComponentTransform).mtxLocal.translation.x >= 2.79) {
                         this.verticalNeg = false;
                         this.verticalPos = true;
                     }

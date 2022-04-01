@@ -8,18 +8,19 @@ namespace MadMaze {
   let cmpCamera: f.ComponentCamera;
 
   let winTrigger: f.ComponentRigidbody;
-
   let accelButt: HTMLElement = document.getElementById("accelButton");
-  accelButt.addEventListener("click", getAccelPermission);
-  accelButt.addEventListener("click", init);
+  if (f.Project.mode != f.MODE.EDITOR) {
+
+    accelButt.addEventListener("click", getAccelPermission);
+    accelButt.addEventListener("click", init);
+  }
+
 
 
 
 
   async function init() {
-    document.addEventListener("interactiveViewportStarted", <EventListener>start);
-
-    await FudgeCore.Project.loadResourcesFromHTML();
+    await FudgeCore.Project.loadResources("Internal.json");
     FudgeCore.Debug.log("Project:", FudgeCore.Project.resources);
     madeMazeGraph = <f.Graph>(
       f.Project.resources["Graph|2022-03-16T16:05:06.910Z|36331"]
@@ -39,33 +40,28 @@ namespace MadMaze {
     cmpCamera.mtxPivot.translateY(18.5);
     cmpCamera.mtxPivot.rotateX(90);
     let canvas = document.querySelector("canvas");
-    let viewport = new FudgeCore.Viewport();
+    viewport = new FudgeCore.Viewport();
     viewport.initialize("InteractiveViewport", madeMazeGraph, cmpCamera, canvas);
-    FudgeCore.Debug.log("Viewport:", viewport);
-    FudgeCore.Debug.log("Audio:", FudgeCore.AudioManager.default);
+
     viewport.draw();
-    canvas.dispatchEvent(new CustomEvent("interactiveViewportStarted", { bubbles: true, detail: viewport }));
 
     let crosses: f.Node[] = madeMazeGraph.getChild(2).getChild(1).getChildren();
     crosses.forEach(cross => {
-      cross.addComponent(new ObstaclesTranslator(cross));
+      cross.addComponent(new ObstaclesTranslator());
 
     });
     let verticals: f.Node[] = madeMazeGraph.getChild(2).getChild(2).getChildren();
     verticals.forEach(vertical => {
-      vertical.addComponent(new ObstaclesTranslator(vertical));
+      vertical.addComponent(new ObstaclesTranslator());
 
     });
-  } (document.head.querySelector("meta[autoView]").getAttribute("autoView"));
-
-
-
-
-  function start(_event: CustomEvent): void {
-    viewport = _event.detail;
     f.Loop.addEventListener(f.EVENT.LOOP_FRAME, update);
     f.Loop.start();
   }
+
+
+
+
 
 
 
