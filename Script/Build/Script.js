@@ -8,7 +8,6 @@ var MadMaze;
     let madeMazeGraph;
     let rgdbdyBall;
     let cmpCamera;
-    let winTrigger;
     let accelButt = document.getElementById("accelButton");
     if (f.Project.mode != f.MODE.EDITOR) {
         accelButt.addEventListener("click", getAccelPermission);
@@ -18,8 +17,6 @@ var MadMaze;
         await FudgeCore.Project.loadResources("Internal.json");
         FudgeCore.Debug.log("Project:", FudgeCore.Project.resources);
         madeMazeGraph = (f.Project.resources["Graph|2022-03-16T16:05:06.910Z|36331"]);
-        winTrigger = madeMazeGraph.getChild(madeMazeGraph.nChildren - 1).getChild(0).getComponent(f.ComponentRigidbody);
-        winTrigger.addEventListener("TriggerEnteredCollision" /* TRIGGER_ENTER */, hndTriggerWin);
         rgdbdyBall = madeMazeGraph.getChild(0).getComponent(f.ComponentRigidbody);
         FudgeCore.Debug.log("Graph:", madeMazeGraph);
         if (!madeMazeGraph) {
@@ -28,20 +25,12 @@ var MadMaze;
         }
         // setup the viewport
         cmpCamera = new FudgeCore.ComponentCamera();
-        cmpCamera.mtxPivot.translateY(18.5);
+        cmpCamera.mtxPivot.translateY(35);
         cmpCamera.mtxPivot.rotateX(90);
         let canvas = document.querySelector("canvas");
         viewport = new FudgeCore.Viewport();
         viewport.initialize("InteractiveViewport", madeMazeGraph, cmpCamera, canvas);
         viewport.draw();
-        let crosses = madeMazeGraph.getChild(2).getChild(1).getChildren();
-        crosses.forEach(cross => {
-            cross.addComponent(new MadMaze.ObstaclesTranslator());
-        });
-        let verticals = madeMazeGraph.getChild(2).getChild(2).getChildren();
-        verticals.forEach(vertical => {
-            vertical.addComponent(new MadMaze.ObstaclesTranslator());
-        });
         f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, update);
         f.Loop.start();
     }
@@ -62,7 +51,6 @@ var MadMaze;
         }
         return "unknown";
     }
-    let upSideDownBool = false;
     function getAccelPermission() {
         let device = getMobileOperatingSystem();
         console.log(device);
@@ -87,18 +75,8 @@ var MadMaze;
         }
         createButtons();
     }
-    let upSideDownButBool;
     function createButtons() {
         document.body.removeChild(accelButt);
-        let divPanel = document.getElementById("controlPanel");
-        let upSideDownBut = document.createElement("button");
-        upSideDownBut.style.width = "400px";
-        upSideDownBut.style.height = "100px";
-        upSideDownBut.innerText = "UPSIDE DOWN";
-        upSideDownBut.style.fontSize = "40px";
-        upSideDownBut.style.fontWeight = "bold";
-        upSideDownBut.style.backgroundColor = 'salmon';
-        upSideDownBut.style.color = 'white';
         let refreshButt = document.createElement("button");
         refreshButt.style.width = "100px";
         refreshButt.style.height = "75px";
@@ -108,65 +86,35 @@ var MadMaze;
         refreshButt.style.position = "absolute";
         refreshButt.style.top = "0%";
         refreshButt.style.right = "0%";
-        divPanel.appendChild(upSideDownBut);
         document.body.appendChild(refreshButt);
-        upSideDownBut.addEventListener("pointerdown", changeUpSideDown);
-        upSideDownBut.addEventListener('click', function onClick() {
-            if (!upSideDownButBool) {
-                upSideDownBut.style.backgroundColor = 'green';
-                upSideDownBut.style.color = 'white';
-                upSideDownButBool = true;
-            }
-            else {
-                upSideDownBut.style.backgroundColor = 'salmon';
-                upSideDownBut.style.color = 'white';
-                upSideDownButBool = false;
-            }
-        });
         refreshButt.addEventListener("pointerdown", (event) => {
             console.log(event);
             window.location.reload();
         });
     }
-    let oldYAcceleration = 0;
     function deviceMotion(_event) {
         //Debug Elements
-        /*let xAccelartion: HTMLElement = document.getElementById("x");
-        let yAccelartion: HTMLElement = document.getElementById("y");
-        let zAccelartion: HTMLElement = document.getElementById("z");
-        let cameraRot: HTMLElement = document.getElementById("camera");
+        let xAccelartion = document.getElementById("x");
+        let yAccelartion = document.getElementById("y");
+        let zAccelartion = document.getElementById("z");
         xAccelartion.innerHTML = "X: " + (_event.gamma).toString();
         yAccelartion.innerHTML = "Y: " + (_event.alpha).toString();
         zAccelartion.innerHTML = "Z: " + (_event.beta).toString();
-        cameraRot.innerHTML = "camera_rot: " + (cmpCamera.mtxPivot.rotation).toString();*/
+        /* let cameraRot: HTMLElement = document.getElementById("camera");
+        cameraRot.innerHTML = "camera_rot: " + (cmpCamera.mtxPivot.rotation).toString();
+        //Camera Movements
         if (cmpCamera.mtxPivot.rotation.z > -0.667 && _event.gamma < 0)
-            cmpCamera.mtxPivot.rotateY(_event.gamma / 250);
+          cmpCamera.mtxPivot.rotateY(_event.gamma / 250);
         if (cmpCamera.mtxPivot.rotation.z < 0.667 && _event.gamma > 0)
-            cmpCamera.mtxPivot.rotateY(_event.gamma / 250);
+          cmpCamera.mtxPivot.rotateY(_event.gamma / 250);
         if (cmpCamera.mtxPivot.rotation.x > 89.336 && _event.beta > 0)
-            cmpCamera.mtxPivot.rotateX(-_event.beta / 250);
+          cmpCamera.mtxPivot.rotateX(-_event.beta / 250);
         if (cmpCamera.mtxPivot.rotation.x < 90.667 && _event.beta < 0)
-            cmpCamera.mtxPivot.rotateX(-_event.beta / 250);
-        if (!upSideDownBool) {
-            rgdbdyBall.applyForce(new f.Vector3(-_event.gamma, 0, -_event.beta));
-            oldYAcceleration = _event.beta;
-        }
-        if (upSideDownBool)
-            if (Math.abs(_event.beta - oldYAcceleration) > 10)
-                rgdbdyBall.applyForce(new f.Vector3(0, _event.beta, 0));
-            else
-                rgdbdyBall.applyForce(new f.Vector3(0, -50, 0));
-    }
-    function changeUpSideDown() {
-        if (!upSideDownBool)
-            upSideDownBool = true;
-        else
-            upSideDownBool = false;
-    }
-    function hndTriggerWin(_event) {
-        if (_event.cmpRigidbody.node.name == "Ball") {
-            alert("You have won the game!");
-        }
+          cmpCamera.mtxPivot.rotateX(-_event.beta / 250);*/
+        let cameraRot = document.getElementById("camera");
+        cameraRot.innerHTML = "rgdbdy_fric " + rgdbdyBall.getVelocity().magnitude.toString();
+        if (rgdbdyBall.getVelocity().magnitude < 20)
+            rgdbdyBall.applyForce(new f.Vector3(-_event.gamma, _event.beta, -_event.beta));
     }
 })(MadMaze || (MadMaze = {}));
 var MadMaze;
