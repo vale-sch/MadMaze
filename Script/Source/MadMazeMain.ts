@@ -1,4 +1,17 @@
+
+
 namespace MadMaze {
+  class LocationBool {
+
+    public isActive: boolean = false;
+    public name: string = "";
+    constructor(_isActive: boolean, _name: string) {
+      this.isActive = _isActive;
+      this.name = _name;
+    }
+  }
+
+
   import f = FudgeCore;
   f.Debug.info("Main Program Template running!");
   f.Project.registerScriptNamespace(MadMaze);
@@ -7,12 +20,14 @@ namespace MadMaze {
   let rgdbdyBall: f.ComponentRigidbody;
   let cmpCamera: f.ComponentCamera;
 
-  let accelButt: HTMLElement = document.getElementById("accelButton");
+  let startButton: HTMLElement = document.getElementById("accelButton");
   if (f.Project.mode != f.MODE.EDITOR) {
-
-    accelButt.addEventListener("click", getAccelPermission);
-    accelButt.addEventListener("click", init);
+    startButton.addEventListener("click", getAccelPermission);
+    startButton.addEventListener("click", init);
   }
+
+
+
 
 
 
@@ -74,8 +89,6 @@ namespace MadMaze {
     return "unknown";
   }
 
-
-
   function getAccelPermission() {
     let device: string = getMobileOperatingSystem();
     console.log(device);
@@ -84,15 +97,14 @@ namespace MadMaze {
         (DeviceMotionEvent as any).requestPermission().then((response: string) => {
           if (response == 'granted') {
             console.log("Access acceleration: " + response);
-            window.addEventListener('deviceorientation', deviceMotion, true);
+            window.addEventListener('deviceorientation', deviceOrientation);
           } else {
             console.log("Access acceleration: " + response);
           }
         });
         break;
       case ("Android"):
-        window.addEventListener("deviceorientation", deviceMotion, true);
-
+        window.addEventListener("deviceorientation", deviceOrientation);
         break;
       case ("Windows Phone"):
         console.log("not implemented yet");
@@ -102,9 +114,8 @@ namespace MadMaze {
   }
 
 
-
   function createButtons(): void {
-    document.body.removeChild(accelButt);
+    document.body.removeChild(startButton);
     let refreshButt: HTMLElement = document.createElement("button");
     refreshButt.style.width = "100px";
     refreshButt.style.height = "75px";
@@ -120,19 +131,45 @@ namespace MadMaze {
       console.log(event);
       window.location.reload();
     });
+
   }
 
 
 
-  function deviceMotion(_event: DeviceOrientationEvent): void {
-    //Debug Elements
-    let xAccelartion: HTMLElement = document.getElementById("x");
-    let yAccelartion: HTMLElement = document.getElementById("y");
-    let zAccelartion: HTMLElement = document.getElementById("z");
 
-    xAccelartion.innerHTML = "X: " + (_event.gamma).toString();
-    yAccelartion.innerHTML = "Y: " + (_event.alpha).toString();
-    zAccelartion.innerHTML = "Z: " + (_event.beta).toString();
+
+
+  let toleranceFactor: number = 30;
+  let locationBooleans: LocationBool[] = new Array<LocationBool>();
+  for (let i = 0; i < 7; i++) {
+    switch (i) {
+      case 0:
+        locationBooleans.push(new LocationBool(false, "normal"));
+        break;
+      case 1: locationBooleans.push(new LocationBool(false, "rightSide"));
+        break;
+      case 2: locationBooleans.push(new LocationBool(false, "leftSide"));
+        break;
+      case 3: locationBooleans.push(new LocationBool(false, "setUpReversed"));
+        break;
+      case 4: locationBooleans.push(new LocationBool(false, "setUpNormal"));
+        break;
+      case 5: locationBooleans.push(new LocationBool(false, "overHead"));
+        break;
+      case 6: locationBooleans.push(new LocationBool(false, "overHeadReversed"));
+        break;
+    }
+  }
+
+  function deviceOrientation(event: DeviceOrientationEvent): void {
+
+
+    let yAccelartion: HTMLElement = document.getElementById("BETTA");
+    let zAccelartion: HTMLElement = document.getElementById("GAMMA");
+    yAccelartion.innerHTML = "BETTA: " + (event.beta).toString();
+    zAccelartion.innerHTML = "GAMMA: " + (event.gamma).toString();
+
+
     /* let cameraRot: HTMLElement = document.getElementById("camera");
     cameraRot.innerHTML = "camera_rot: " + (cmpCamera.mtxPivot.rotation).toString();
     //Camera Movements
@@ -144,9 +181,151 @@ namespace MadMaze {
       cmpCamera.mtxPivot.rotateX(-_event.beta / 250);
     if (cmpCamera.mtxPivot.rotation.x < 90.667 && _event.beta < 0)
       cmpCamera.mtxPivot.rotateX(-_event.beta / 250);*/
+
+
+
     let cameraRot: HTMLElement = document.getElementById("camera");
-    cameraRot.innerHTML = "rgdbdy_fric " + rgdbdyBall.getVelocity().magnitude.toString();
-    if (rgdbdyBall.getVelocity().magnitude < 20)
-      rgdbdyBall.applyForce(new f.Vector3(-_event.gamma, _event.beta, -_event.beta));
+
+    if (event.beta - toleranceFactor < 15 && event.beta + toleranceFactor > 15 && event.gamma - toleranceFactor < 15 && event.gamma + toleranceFactor > 15) {
+      for (let location of locationBooleans) {
+        if (location.name == "normal") {
+          cameraRot.innerHTML = "Handy: " + location.name;
+          location.isActive = true;
+        }
+        else
+          location.isActive = false;
+      }
+
+    }
+    if (event.gamma - toleranceFactor < 90 && event.gamma + toleranceFactor > 90) {
+      for (let location of locationBooleans) {
+        if (location.name == "leftSide" && location.isActive) {
+          cameraRot.innerHTML = "Handy: " + location.name;
+          location.isActive = true;
+          for (let location of locationBooleans) {
+            if (location.name == "rightSide") {
+              location.isActive = false;
+            }
+          }
+          return;
+        }
+        if (location.name == "rightSide") {
+          cameraRot.innerHTML = "Handy: " + location.name;
+          location.isActive = true;
+        }
+        else
+          location.isActive = false;
+      }
+    }
+    if (event.gamma - toleranceFactor < -90 && event.gamma + toleranceFactor > -90) {
+
+      for (let location of locationBooleans) {
+        if (location.name == "rightSide" && location.isActive) return;
+        if (location.name == "leftSide") {
+          cameraRot.innerHTML = "Handy: " + location.name;
+          location.isActive = true;
+        }
+        else
+          location.isActive = false;
+      }
+    }
+    if (event.beta - toleranceFactor < -90 && event.beta + toleranceFactor > -90) {
+      for (let location of locationBooleans) {
+        if (location.name == "setUpReversed") {
+          cameraRot.innerHTML = "Handy: " + location.name;
+          location.isActive = true;
+        }
+        else
+          location.isActive = false;
+      }
+    }
+    if (event.beta - toleranceFactor < 90 && event.beta + toleranceFactor > 90) {
+      for (let location of locationBooleans) {
+        if (location.name == "setUpNormal") {
+          cameraRot.innerHTML = "Handy: " + location.name;
+          location.isActive = true;
+        }
+        else
+          location.isActive = false;
+      }
+    }
+    if (event.beta - toleranceFactor < 150 && event.beta + toleranceFactor > 150 && event.gamma - toleranceFactor < 0 && event.gamma + toleranceFactor > 0) {
+      for (let location of locationBooleans) {
+        if (location.name == "overHead") {
+          cameraRot.innerHTML = "Handy: " + location.name;
+          location.isActive = true;
+          rgdbdyBall.setVelocity(new f.Vector3(0, 0, 0));
+        }
+        else
+          location.isActive = false;
+      }
+    }
+    if (event.beta - toleranceFactor < -180 && event.beta + toleranceFactor > -180 && event.gamma - toleranceFactor < 0 && event.gamma + toleranceFactor > 0) {
+      for (let location of locationBooleans) {
+        if (location.name == "overHeadReversed") {
+          cameraRot.innerHTML = "Handy: " + location.name;
+          location.isActive = true;
+          rgdbdyBall.setVelocity(new f.Vector3(0, 0, 0));
+        }
+        else
+          location.isActive = false;
+      }
+    }
+    //if (rgdbdyBall.getVelocity().magnitude < 20)
+    locationBooleans.forEach(location => {
+      switch (location.name) {
+        case ("normal"):
+          if (location.isActive) {
+
+            rgdbdyBall.applyForce(new f.Vector3(-event.gamma, -5, -event.beta));
+
+          }
+          break;
+        case ("rightSide"):
+          if (location.isActive) {
+            rgdbdyBall.applyForce(new f.Vector3(-event.gamma, Math.abs(event.gamma), -event.beta));
+
+          }
+
+          break;
+        case ("leftSide"):
+          if (location.isActive) {
+            /* if (Math.abs(event.beta) > 100) {
+               cameraRot.innerHTML = "GIMBELLOCK1!";
+               rgdbdyBall.applyForce(new f.Vector3(Math.abs(event.gamma), Math.abs(event.gamma), -event.beta));
+             }
+ 
+             else*/
+            rgdbdyBall.applyForce(new f.Vector3(Math.abs(event.gamma), Math.abs(event.gamma), -event.beta));
+          }
+          break;
+        case ("setUpReversed"):
+          if (location.isActive) {
+            rgdbdyBall.applyForce(new f.Vector3(-event.gamma, -event.beta / 10, -event.beta));
+
+          }
+          break;
+        case ("setUpNormal"):
+          if (location.isActive) {
+            rgdbdyBall.applyForce(new f.Vector3(-event.gamma, event.beta / 5, -event.beta));
+
+
+          }
+          break;
+        case ("overHead"):
+          if (location.isActive) {
+            rgdbdyBall.applyForce(new f.Vector3(-event.gamma, event.beta, event.beta));
+
+          }
+          break;
+        case ("overHeadReversed"):
+          if (location.isActive) {
+            rgdbdyBall.applyForce(new f.Vector3(-event.gamma, -event.beta, -event.beta));
+
+          }
+          break;
+      }
+
+    });
   }
 }
