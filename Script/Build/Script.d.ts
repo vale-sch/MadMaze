@@ -1,3 +1,29 @@
+import f = FudgeCore;
+declare namespace MadMaze {
+    class BallManager {
+        private rgdbdyBall;
+        private locationBooleans;
+        private toleranceFactor;
+        private cameraRot;
+        private yAccelartion;
+        private zAccelartion;
+        constructor(_rgdBdy: f.ComponentRigidbody);
+        getAccelPermission(): void;
+        private getMobileOperatingSystem;
+        private createButtons;
+        private createArray;
+        private deviceOrientation;
+        private applyForceAlongDirection;
+        private checkForOrientation;
+    }
+}
+declare namespace MadMaze {
+    class LocationBool {
+        isActive: boolean;
+        name: string;
+        constructor(_isActive: boolean, _name: string);
+    }
+}
 declare namespace MadMaze {
 }
 declare namespace MadMaze {
