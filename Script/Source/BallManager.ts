@@ -4,6 +4,7 @@ namespace MadMaze {
     export class BallManager {
 
         private rgdbdyBall: f.ComponentRigidbody;
+        private startButton: HTMLElement;
         private locationBooleans: LocationBool[] = new Array<LocationBool>();
         private toleranceFactor: number = 25;
 
@@ -11,14 +12,15 @@ namespace MadMaze {
         private yAccelartion: HTMLElement;
         private zAccelartion: HTMLElement;
 
-        constructor(_rgdBdy: f.ComponentRigidbody) {
+        constructor(_rgdBdy: f.ComponentRigidbody, _startButton: HTMLElement) {
             this.rgdbdyBall = _rgdBdy;
+            this.startButton = _startButton;
             this.cameraRot = document.getElementById("camera");
             this.yAccelartion = document.getElementById("BETTA");
             this.zAccelartion = document.getElementById("GAMMA");
         }
 
-        public getAccelPermission() {
+        public getAccelPermission = (): void => {
             let device: string = this.getMobileOperatingSystem();
             console.log(device);
             switch (device) {
@@ -44,7 +46,7 @@ namespace MadMaze {
             this.createArray();
         }
 
-        private getMobileOperatingSystem(): string {
+        public getMobileOperatingSystem = (): string => {
             var userAgent = navigator.userAgent || navigator.vendor;
             if (/windows phone/i.test(userAgent)) {
                 return "Windows Phone";
@@ -58,7 +60,8 @@ namespace MadMaze {
             return "unknown";
         }
 
-        private createButtons(): void {
+        public createButtons(): void {
+            document.body.removeChild(this.startButton);
             let refreshButt: HTMLElement = document.createElement("button");
             refreshButt.style.width = "100px";
             refreshButt.style.height = "75px";
@@ -77,7 +80,7 @@ namespace MadMaze {
 
         }
 
-        private createArray(): void {
+        public createArray(): void {
             for (let i = 0; i < 7; i++) {
                 switch (i) {
                     case 0:
@@ -103,7 +106,7 @@ namespace MadMaze {
 
 
 
-        private deviceOrientation = (event: DeviceOrientationEvent): void => {
+        public deviceOrientation = (event: DeviceOrientationEvent): void => {
             this.applyForceAlongDirection(event);
 
             /* let cameraRot: HTMLElement = document.getElementById("camera");
@@ -120,7 +123,7 @@ namespace MadMaze {
             this.checkForOrientation(event);
         }
 
-        private applyForceAlongDirection = (event: DeviceOrientationEvent): void => {
+        public applyForceAlongDirection = (event: DeviceOrientationEvent): void => {
 
             this.yAccelartion.innerHTML = "BETTA: " + event.beta.toString();
             this.zAccelartion.innerHTML = "GAMMA: " + event.gamma.toString();
@@ -135,7 +138,6 @@ namespace MadMaze {
                     case ("rightSide"):
                         if (location.isActive) {
                             if (Math.abs(event.beta) > 100) {
-                                this.cameraRot.innerHTML = "GIMBELLOCK RIGHT";
                                 this.rgdbdyBall.applyForce(new f.Vector3(event.gamma / 4, 750 / Math.abs(event.gamma), -event.beta / 15));
                                 return;
                             }
@@ -146,7 +148,6 @@ namespace MadMaze {
                     case ("leftSide"):
                         if (location.isActive) {
                             if (Math.abs(event.beta) > 100) {
-                                this.cameraRot.innerHTML = "GIMBELLOCK LEFT";
                                 this.rgdbdyBall.applyForce(new f.Vector3(event.gamma / 4, 750 / Math.abs(event.gamma), -event.beta / 15));
                                 return;
                             }
@@ -186,7 +187,7 @@ namespace MadMaze {
             });
         }
 
-        private checkForOrientation = (event: DeviceOrientationEvent): void => {
+        public checkForOrientation = (event: DeviceOrientationEvent): void => {
             //normal
             if (event.beta - this.toleranceFactor < 20 && event.beta + this.toleranceFactor > 20 && event.gamma - this.toleranceFactor < 20 && event.gamma + this.toleranceFactor > 20) {
                 for (let location of this.locationBooleans) {

@@ -2,19 +2,30 @@ import f = FudgeCore;
 declare namespace MadMaze {
     class BallManager {
         private rgdbdyBall;
+        private startButton;
         private locationBooleans;
         private toleranceFactor;
         private cameraRot;
         private yAccelartion;
         private zAccelartion;
-        constructor(_rgdBdy: f.ComponentRigidbody);
-        getAccelPermission(): void;
-        private getMobileOperatingSystem;
-        private createButtons;
-        private createArray;
-        private deviceOrientation;
-        private applyForceAlongDirection;
-        private checkForOrientation;
+        constructor(_rgdBdy: f.ComponentRigidbody, _startButton: HTMLElement);
+        getAccelPermission: () => void;
+        getMobileOperatingSystem: () => string;
+        createButtons(): void;
+        createArray(): void;
+        deviceOrientation: (event: DeviceOrientationEvent) => void;
+        applyForceAlongDirection: (event: DeviceOrientationEvent) => void;
+        checkForOrientation: (event: DeviceOrientationEvent) => void;
+    }
+}
+declare namespace MadMaze {
+    import f = FudgeCore;
+    class CameraFollow {
+        private nodeCamera;
+        private cmpCamera;
+        private ballNode;
+        constructor(_nodeCamera: f.Node, _cmpCamera: f.ComponentCamera, _ballNode: f.Node);
+        private update;
     }
 }
 declare namespace MadMaze {
@@ -25,6 +36,8 @@ declare namespace MadMaze {
     }
 }
 declare namespace MadMaze {
+    import f = FudgeCore;
+    let cmpCamera: f.ComponentCamera;
 }
 declare namespace MadMaze {
     import f = FudgeCore;
