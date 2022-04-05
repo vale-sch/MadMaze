@@ -1,9 +1,9 @@
 import f = FudgeCore;
 declare namespace MadMaze {
+    let locationBooleans: LocationBool[];
     class BallManager {
         private rgdbdyBall;
         private startButton;
-        private locationBooleans;
         private toleranceFactor;
         private cameraRot;
         private yAccelartion;
@@ -13,7 +13,7 @@ declare namespace MadMaze {
         getMobileOperatingSystem: () => string;
         createButtons(): void;
         createArray(): void;
-        deviceOrientation: (event: DeviceOrientationEvent) => void;
+        deviceOrientationDistributor: (event: DeviceOrientationEvent) => void;
         applyForceAlongDirection: (event: DeviceOrientationEvent) => void;
         checkForOrientation: (event: DeviceOrientationEvent) => void;
     }
@@ -24,6 +24,7 @@ declare namespace MadMaze {
         private nodeCamera;
         private cmpCamera;
         private ballNode;
+        private hasLocationChanged;
         constructor(_nodeCamera: f.Node, _cmpCamera: f.ComponentCamera, _ballNode: f.Node);
         private update;
     }

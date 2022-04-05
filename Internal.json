@@ -623,7 +623,7 @@
                       {
                         "ƒ.ComponentMaterial": {
                           "sortForAlpha": false,
-                          "clrPrimary": "[1, 0, 0.7843137254901961, 0.15]",
+                          "clrPrimary": "[1, 1, 1, 0.08]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
                             "translation": "[0, 0]",
@@ -753,7 +753,6 @@
             "name": "Camera",
             "active": true,
             "components": {
-              "ComponentCamera": [],
               "ComponentTransform": [
                 {
                   "ƒ.ComponentTransform": {
@@ -790,8 +789,8 @@
                           "direction": 2,
                           "aspect": 1,
                           "pivot": {
-                            "translation": "[0, 5, 0]",
-                            "rotation": "[90, 0, 0]",
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
                             "scaling": "[1, 1, 1]"
                           },
                           "Component": {

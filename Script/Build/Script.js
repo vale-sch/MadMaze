@@ -2,10 +2,10 @@
 var f = FudgeCore;
 var MadMaze;
 (function (MadMaze) {
+    MadMaze.locationBooleans = new Array();
     class BallManager {
         rgdbdyBall;
         startButton;
-        locationBooleans = new Array();
         toleranceFactor = 25;
         cameraRot;
         yAccelartion;
@@ -25,7 +25,7 @@ var MadMaze;
                     DeviceMotionEvent.requestPermission().then((response) => {
                         if (response == 'granted') {
                             console.log("Access acceleration: " + response);
-                            window.addEventListener('deviceorientation', this.deviceOrientation);
+                            window.addEventListener('deviceorientation', this.deviceOrientationDistributor);
                         }
                         else {
                             console.log("Access acceleration: " + response);
@@ -33,7 +33,7 @@ var MadMaze;
                     });
                     break;
                 case ("Android"):
-                    window.addEventListener("deviceorientation", this.deviceOrientation);
+                    window.addEventListener("deviceorientation", this.deviceOrientationDistributor);
                     console.log("GRANTED");
                     break;
                 case ("Windows Phone"):
@@ -77,48 +77,46 @@ var MadMaze;
             for (let i = 0; i < 7; i++) {
                 switch (i) {
                     case 0:
-                        this.locationBooleans.push(new MadMaze.LocationBool(false, "normal"));
+                        MadMaze.locationBooleans.push(new MadMaze.LocationBool(false, "normal"));
                         break;
                     case 1:
-                        this.locationBooleans.push(new MadMaze.LocationBool(false, "rightSide"));
+                        MadMaze.locationBooleans.push(new MadMaze.LocationBool(false, "rightSide"));
                         break;
                     case 2:
-                        this.locationBooleans.push(new MadMaze.LocationBool(false, "leftSide"));
+                        MadMaze.locationBooleans.push(new MadMaze.LocationBool(false, "leftSide"));
                         break;
                     case 3:
-                        this.locationBooleans.push(new MadMaze.LocationBool(false, "setUpReversed"));
+                        MadMaze.locationBooleans.push(new MadMaze.LocationBool(false, "setUpReversed"));
                         break;
                     case 4:
-                        this.locationBooleans.push(new MadMaze.LocationBool(false, "setUpNormal"));
+                        MadMaze.locationBooleans.push(new MadMaze.LocationBool(false, "setUpNormal"));
                         break;
                     case 5:
-                        this.locationBooleans.push(new MadMaze.LocationBool(false, "overHead"));
+                        MadMaze.locationBooleans.push(new MadMaze.LocationBool(false, "overHead"));
                         break;
                     case 6:
-                        this.locationBooleans.push(new MadMaze.LocationBool(false, "overHeadReversed"));
+                        MadMaze.locationBooleans.push(new MadMaze.LocationBool(false, "overHeadReversed"));
                         break;
                 }
             }
         }
-        deviceOrientation = (event) => {
+        deviceOrientationDistributor = (event) => {
             this.applyForceAlongDirection(event);
-            /* let cameraRot: HTMLElement = document.getElementById("camera");
-            cameraRot.innerHTML = "camera_rot: " + (cmpCamera.mtxPivot.rotation).toString();
             //Camera Movements
-            if (cmpCamera.mtxPivot.rotation.z > -0.667 && _event.gamma < 0)
-              cmpCamera.mtxPivot.rotateY(_event.gamma / 250);
-            if (cmpCamera.mtxPivot.rotation.z < 0.667 && _event.gamma > 0)
-              cmpCamera.mtxPivot.rotateY(_event.gamma / 250);
-            if (cmpCamera.mtxPivot.rotation.x > 89.336 && _event.beta > 0)
-              cmpCamera.mtxPivot.rotateX(-_event.beta / 250);
-            if (cmpCamera.mtxPivot.rotation.x < 90.667 && _event.beta < 0)
-              cmpCamera.mtxPivot.rotateX(-_event.beta / 250);*/
+            /* if (cmpCamera.mtxPivot.rotation.z > -0.667 && event.gamma < 0)
+                 cmpCamera.mtxPivot.rotateY(event.gamma / 250);
+             if (cmpCamera.mtxPivot.rotation.z < 0.667 && event.gamma > 0)
+                 cmpCamera.mtxPivot.rotateY(event.gamma / 250);
+             if (cmpCamera.mtxPivot.rotation.x > 89.336 && event.beta > 0)
+                 cmpCamera.mtxPivot.rotateX(-event.beta / 250);
+             if (cmpCamera.mtxPivot.rotation.x < 90.667 && event.beta < 0)
+                 cmpCamera.mtxPivot.rotateX(-event.beta / 250);*/
             this.checkForOrientation(event);
         };
         applyForceAlongDirection = (event) => {
-            this.yAccelartion.innerHTML = "BETTA: " + event.beta.toString();
+            this.yAccelartion.innerHTML = "BETTA: " + MadMaze.cmpCamera.mtxPivot.rotation.toString();
             this.zAccelartion.innerHTML = "GAMMA: " + event.gamma.toString();
-            this.locationBooleans.forEach(location => {
+            MadMaze.locationBooleans.forEach(location => {
                 switch (location.name) {
                     case ("normal"):
                         if (location.isActive)
@@ -172,7 +170,7 @@ var MadMaze;
         checkForOrientation = (event) => {
             //normal
             if (event.beta - this.toleranceFactor < 20 && event.beta + this.toleranceFactor > 20 && event.gamma - this.toleranceFactor < 20 && event.gamma + this.toleranceFactor > 20) {
-                for (let location of this.locationBooleans) {
+                for (let location of MadMaze.locationBooleans) {
                     if (location.name == "normal") {
                         this.cameraRot.innerHTML = "Handy: " + location.name;
                         location.isActive = true;
@@ -183,9 +181,9 @@ var MadMaze;
             }
             //rightside
             if (event.gamma - this.toleranceFactor < 90 && event.gamma + this.toleranceFactor > 90) {
-                for (let location of this.locationBooleans) {
+                for (let location of MadMaze.locationBooleans) {
                     if (location.name == "rightSide") {
-                        for (let location of this.locationBooleans) {
+                        for (let location of MadMaze.locationBooleans) {
                             if (location.name == "leftSide" && location.isActive)
                                 return;
                         }
@@ -198,7 +196,7 @@ var MadMaze;
             }
             //leftside
             if (event.gamma - this.toleranceFactor < -90 && event.gamma + this.toleranceFactor > -90) {
-                for (let location of this.locationBooleans) {
+                for (let location of MadMaze.locationBooleans) {
                     if (location.name == "rightSide" && location.isActive)
                         return;
                     if (location.name == "leftSide") {
@@ -211,7 +209,7 @@ var MadMaze;
             }
             //setUpReversed
             if (event.beta - this.toleranceFactor < -90 && event.beta + this.toleranceFactor > -90) {
-                for (let location of this.locationBooleans) {
+                for (let location of MadMaze.locationBooleans) {
                     if (location.name == "setUpReversed") {
                         this.cameraRot.innerHTML = "Handy: " + location.name;
                         location.isActive = true;
@@ -222,7 +220,7 @@ var MadMaze;
             }
             //setUpNormal
             if (event.beta - this.toleranceFactor < 90 && event.beta + this.toleranceFactor > 90) {
-                for (let location of this.locationBooleans) {
+                for (let location of MadMaze.locationBooleans) {
                     if (location.name == "setUpNormal") {
                         this.cameraRot.innerHTML = "Handy: " + location.name;
                         location.isActive = true;
@@ -233,7 +231,7 @@ var MadMaze;
             }
             //overhead
             if (event.beta - this.toleranceFactor < 180 && event.beta + this.toleranceFactor > 180 && event.gamma - this.toleranceFactor < 0 && event.gamma + this.toleranceFactor > 0) {
-                for (let location of this.locationBooleans) {
+                for (let location of MadMaze.locationBooleans) {
                     if (location.name == "overHead") {
                         this.cameraRot.innerHTML = "Handy: " + location.name;
                         location.isActive = true;
@@ -245,7 +243,7 @@ var MadMaze;
             }
             //overHeadReversed
             if (event.beta - this.toleranceFactor < -180 && event.beta + this.toleranceFactor > -180 && event.gamma - this.toleranceFactor < 0 && event.gamma + this.toleranceFactor > 0) {
-                for (let location of this.locationBooleans) {
+                for (let location of MadMaze.locationBooleans) {
                     if (location.name == "overHeadReversed") {
                         this.cameraRot.innerHTML = "Handy: " + location.name;
                         location.isActive = true;
@@ -266,6 +264,7 @@ var MadMaze;
         nodeCamera;
         cmpCamera;
         ballNode;
+        hasLocationChanged;
         constructor(_nodeCamera, _cmpCamera, _ballNode) {
             this.nodeCamera = _nodeCamera;
             this.cmpCamera = _cmpCamera;
@@ -275,6 +274,52 @@ var MadMaze;
         }
         update = (_event) => {
             this.cmpCamera.mtxPivot.translation = new f.Vector3(this.ballNode.mtxWorld.translation.x, this.ballNode.mtxWorld.translation.y + 15, this.ballNode.mtxWorld.translation.z);
+            MadMaze.locationBooleans.forEach(location => {
+                switch (location.name) {
+                    case ("normal"):
+                        if (location.isActive && location.name != this.hasLocationChanged) {
+                            this.hasLocationChanged = location.name;
+                            this.cmpCamera.mtxPivot.rotation = new f.Vector3(90, 0, 0);
+                        }
+                        break;
+                    case ("rightSide"):
+                        if (location.isActive && location.name != this.hasLocationChanged) {
+                            this.hasLocationChanged = location.name;
+                            this.cmpCamera.mtxPivot.rotation = new f.Vector3(90, 0, 0);
+                        }
+                        break;
+                    case ("leftSide"):
+                        if (location.isActive && location.name != this.hasLocationChanged) {
+                            this.hasLocationChanged = location.name;
+                            this.cmpCamera.mtxPivot.rotation = new f.Vector3(90, 0, 0);
+                        }
+                        break;
+                    case ("setUpReversed"):
+                        if (location.isActive && location.name != this.hasLocationChanged) {
+                            this.hasLocationChanged = location.name;
+                            this.cmpCamera.mtxPivot.rotation = new f.Vector3(90, 0, 0);
+                        }
+                        break;
+                    case ("setUpNormal"):
+                        if (location.isActive && location.name != this.hasLocationChanged) {
+                            this.hasLocationChanged = location.name;
+                            this.cmpCamera.mtxPivot.rotation = new f.Vector3(90, 0, 0);
+                        }
+                        break;
+                    case ("overHead"):
+                        if (location.isActive && location.name != this.hasLocationChanged) {
+                            this.hasLocationChanged = location.name;
+                            this.cmpCamera.mtxPivot.rotation = new f.Vector3(90, 0, 0);
+                        }
+                        break;
+                    case ("overHeadReversed"):
+                        if (location.isActive && location.name != this.hasLocationChanged) {
+                            this.hasLocationChanged = location.name;
+                            this.cmpCamera.mtxPivot.rotation = new f.Vector3(90, 0, 0);
+                        }
+                        break;
+                }
+            });
         };
     }
     MadMaze.CameraFollow = CameraFollow;
