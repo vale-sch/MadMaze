@@ -218,7 +218,7 @@
                       {
                         "ƒ.ComponentMaterial": {
                           "sortForAlpha": false,
-                          "clrPrimary": "[1, 0, 0, 0.2]",
+                          "clrPrimary": "[1, 0, 0, 0.53]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
                             "translation": "[0, 0]",
@@ -299,7 +299,7 @@
                       {
                         "ƒ.ComponentMaterial": {
                           "sortForAlpha": false,
-                          "clrPrimary": "[0.8823529411764706, 1, 0, 0.19]",
+                          "clrPrimary": "[0.8823529411764706, 1, 0, 0.4]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
                             "translation": "[0, 0]",
@@ -380,7 +380,7 @@
                       {
                         "ƒ.ComponentMaterial": {
                           "sortForAlpha": false,
-                          "clrPrimary": "[0.06666666666666667, 1, 0, 0.2]",
+                          "clrPrimary": "[0.06666666666666667, 1, 0, 0.38]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
                             "translation": "[0, 0]",
@@ -461,7 +461,7 @@
                       {
                         "ƒ.ComponentMaterial": {
                           "sortForAlpha": false,
-                          "clrPrimary": "[0, 0.25098039215686274, 1, 0.16]",
+                          "clrPrimary": "[0, 0.25098039215686274, 1, 0.41]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
                             "translation": "[0, 0]",
@@ -542,7 +542,7 @@
                       {
                         "ƒ.ComponentMaterial": {
                           "sortForAlpha": false,
-                          "clrPrimary": "[1, 1, 1, 0.14]",
+                          "clrPrimary": "[0.45098039215686275, 0.45098039215686275, 0.45098039215686275, 1]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
                             "translation": "[0, 0]",
@@ -623,7 +623,7 @@
                       {
                         "ƒ.ComponentMaterial": {
                           "sortForAlpha": false,
-                          "clrPrimary": "[1, 1, 1, 0.08]",
+                          "clrPrimary": "[1, 1, 1, 0]",
                           "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
                             "translation": "[0, 0]",
@@ -698,8 +698,8 @@
                       {
                         "ƒ.ComponentLight": {
                           "pivot": {
-                            "translation": "[0, 5, 0]",
-                            "rotation": "[802, 0, 0]",
+                            "translation": "[2, 9, 0]",
+                            "rotation": "[134, 0, 0]",
                             "scaling": "[1, 1, 1]"
                           },
                           "light": {
@@ -728,11 +728,11 @@
                           "pivot": {
                             "translation": "[0, 0, 0]",
                             "rotation": "[0, 0, 0]",
-                            "scaling": "[1, 1, 1]"
+                            "scaling": "[0, 1, 1]"
                           },
                           "light": {
                             "ƒ.LightAmbient": {
-                              "color": "[0.6784313725490196, 0.6784313725490196, 0.6784313725490196, 1]"
+                              "color": "[0.7294117647058823, 0.7294117647058823, 0.7294117647058823, 1]"
                             }
                           },
                           "Component": {

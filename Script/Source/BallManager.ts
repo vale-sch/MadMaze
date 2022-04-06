@@ -9,15 +9,17 @@ namespace MadMaze {
         private toleranceFactor: number = 25;
 
         private cameraRot: HTMLElement;
-        private yAccelartion: HTMLElement;
-        private zAccelartion: HTMLElement;
+        //private yAccelartion: HTMLElement;
+        //private zAccelartion: HTMLElement;
 
         constructor(_rgdBdy: f.ComponentRigidbody, _startButton: HTMLElement) {
             this.rgdbdyBall = _rgdBdy;
             this.startButton = _startButton;
             this.cameraRot = document.getElementById("camera");
-            this.yAccelartion = document.getElementById("BETTA");
-            this.zAccelartion = document.getElementById("GAMMA");
+            this.cameraRot.style.fontSize = "48px";
+            this.cameraRot.style.fontWeight = "bold";
+            //this.yAccelartion = document.getElementById("BETTA");
+            //this.zAccelartion = document.getElementById("GAMMA");
         }
 
         public getAccelPermission = (): void => {
@@ -130,8 +132,8 @@ namespace MadMaze {
 
         public applyForceAlongDirection = (event: DeviceOrientationEvent): void => {
 
-            this.yAccelartion.innerHTML = "BETTA: " + cmpCamera.mtxPivot.rotation.toString();
-            this.zAccelartion.innerHTML = "GAMMA: " + event.gamma.toString();
+            //this.yAccelartion.innerHTML = "BETTA: " + be.toString();
+            //this.zAccelartion.innerHTML = "GAMMA: " + event.gamma.toString();
 
             locationBooleans.forEach(location => {
                 switch (location.name) {
@@ -197,7 +199,7 @@ namespace MadMaze {
             if (event.beta - this.toleranceFactor < 20 && event.beta + this.toleranceFactor > 20 && event.gamma - this.toleranceFactor < 20 && event.gamma + this.toleranceFactor > 20) {
                 for (let location of locationBooleans) {
                     if (location.name == "normal") {
-                        this.cameraRot.innerHTML = "Handy: " + location.name;
+                        this.cameraRot.innerHTML = "Alignment: " + location.name;
                         location.isActive = true;
                     }
                     else
@@ -213,7 +215,7 @@ namespace MadMaze {
                             if (location.name == "leftSide" && location.isActive)
                                 return;
                         }
-                        this.cameraRot.innerHTML = "Handy: " + location.name;
+                        this.cameraRot.innerHTML = "Alignment: " + location.name;
                         location.isActive = true;
                     }
                     else
@@ -226,7 +228,7 @@ namespace MadMaze {
                 for (let location of locationBooleans) {
                     if (location.name == "rightSide" && location.isActive) return;
                     if (location.name == "leftSide") {
-                        this.cameraRot.innerHTML = "Handy: " + location.name;
+                        this.cameraRot.innerHTML = "Alignment: " + location.name;
                         location.isActive = true;
                     }
                     else
@@ -238,7 +240,7 @@ namespace MadMaze {
             if (event.beta - this.toleranceFactor < -90 && event.beta + this.toleranceFactor > -90) {
                 for (let location of locationBooleans) {
                     if (location.name == "setUpReversed") {
-                        this.cameraRot.innerHTML = "Handy: " + location.name;
+                        this.cameraRot.innerHTML = "Alignment: " + location.name;
                         location.isActive = true;
                     }
                     else
@@ -250,7 +252,7 @@ namespace MadMaze {
             if (event.beta - this.toleranceFactor < 90 && event.beta + this.toleranceFactor > 90) {
                 for (let location of locationBooleans) {
                     if (location.name == "setUpNormal") {
-                        this.cameraRot.innerHTML = "Handy: " + location.name;
+                        this.cameraRot.innerHTML = "Alignment: " + location.name;
                         location.isActive = true;
                     }
                     else
@@ -262,7 +264,7 @@ namespace MadMaze {
             if (event.beta - this.toleranceFactor < 180 && event.beta + this.toleranceFactor > 180 && event.gamma - this.toleranceFactor < 0 && event.gamma + this.toleranceFactor > 0) {
                 for (let location of locationBooleans) {
                     if (location.name == "overHead") {
-                        this.cameraRot.innerHTML = "Handy: " + location.name;
+                        this.cameraRot.innerHTML = "Alignment: " + location.name;
                         location.isActive = true;
                         this.rgdbdyBall.setVelocity(new f.Vector3(0, 0, 0));
                     }
@@ -275,7 +277,7 @@ namespace MadMaze {
             if (event.beta - this.toleranceFactor < -180 && event.beta + this.toleranceFactor > -180 && event.gamma - this.toleranceFactor < 0 && event.gamma + this.toleranceFactor > 0) {
                 for (let location of locationBooleans) {
                     if (location.name == "overHeadReversed") {
-                        this.cameraRot.innerHTML = "Handy: " + location.name;
+                        this.cameraRot.innerHTML = "Alignment: " + location.name;
                         location.isActive = true;
                         this.rgdbdyBall.setVelocity(new f.Vector3(0, 0, 0));
                     }

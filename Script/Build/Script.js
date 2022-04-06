@@ -8,14 +8,16 @@ var MadMaze;
         startButton;
         toleranceFactor = 25;
         cameraRot;
-        yAccelartion;
-        zAccelartion;
+        //private yAccelartion: HTMLElement;
+        //private zAccelartion: HTMLElement;
         constructor(_rgdBdy, _startButton) {
             this.rgdbdyBall = _rgdBdy;
             this.startButton = _startButton;
             this.cameraRot = document.getElementById("camera");
-            this.yAccelartion = document.getElementById("BETTA");
-            this.zAccelartion = document.getElementById("GAMMA");
+            this.cameraRot.style.fontSize = "48px";
+            this.cameraRot.style.fontWeight = "bold";
+            //this.yAccelartion = document.getElementById("BETTA");
+            //this.zAccelartion = document.getElementById("GAMMA");
         }
         getAccelPermission = () => {
             let device = this.getMobileOperatingSystem();
@@ -114,8 +116,8 @@ var MadMaze;
             this.checkForOrientation(event);
         };
         applyForceAlongDirection = (event) => {
-            this.yAccelartion.innerHTML = "BETTA: " + MadMaze.cmpCamera.mtxPivot.rotation.toString();
-            this.zAccelartion.innerHTML = "GAMMA: " + event.gamma.toString();
+            //this.yAccelartion.innerHTML = "BETTA: " + be.toString();
+            //this.zAccelartion.innerHTML = "GAMMA: " + event.gamma.toString();
             MadMaze.locationBooleans.forEach(location => {
                 switch (location.name) {
                     case ("normal"):
@@ -172,7 +174,7 @@ var MadMaze;
             if (event.beta - this.toleranceFactor < 20 && event.beta + this.toleranceFactor > 20 && event.gamma - this.toleranceFactor < 20 && event.gamma + this.toleranceFactor > 20) {
                 for (let location of MadMaze.locationBooleans) {
                     if (location.name == "normal") {
-                        this.cameraRot.innerHTML = "Handy: " + location.name;
+                        this.cameraRot.innerHTML = "Alignment: " + location.name;
                         location.isActive = true;
                     }
                     else
@@ -187,7 +189,7 @@ var MadMaze;
                             if (location.name == "leftSide" && location.isActive)
                                 return;
                         }
-                        this.cameraRot.innerHTML = "Handy: " + location.name;
+                        this.cameraRot.innerHTML = "Alignment: " + location.name;
                         location.isActive = true;
                     }
                     else
@@ -200,7 +202,7 @@ var MadMaze;
                     if (location.name == "rightSide" && location.isActive)
                         return;
                     if (location.name == "leftSide") {
-                        this.cameraRot.innerHTML = "Handy: " + location.name;
+                        this.cameraRot.innerHTML = "Alignment: " + location.name;
                         location.isActive = true;
                     }
                     else
@@ -211,7 +213,7 @@ var MadMaze;
             if (event.beta - this.toleranceFactor < -90 && event.beta + this.toleranceFactor > -90) {
                 for (let location of MadMaze.locationBooleans) {
                     if (location.name == "setUpReversed") {
-                        this.cameraRot.innerHTML = "Handy: " + location.name;
+                        this.cameraRot.innerHTML = "Alignment: " + location.name;
                         location.isActive = true;
                     }
                     else
@@ -222,7 +224,7 @@ var MadMaze;
             if (event.beta - this.toleranceFactor < 90 && event.beta + this.toleranceFactor > 90) {
                 for (let location of MadMaze.locationBooleans) {
                     if (location.name == "setUpNormal") {
-                        this.cameraRot.innerHTML = "Handy: " + location.name;
+                        this.cameraRot.innerHTML = "Alignment: " + location.name;
                         location.isActive = true;
                     }
                     else
@@ -233,7 +235,7 @@ var MadMaze;
             if (event.beta - this.toleranceFactor < 180 && event.beta + this.toleranceFactor > 180 && event.gamma - this.toleranceFactor < 0 && event.gamma + this.toleranceFactor > 0) {
                 for (let location of MadMaze.locationBooleans) {
                     if (location.name == "overHead") {
-                        this.cameraRot.innerHTML = "Handy: " + location.name;
+                        this.cameraRot.innerHTML = "Alignment: " + location.name;
                         location.isActive = true;
                         this.rgdbdyBall.setVelocity(new f.Vector3(0, 0, 0));
                     }
@@ -245,7 +247,7 @@ var MadMaze;
             if (event.beta - this.toleranceFactor < -180 && event.beta + this.toleranceFactor > -180 && event.gamma - this.toleranceFactor < 0 && event.gamma + this.toleranceFactor > 0) {
                 for (let location of MadMaze.locationBooleans) {
                     if (location.name == "overHeadReversed") {
-                        this.cameraRot.innerHTML = "Handy: " + location.name;
+                        this.cameraRot.innerHTML = "Alignment: " + location.name;
                         location.isActive = true;
                         this.rgdbdyBall.setVelocity(new f.Vector3(0, 0, 0));
                     }
@@ -261,19 +263,26 @@ var MadMaze;
 (function (MadMaze) {
     var f = FudgeCore;
     class CameraFollow {
-        nodeCamera;
         cmpCamera;
         ballNode;
         hasLocationChanged;
-        constructor(_nodeCamera, _cmpCamera, _ballNode) {
-            this.nodeCamera = _nodeCamera;
+        delayCameraX = new f.Control("delayCameraX", 1, 0 /* PROPORTIONAL */, true);
+        delayCameraY = new f.Control("delayCameraY", 1, 0 /* PROPORTIONAL */, true);
+        delayCameraZ = new f.Control("delayCameraZ", 1, 0 /* PROPORTIONAL */, true);
+        constructor(_cmpCamera, _ballNode) {
             this.cmpCamera = _cmpCamera;
             this.ballNode = _ballNode;
+            this.delayCameraX.setDelay(250);
+            this.delayCameraZ.setDelay(250);
+            this.cmpCamera.mtxPivot.translation = new f.Vector3(0, 35, 0);
             f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update);
             f.Loop.start();
         }
         update = (_event) => {
-            this.cmpCamera.mtxPivot.translation = new f.Vector3(this.ballNode.mtxWorld.translation.x, this.ballNode.mtxWorld.translation.y + 15, this.ballNode.mtxWorld.translation.z);
+            this.delayCameraX.setInput(this.ballNode.mtxWorld.translation.x);
+            this.delayCameraY.setInput(this.ballNode.mtxWorld.translation.y);
+            this.delayCameraZ.setInput(this.ballNode.mtxWorld.translation.z);
+            //this.cmpCamera.mtxPivot.translation = new f.Vector3(this.delayCameraX.getOutput(), 25, this.delayCameraZ.getOutput());
             MadMaze.locationBooleans.forEach(location => {
                 switch (location.name) {
                     case ("normal"):
@@ -368,7 +377,7 @@ var MadMaze;
         let ballManager = new MadMaze.BallManager(rgdbdyBall, startButton);
         if (f.Project.mode != f.MODE.EDITOR)
             startButton.addEventListener("click", ballManager.getAccelPermission);
-        new MadMaze.CameraFollow(camera, MadMaze.cmpCamera, rgdbdyBall.node);
+        new MadMaze.CameraFollow(MadMaze.cmpCamera, rgdbdyBall.node);
         viewport.draw();
         f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, update);
         f.Loop.start();

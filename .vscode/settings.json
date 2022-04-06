@@ -4,5 +4,6 @@
     "cert": "F:\\Server Zertifikat\\server.crt", //full path of the certificate
     "key": "F:\\Server Zertifikat\\server.key", //full path of the private key
     "passphrase": "12345"
-    }
+    },
+    "liveServer.settings.port": 5500
     }
