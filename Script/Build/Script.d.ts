@@ -5,7 +5,7 @@ declare namespace MadMaze {
         private rgdbdyBall;
         private startButton;
         private toleranceFactor;
-        private cameraRot;
+        alignment: HTMLElement;
         constructor(_rgdBdy: f.ComponentRigidbody, _startButton: HTMLElement);
         getAccelPermission: () => void;
         getMobileOperatingSystem: () => string;
@@ -21,10 +21,10 @@ declare namespace MadMaze {
     class CameraFollow {
         private cmpCamera;
         private ballNode;
-        private hasLocationChanged;
         private delayCameraX;
-        private delayCameraY;
         private delayCameraZ;
+        private delayRotX;
+        private delayRotZ;
         constructor(_cmpCamera: f.ComponentCamera, _ballNode: f.Node);
         private update;
     }
@@ -51,6 +51,17 @@ declare namespace MadMaze {
         private rndTransVel;
         constructor();
         hndEvent: (_event: Event) => void;
+        private update;
+    }
+}
+declare namespace MadMaze {
+    import f = FudgeCore;
+    class OnCollisionAlpha extends f.ComponentScript {
+        static readonly iSubclass: number;
+        constructor();
+        hndEvent: (_event: Event) => void;
+        private collisionEnter;
+        private collisionExit;
         private update;
     }
 }
