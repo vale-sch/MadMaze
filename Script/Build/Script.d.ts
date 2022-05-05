@@ -65,3 +65,14 @@ declare namespace MadMaze {
         private update;
     }
 }
+declare namespace MadMaze {
+    import f = FudgeCore;
+    class OnTriggerDisable extends f.ComponentScript {
+        static readonly iSubclass: number;
+        constructor();
+        hndEvent: (_event: Event) => void;
+        private triggerEnter;
+        private triggerExit;
+        private update;
+    }
+}

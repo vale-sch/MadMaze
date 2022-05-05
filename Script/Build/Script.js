@@ -6,7 +6,7 @@ var MadMaze;
     class BallManager {
         rgdbdyBall;
         startButton;
-        toleranceFactor = 45;
+        toleranceFactor = 30;
         alignment;
         constructor(_rgdBdy, _startButton) {
             this.rgdbdyBall = _rgdBdy;
@@ -268,8 +268,8 @@ var MadMaze;
             this.ballNode = _ballNode;
             this.delayCameraX.setDelay(350);
             this.delayCameraZ.setDelay(350);
-            this.delayRotX.setDelay(600);
-            this.delayRotZ.setDelay(600);
+            this.delayRotX.setDelay(500);
+            this.delayRotZ.setDelay(500);
             this.cmpCamera.mtxPivot.rotation = new f.Vector3(90, 0, 0);
             f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update);
             f.Loop.start();
@@ -502,23 +502,59 @@ var MadMaze;
         };
         collisionEnter = (_event) => {
             if (_event.cmpRigidbody.node.name == "Ball") {
-                this.node.getChildren().forEach(node => {
-                    node.getComponent(f.ComponentMaterial).clrPrimary.a = 1;
-                });
                 this.node.getComponent(f.ComponentMaterial).clrPrimary.a = 1;
             }
         };
         collisionExit = (_event) => {
             if (_event.cmpRigidbody.node.name == "Ball") {
-                this.node.getChildren().forEach(node => {
-                    node.getComponent(f.ComponentMaterial).clrPrimary.a = 0.1;
-                });
-                this.node.getComponent(f.ComponentMaterial).clrPrimary.a = 0.1;
+                this.node.getComponent(f.ComponentMaterial).clrPrimary.a = 0.3;
             }
         };
         update = () => {
         };
     }
     MadMaze.OnCollisionAlpha = OnCollisionAlpha;
+})(MadMaze || (MadMaze = {}));
+var MadMaze;
+(function (MadMaze) {
+    var f = FudgeCore;
+    f.Project.registerScriptNamespace(MadMaze); // Register the namespace to FUDGE for serialization
+    class OnTriggerDisable extends f.ComponentScript {
+        static iSubclass = f.Component.registerSubclass(OnTriggerDisable);
+        constructor() {
+            super();
+            if (f.Project.mode == f.MODE.EDITOR)
+                return;
+            this.addEventListener("componentAdd" /* COMPONENT_ADD */, this.hndEvent);
+            this.addEventListener("componentRemove" /* COMPONENT_REMOVE */, this.hndEvent);
+        }
+        // Activate the functions of this component as response to events
+        hndEvent = (_event) => {
+            switch (_event.type) {
+                case "componentAdd" /* COMPONENT_ADD */:
+                    f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update);
+                    this.node.getComponent(f.ComponentRigidbody).addEventListener("TriggerEnteredCollision" /* TRIGGER_ENTER */, this.triggerEnter);
+                    this.node.getComponent(f.ComponentRigidbody).addEventListener("TriggerLeftCollision" /* TRIGGER_EXIT */, this.triggerExit);
+                    break;
+                case "componentRemove" /* COMPONENT_REMOVE */:
+                    this.removeEventListener("componentAdd" /* COMPONENT_ADD */, this.hndEvent);
+                    this.removeEventListener("componentRemove" /* COMPONENT_REMOVE */, this.hndEvent);
+                    break;
+            }
+        };
+        triggerEnter = (_event) => {
+            if (_event.cmpRigidbody.node.name == "Ball") {
+                this.node.getParent().getComponent(f.ComponentRigidbody).activate(false);
+            }
+        };
+        triggerExit = (_event) => {
+            if (_event.cmpRigidbody.node.name == "Ball") {
+                this.node.getParent().getComponent(f.ComponentRigidbody).activate(true);
+            }
+        };
+        update = () => {
+        };
+    }
+    MadMaze.OnTriggerDisable = OnTriggerDisable;
 })(MadMaze || (MadMaze = {}));
 //# sourceMappingURL=Script.js.map

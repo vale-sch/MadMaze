@@ -6,7 +6,7 @@ namespace MadMaze {
         private rgdbdyBall: f.ComponentRigidbody;
         private startButton: HTMLElement;
 
-        private toleranceFactor: number = 45;
+        private toleranceFactor: number = 30;
 
         public alignment: HTMLElement;
 

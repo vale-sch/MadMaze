@@ -2,9 +2,8 @@ namespace MadMaze {
   import f = FudgeCore;
   f.Project.registerScriptNamespace(MadMaze);  // Register the namespace to FUDGE for serialization
 
-  export class OnCollisionAlpha extends f.ComponentScript {
-    public static readonly iSubclass: number = f.Component.registerSubclass(OnCollisionAlpha);
-
+  export class OnTriggerDisable extends f.ComponentScript {
+    public static readonly iSubclass: number = f.Component.registerSubclass(OnTriggerDisable);
 
 
     constructor() {
@@ -21,8 +20,8 @@ namespace MadMaze {
       switch (_event.type) {
         case f.EVENT.COMPONENT_ADD:
           f.Loop.addEventListener(f.EVENT.LOOP_FRAME, this.update);
-          this.node.getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.COLLISION_ENTER, this.collisionEnter);
-          this.node.getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.COLLISION_EXIT, this.collisionExit);
+          this.node.getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.TRIGGER_ENTER, this.triggerEnter);
+          this.node.getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.TRIGGER_EXIT, this.triggerExit);
           break;
         case f.EVENT.COMPONENT_REMOVE:
           this.removeEventListener(f.EVENT.COMPONENT_ADD, this.hndEvent);
@@ -30,15 +29,15 @@ namespace MadMaze {
           break;
       }
     }
-    private collisionEnter = (_event: f.EventPhysics): void => {
+    private triggerEnter = (_event: f.EventPhysics): void => {
       if (_event.cmpRigidbody.node.name == "Ball") {
-        this.node.getComponent(f.ComponentMaterial).clrPrimary.a = 1;
+        this.node.getParent().getComponent(f.ComponentRigidbody).activate(false);
       }
 
     }
-    private collisionExit = (_event: f.EventPhysics): void => {
+    private triggerExit = (_event: f.EventPhysics): void => {
       if (_event.cmpRigidbody.node.name == "Ball") {
-        this.node.getComponent(f.ComponentMaterial).clrPrimary.a = 0.3;
+        this.node.getParent().getComponent(f.ComponentRigidbody).activate(true);
       }
 
     }

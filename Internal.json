@@ -75,28 +75,28 @@
       }
     }
   },
-  "Material|2022-03-23T18:26:36.158Z|73061": {
+  "Material|2022-05-05T11:49:46.621Z|74501": {
     "ƒ.Material": {
-      "name": "Floor",
-      "idResource": "Material|2022-03-23T18:26:36.158Z|73061",
+      "name": "ObstacleTex",
+      "idResource": "Material|2022-05-05T11:49:46.621Z|74501",
       "shader": "ShaderGouraudTextured",
       "coat": {
         "ƒ.CoatRemissiveTextured": {
           "color": "[1, 1, 1, 1]",
-          "idTexture": "TextureImage|2022-03-24T13:35:46.433Z|04735",
+          "idTexture": "TextureImage|2022-05-05T12:23:01.085Z|00024",
           "diffuse": 1,
           "specular": 0
         }
       }
     }
   },
-  "TextureImage|2022-03-24T13:35:46.433Z|04735": {
+  "TextureImage|2022-05-05T12:23:01.085Z|00024": {
     "ƒ.TextureImage": {
-      "url": "Textures\\groundTexture.jpg",
+      "url": "Textures\\obstacleTexture.png",
       "type": "TextureImage",
       "Texture": {
-        "idResource": "TextureImage|2022-03-24T13:35:46.433Z|04735",
-        "name": "Textures\\groundTexture.jpg",
+        "idResource": "TextureImage|2022-05-05T12:23:01.085Z|00024",
+        "name": "Textures\\obstacleTexture.png",
         "mipmap": "CRISP"
       }
     }
@@ -750,13 +750,13 @@
         },
         {
           "ƒ.Node": {
-            "name": "Obstacles",
+            "name": "ObstaclesContainer",
             "active": true,
             "components": {},
             "children": [
               {
                 "ƒ.Node": {
-                  "name": "Obstacle",
+                  "name": "ObstacleParent",
                   "active": true,
                   "components": {
                     "ComponentMesh": [
@@ -766,7 +766,7 @@
                           "pivot": {
                             "translation": "[0, 0, 0]",
                             "rotation": "[0, 0, 0]",
-                            "scaling": "[8.30000114440918, 1, 19.000003814697266]"
+                            "scaling": "[9.000000953674316, 1, 19.000003814697266]"
                           },
                           "Component": {
                             "active": true
@@ -777,9 +777,9 @@
                     "ComponentMaterial": [
                       {
                         "ƒ.ComponentMaterial": {
-                          "sortForAlpha": false,
-                          "clrPrimary": "[1, 1, 1, 0.26]",
-                          "clrSecondary": "[0.9803921568627451, 0.9803921568627451, 0.9803921568627451, 1]",
+                          "sortForAlpha": true,
+                          "clrPrimary": "[0.996078431372549, 0.5254901960784314, 0.5254901960784314, 0.37]",
+                          "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
                             "translation": "[0, 0]",
                             "rotation": 0,
@@ -788,7 +788,7 @@
                           "Component": {
                             "active": true
                           },
-                          "idMaterial": "Material|2022-03-23T18:06:40.899Z|42405"
+                          "idMaterial": "Material|2022-05-05T11:49:46.621Z|74501"
                         }
                       }
                     ],
@@ -796,7 +796,7 @@
                       {
                         "ƒ.ComponentTransform": {
                           "local": {
-                            "translation": "[-0.30000001192092896, 2, 0]",
+                            "translation": "[0, 2, 0]",
                             "rotation": "[0, 0, 0]",
                             "scaling": "[1, 1, 1]"
                           },
@@ -823,7 +823,7 @@
                           "pivot": {
                             "translation": "[0, 0, 0]",
                             "rotation": "[0, 0, 0]",
-                            "scaling": "[8.30000114440918, 1, 19.000003814697266]"
+                            "scaling": "[9.000000953674316, 1, 19.000003814697266]"
                           },
                           "Component": {
                             "active": true
@@ -831,7 +831,6 @@
                         }
                       }
                     ],
-                    "CheckCollision": [],
                     "OnCollisionAlpha": [
                       {
                         "MadMaze.OnCollisionAlpha": {
@@ -853,7 +852,7 @@
                                 "pivot": {
                                   "translation": "[0, 0, 0]",
                                   "rotation": "[0, 0, 0]",
-                                  "scaling": "[0.6200008988380432, 1, 18.400005340576172]"
+                                  "scaling": "[1.3000000715255737, 1.100000023841858, 1.3000057935714722]"
                                 },
                                 "Component": {
                                   "active": true
@@ -861,29 +860,11 @@
                               }
                             }
                           ],
-                          "ComponentMaterial": [
-                            {
-                              "ƒ.ComponentMaterial": {
-                                "sortForAlpha": false,
-                                "clrPrimary": "[1, 1, 1, 0.23]",
-                                "clrSecondary": "[0.9803921568627451, 0.9803921568627451, 0.9803921568627451, 1]",
-                                "pivot": {
-                                  "translation": "[0, 0]",
-                                  "rotation": 0,
-                                  "scaling": "[1, 1]"
-                                },
-                                "Component": {
-                                  "active": true
-                                },
-                                "idMaterial": "Material|2022-03-23T18:06:40.899Z|42405"
-                              }
-                            }
-                          ],
                           "ComponentTransform": [
                             {
                               "ƒ.ComponentTransform": {
                                 "local": {
-                                  "translation": "[4.440000534057617, 0, -0.30000001192092896]",
+                                  "translation": "[3.8399996757507324, 0, -8.80000114440918]",
                                   "rotation": "[0, 0, 0]",
                                   "scaling": "[1, 1, 1]"
                                 },
@@ -905,16 +886,23 @@
                                 "effectGravity": 1,
                                 "typeBody": "STATIC",
                                 "typeCollider": "CUBE",
-                                "isTrigger": false,
+                                "isTrigger": true,
                                 "id": 6,
                                 "pivot": {
                                   "translation": "[0, 0, 0]",
                                   "rotation": "[0, 0, 0]",
-                                  "scaling": "[0.6200008988380432, 1, 18.400005340576172]"
+                                  "scaling": "[1.3000000715255737, 1.100000023841858, 1.3000057935714722]"
                                 },
                                 "Component": {
                                   "active": true
                                 }
+                              }
+                            }
+                          ],
+                          "OnTriggerDisable": [
+                            {
+                              "MadMaze.OnTriggerDisable": {
+                                "active": true
                               }
                             }
                           ]
@@ -927,7 +915,7 @@
               },
               {
                 "ƒ.Node": {
-                  "name": "Obstacle",
+                  "name": "ObstacleParent",
                   "active": true,
                   "components": {
                     "ComponentMesh": [
@@ -937,7 +925,7 @@
                           "pivot": {
                             "translation": "[0, 0, 0]",
                             "rotation": "[0, 0, 0]",
-                            "scaling": "[8.30000114440918, 1, 19.000003814697266]"
+                            "scaling": "[9.000000953674316, 1, 19.000003814697266]"
                           },
                           "Component": {
                             "active": true
@@ -948,9 +936,9 @@
                     "ComponentMaterial": [
                       {
                         "ƒ.ComponentMaterial": {
-                          "sortForAlpha": false,
-                          "clrPrimary": "[1, 1, 1, 0.25]",
-                          "clrSecondary": "[0.9803921568627451, 0.9803921568627451, 0.9803921568627451, 1]",
+                          "sortForAlpha": true,
+                          "clrPrimary": "[0.5254901960784314, 0.996078431372549, 0.9882352941176471, 0.37]",
+                          "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
                             "translation": "[0, 0]",
                             "rotation": 0,
@@ -959,7 +947,7 @@
                           "Component": {
                             "active": true
                           },
-                          "idMaterial": "Material|2022-03-23T18:06:40.899Z|42405"
+                          "idMaterial": "Material|2022-05-05T12:35:06.519Z|27815"
                         }
                       }
                     ],
@@ -967,8 +955,8 @@
                       {
                         "ƒ.ComponentTransform": {
                           "local": {
-                            "translation": "[0.30000001192092896, 3.999999523162842, 0]",
-                            "rotation": "[0, 180, 0]",
+                            "translation": "[0, 4, 0]",
+                            "rotation": "[0, 0, 0]",
                             "scaling": "[1, 1, 1]"
                           },
                           "Component": {
@@ -994,7 +982,7 @@
                           "pivot": {
                             "translation": "[0, 0, 0]",
                             "rotation": "[0, 0, 0]",
-                            "scaling": "[8.30000114440918, 1, 19.000003814697266]"
+                            "scaling": "[9.000000953674316, 1, 19.000003814697266]"
                           },
                           "Component": {
                             "active": true
@@ -1023,7 +1011,7 @@
                                 "pivot": {
                                   "translation": "[0, 0, 0]",
                                   "rotation": "[0, 0, 0]",
-                                  "scaling": "[0.6200008988380432, 1, 18.400005340576172]"
+                                  "scaling": "[1.3000000715255737, 1.0999999046325684, 1.3000057935714722]"
                                 },
                                 "Component": {
                                   "active": true
@@ -1031,29 +1019,11 @@
                               }
                             }
                           ],
-                          "ComponentMaterial": [
-                            {
-                              "ƒ.ComponentMaterial": {
-                                "sortForAlpha": false,
-                                "clrPrimary": "[1, 1, 1, 0.26]",
-                                "clrSecondary": "[0.9803921568627451, 0.9803921568627451, 0.9803921568627451, 1]",
-                                "pivot": {
-                                  "translation": "[0, 0]",
-                                  "rotation": 0,
-                                  "scaling": "[1, 1]"
-                                },
-                                "Component": {
-                                  "active": true
-                                },
-                                "idMaterial": "Material|2022-03-23T18:06:40.899Z|42405"
-                              }
-                            }
-                          ],
                           "ComponentTransform": [
                             {
                               "ƒ.ComponentTransform": {
                                 "local": {
-                                  "translation": "[4.440000534057617, 0, -0.29999998211860657]",
+                                  "translation": "[-3.8399996757507324, 0, 8.800000190734863]",
                                   "rotation": "[0, 0, 0]",
                                   "scaling": "[1, 1, 1]"
                                 },
@@ -1075,16 +1045,23 @@
                                 "effectGravity": 1,
                                 "typeBody": "STATIC",
                                 "typeCollider": "CUBE",
-                                "isTrigger": false,
+                                "isTrigger": true,
                                 "id": 6,
                                 "pivot": {
                                   "translation": "[0, 0, 0]",
                                   "rotation": "[0, 0, 0]",
-                                  "scaling": "[0.6200008988380432, 1, 18.400005340576172]"
+                                  "scaling": "[1.3000000715255737, 1.0999999046325684, 1.3000057935714722]"
                                 },
                                 "Component": {
                                   "active": true
                                 }
+                              }
+                            }
+                          ],
+                          "OnTriggerDisable": [
+                            {
+                              "MadMaze.OnTriggerDisable": {
+                                "active": true
                               }
                             }
                           ]
@@ -1097,7 +1074,7 @@
               },
               {
                 "ƒ.Node": {
-                  "name": "Obstacle",
+                  "name": "ObstacleParent",
                   "active": true,
                   "components": {
                     "ComponentMesh": [
@@ -1107,7 +1084,7 @@
                           "pivot": {
                             "translation": "[0, 0, 0]",
                             "rotation": "[0, 0, 0]",
-                            "scaling": "[8.30000114440918, 1, 19.000003814697266]"
+                            "scaling": "[9.000000953674316, 1, 19.000003814697266]"
                           },
                           "Component": {
                             "active": true
@@ -1118,9 +1095,9 @@
                     "ComponentMaterial": [
                       {
                         "ƒ.ComponentMaterial": {
-                          "sortForAlpha": false,
-                          "clrPrimary": "[1, 1, 1, 0.27]",
-                          "clrSecondary": "[0.9803921568627451, 0.9803921568627451, 0.9803921568627451, 1]",
+                          "sortForAlpha": true,
+                          "clrPrimary": "[0, 1, 0.5176470588235295, 0.37]",
+                          "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
                             "translation": "[0, 0]",
                             "rotation": 0,
@@ -1129,7 +1106,7 @@
                           "Component": {
                             "active": true
                           },
-                          "idMaterial": "Material|2022-03-23T18:06:40.899Z|42405"
+                          "idMaterial": "Material|2022-05-05T12:39:19.208Z|19488"
                         }
                       }
                     ],
@@ -1137,8 +1114,8 @@
                       {
                         "ƒ.ComponentTransform": {
                           "local": {
-                            "translation": "[0.30000001192092896, 6.999999523162842, 0]",
-                            "rotation": "[0, 180, 0]",
+                            "translation": "[0, 6, 0]",
+                            "rotation": "[0, 0, 0]",
                             "scaling": "[1, 1, 1]"
                           },
                           "Component": {
@@ -1164,7 +1141,7 @@
                           "pivot": {
                             "translation": "[0, 0, 0]",
                             "rotation": "[0, 0, 0]",
-                            "scaling": "[8.30000114440918, 1, 19.000003814697266]"
+                            "scaling": "[9.000000953674316, 1, 19.000003814697266]"
                           },
                           "Component": {
                             "active": true
@@ -1193,7 +1170,7 @@
                                 "pivot": {
                                   "translation": "[0, 0, 0]",
                                   "rotation": "[0, 0, 0]",
-                                  "scaling": "[0.6200008988380432, 1, 18.400005340576172]"
+                                  "scaling": "[1.3000000715255737, 1.0999999046325684, 1.3000057935714722]"
                                 },
                                 "Component": {
                                   "active": true
@@ -1201,29 +1178,11 @@
                               }
                             }
                           ],
-                          "ComponentMaterial": [
-                            {
-                              "ƒ.ComponentMaterial": {
-                                "sortForAlpha": false,
-                                "clrPrimary": "[1, 1, 1, 0.24]",
-                                "clrSecondary": "[0.9803921568627451, 0.9803921568627451, 0.9803921568627451, 1]",
-                                "pivot": {
-                                  "translation": "[0, 0]",
-                                  "rotation": 0,
-                                  "scaling": "[1, 1]"
-                                },
-                                "Component": {
-                                  "active": true
-                                },
-                                "idMaterial": "Material|2022-03-23T18:06:40.899Z|42405"
-                              }
-                            }
-                          ],
                           "ComponentTransform": [
                             {
                               "ƒ.ComponentTransform": {
                                 "local": {
-                                  "translation": "[4.440000534057617, 0, 0.30000001192092896]",
+                                  "translation": "[3.8399999141693115, 0, 8.800000190734863]",
                                   "rotation": "[0, 0, 0]",
                                   "scaling": "[1, 1, 1]"
                                 },
@@ -1245,16 +1204,23 @@
                                 "effectGravity": 1,
                                 "typeBody": "STATIC",
                                 "typeCollider": "CUBE",
-                                "isTrigger": false,
+                                "isTrigger": true,
                                 "id": 6,
                                 "pivot": {
                                   "translation": "[0, 0, 0]",
                                   "rotation": "[0, 0, 0]",
-                                  "scaling": "[0.6200008988380432, 1, 18.400005340576172]"
+                                  "scaling": "[1.3000000715255737, 1.0999999046325684, 1.3000057935714722]"
                                 },
                                 "Component": {
                                   "active": true
                                 }
+                              }
+                            }
+                          ],
+                          "OnTriggerDisable": [
+                            {
+                              "MadMaze.OnTriggerDisable": {
+                                "active": true
                               }
                             }
                           ]
@@ -1267,7 +1233,7 @@
               },
               {
                 "ƒ.Node": {
-                  "name": "Obstacle",
+                  "name": "ObstacleParent",
                   "active": true,
                   "components": {
                     "ComponentMesh": [
@@ -1277,7 +1243,7 @@
                           "pivot": {
                             "translation": "[0, 0, 0]",
                             "rotation": "[0, 0, 0]",
-                            "scaling": "[8.30000114440918, 1, 19.000003814697266]"
+                            "scaling": "[9.000000953674316, 1, 19.000003814697266]"
                           },
                           "Component": {
                             "active": true
@@ -1288,9 +1254,9 @@
                     "ComponentMaterial": [
                       {
                         "ƒ.ComponentMaterial": {
-                          "sortForAlpha": false,
-                          "clrPrimary": "[1, 1, 1, 0.25]",
-                          "clrSecondary": "[0.9803921568627451, 0.9803921568627451, 0.9803921568627451, 1]",
+                          "sortForAlpha": true,
+                          "clrPrimary": "[0.8823529411764706, 1, 0, 0.37]",
+                          "clrSecondary": "[1, 1, 1, 1]",
                           "pivot": {
                             "translation": "[0, 0]",
                             "rotation": 0,
@@ -1299,7 +1265,7 @@
                           "Component": {
                             "active": true
                           },
-                          "idMaterial": "Material|2022-03-23T18:06:40.899Z|42405"
+                          "idMaterial": "Material|2022-05-05T12:37:05.575Z|73477"
                         }
                       }
                     ],
@@ -1307,8 +1273,8 @@
                       {
                         "ƒ.ComponentTransform": {
                           "local": {
-                            "translation": "[-0.30000001192092896, 10, 0]",
-                            "rotation": "[0, 180, 179]",
+                            "translation": "[0, 8, 0]",
+                            "rotation": "[0, 0, 0]",
                             "scaling": "[1, 1, 1]"
                           },
                           "Component": {
@@ -1334,7 +1300,7 @@
                           "pivot": {
                             "translation": "[0, 0, 0]",
                             "rotation": "[0, 0, 0]",
-                            "scaling": "[8.30000114440918, 1, 19.000003814697266]"
+                            "scaling": "[9.000000953674316, 1, 19.000003814697266]"
                           },
                           "Component": {
                             "active": true
@@ -1363,7 +1329,7 @@
                                 "pivot": {
                                   "translation": "[0, 0, 0]",
                                   "rotation": "[0, 0, 0]",
-                                  "scaling": "[0.6200008988380432, 1, 18.400005340576172]"
+                                  "scaling": "[1.3000000715255737, 1.0999999046325684, 1.3000057935714722]"
                                 },
                                 "Component": {
                                   "active": true
@@ -1371,29 +1337,11 @@
                               }
                             }
                           ],
-                          "ComponentMaterial": [
-                            {
-                              "ƒ.ComponentMaterial": {
-                                "sortForAlpha": false,
-                                "clrPrimary": "[1, 1, 1, 0.27]",
-                                "clrSecondary": "[0.9803921568627451, 0.9803921568627451, 0.9803921568627451, 1]",
-                                "pivot": {
-                                  "translation": "[0, 0]",
-                                  "rotation": 0,
-                                  "scaling": "[1, 1]"
-                                },
-                                "Component": {
-                                  "active": true
-                                },
-                                "idMaterial": "Material|2022-03-23T18:06:40.899Z|42405"
-                              }
-                            }
-                          ],
                           "ComponentTransform": [
                             {
                               "ƒ.ComponentTransform": {
                                 "local": {
-                                  "translation": "[4.440001487731934, 0, -0.30000001192092896]",
+                                  "translation": "[-3.8399999141693115, 0, -8.800000190734863]",
                                   "rotation": "[0, 0, 0]",
                                   "scaling": "[1, 1, 1]"
                                 },
@@ -1415,16 +1363,23 @@
                                 "effectGravity": 1,
                                 "typeBody": "STATIC",
                                 "typeCollider": "CUBE",
-                                "isTrigger": false,
+                                "isTrigger": true,
                                 "id": 6,
                                 "pivot": {
                                   "translation": "[0, 0, 0]",
                                   "rotation": "[0, 0, 0]",
-                                  "scaling": "[0.6200008988380432, 1, 18.400005340576172]"
+                                  "scaling": "[1.3000000715255737, 1.0999999046325684, 1.3000057935714722]"
                                 },
                                 "Component": {
                                   "active": true
                                 }
+                              }
+                            }
+                          ],
+                          "OnTriggerDisable": [
+                            {
+                              "MadMaze.OnTriggerDisable": {
+                                "active": true
                               }
                             }
                           ]
@@ -1513,6 +1468,84 @@
       ],
       "idResource": "Graph|2022-03-16T16:05:06.910Z|36331",
       "type": "Graph"
+    }
+  },
+  "TextureImage|2022-05-05T12:33:58.099Z|42030": {
+    "ƒ.TextureImage": {
+      "url": "Textures\\obstacleTextureMirrorHor.png",
+      "type": "TextureImage",
+      "Texture": {
+        "idResource": "TextureImage|2022-05-05T12:33:58.099Z|42030",
+        "name": "Textures\\obstacleTextureMirrorHor.png",
+        "mipmap": "CRISP"
+      }
+    }
+  },
+  "TextureImage|2022-05-05T12:34:02.093Z|58313": {
+    "ƒ.TextureImage": {
+      "url": "Textures\\obstacleTextureMirrorVert.png",
+      "type": "TextureImage",
+      "Texture": {
+        "idResource": "TextureImage|2022-05-05T12:34:02.093Z|58313",
+        "name": "Textures\\obstacleTextureMirrorVert.png",
+        "mipmap": "CRISP"
+      }
+    }
+  },
+  "TextureImage|2022-05-05T12:34:16.842Z|53622": {
+    "ƒ.TextureImage": {
+      "url": "Textures\\obstacleTextureMirrorVertHor.png",
+      "type": "TextureImage",
+      "Texture": {
+        "idResource": "TextureImage|2022-05-05T12:34:16.842Z|53622",
+        "name": "Textures\\obstacleTextureMirrorVertHor.png",
+        "mipmap": "CRISP"
+      }
+    }
+  },
+  "Material|2022-05-05T12:35:06.519Z|27815": {
+    "ƒ.Material": {
+      "name": "ObstacleTexHor",
+      "idResource": "Material|2022-05-05T12:35:06.519Z|27815",
+      "shader": "ShaderGouraudTextured",
+      "coat": {
+        "ƒ.CoatRemissiveTextured": {
+          "color": "[1, 1, 1, 1]",
+          "idTexture": "TextureImage|2022-05-05T12:33:58.099Z|42030",
+          "diffuse": 1,
+          "specular": 0
+        }
+      }
+    }
+  },
+  "Material|2022-05-05T12:37:05.575Z|73477": {
+    "ƒ.Material": {
+      "name": "ObstacleTexVer",
+      "idResource": "Material|2022-05-05T12:37:05.575Z|73477",
+      "shader": "ShaderGouraudTextured",
+      "coat": {
+        "ƒ.CoatRemissiveTextured": {
+          "color": "[1, 1, 1, 1]",
+          "idTexture": "TextureImage|2022-05-05T12:34:02.093Z|58313",
+          "diffuse": 1,
+          "specular": 0
+        }
+      }
+    }
+  },
+  "Material|2022-05-05T12:39:19.208Z|19488": {
+    "ƒ.Material": {
+      "name": "ObstacleTexVerHor",
+      "idResource": "Material|2022-05-05T12:39:19.208Z|19488",
+      "shader": "ShaderGouraudTextured",
+      "coat": {
+        "ƒ.CoatRemissiveTextured": {
+          "color": "[1, 1, 1, 1]",
+          "idTexture": "TextureImage|2022-05-05T12:34:16.842Z|53622",
+          "diffuse": 1,
+          "specular": 0
+        }
+      }
     }
   }
 }

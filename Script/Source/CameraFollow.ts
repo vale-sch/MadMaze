@@ -12,8 +12,8 @@ namespace MadMaze {
             this.ballNode = _ballNode;
             this.delayCameraX.setDelay(350);
             this.delayCameraZ.setDelay(350);
-            this.delayRotX.setDelay(600);
-            this.delayRotZ.setDelay(600);
+            this.delayRotX.setDelay(500);
+            this.delayRotZ.setDelay(500);
             this.cmpCamera.mtxPivot.rotation = new f.Vector3(90, 0, 0);
             f.Loop.addEventListener(f.EVENT.LOOP_FRAME, this.update);
             f.Loop.start();
