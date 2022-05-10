@@ -1,6 +1,7 @@
 import f = FudgeCore;
 namespace MadMaze {
     export let locationBooleans: LocationBool[] = new Array<LocationBool>();
+    export let spawnPoint: f.Vector3 = f.Vector3.ZERO();
     export class BallManager {
 
         private rgdbdyBall: f.ComponentRigidbody;
@@ -16,8 +17,16 @@ namespace MadMaze {
             this.alignment = document.getElementById("alignment");
             this.alignment.style.fontSize = "48px";
             this.alignment.style.fontWeight = "bold";
+            f.Loop.addEventListener(f.EVENT.LOOP_FRAME, this.update);
+            f.Loop.start();
         }
+        private update = (_event: Event): void => {
+            if (this.rgdbdyBall.getPosition().y < -1) {
+                this.rgdbdyBall.setPosition(spawnPoint);
+                this.rgdbdyBall.setVelocity(f.Vector3.ZERO());
+            }
 
+        }
         public getAccelPermission = (): void => {
             let device: string = this.getMobileOperatingSystem();
             console.log(device);
@@ -125,62 +134,64 @@ namespace MadMaze {
                  cmpCamera.mtxPivot.rotateX(-event.beta / 250);*/
             this.checkForOrientation(event);
         }
-
+        private gamma: number = 0;
+        private beta: number = 0;
         public applyForceAlongDirection = (event: DeviceOrientationEvent): void => {
-
+            this.gamma = event.gamma / 2;
+            this.beta = event.beta / 2;
             locationBooleans.forEach(location => {
                 switch (location.name) {
                     case ("normal"):
                         if (location.isActive)
-                            this.rgdbdyBall.applyForce(new f.Vector3(-event.gamma, -5, -event.beta));
+                            this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, -5, -this.beta));
                         break;
 
                     case ("rightSide"):
                         if (location.isActive) {
                             if (Math.abs(event.beta) > 100) {
-                                this.rgdbdyBall.applyForce(new f.Vector3(event.gamma / 4, 750 / Math.abs(event.gamma), -event.beta / 15));
+                                this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 4, 750 / Math.abs(this.gamma), -this.beta / 15));
                                 return;
                             }
-                            this.rgdbdyBall.applyForce(new f.Vector3(-event.gamma / 4, event.gamma / 10, -event.beta));
+                            this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma / 4, this.gamma / 10, -this.beta));
                         }
                         break;
 
                     case ("leftSide"):
                         if (location.isActive) {
                             if (Math.abs(event.beta) > 100) {
-                                this.rgdbdyBall.applyForce(new f.Vector3(event.gamma / 4, 750 / Math.abs(event.gamma), -event.beta / 15));
+                                this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 4, 750 / Math.abs(this.gamma), -this.beta / 15));
                                 return;
                             }
-                            this.rgdbdyBall.applyForce(new f.Vector3(-event.gamma / 4, -event.gamma / 10, -event.beta));
+                            this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma / 4, -this.gamma / 10, -this.beta));
                         }
                         break;
 
                     case ("setUpReversed"):
                         if (location.isActive) {
                             if (event.beta > -90)
-                                this.rgdbdyBall.applyForce(new f.Vector3(-event.gamma / 2, -event.beta / 6, -event.beta));
+                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, -this.beta / 2, -this.beta));
                             else
-                                this.rgdbdyBall.applyForce(new f.Vector3(event.gamma / 2, -event.beta / 6, -event.beta));
+                                this.rgdbdyBall.applyForce(new f.Vector3(this.gamma, -this.beta / 2, -this.beta));
                         }
                         break;
 
                     case ("setUpNormal"):
                         if (location.isActive) {
                             if (event.beta < 90)
-                                this.rgdbdyBall.applyForce(new f.Vector3(-event.gamma / 2, event.beta / 6, -event.beta));
+                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma / 2, this.beta / 6, -this.beta));
                             else
-                                this.rgdbdyBall.applyForce(new f.Vector3(event.gamma / 2, event.beta / 6, -event.beta));
+                                this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 2, this.beta / 6, -this.beta));
                         }
                         break;
 
                     case ("overHead"):
                         if (location.isActive)
-                            this.rgdbdyBall.applyForce(new f.Vector3(-event.gamma, event.beta / 5, event.beta));
+                            this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, this.beta / 5, this.beta));
                         break;
 
                     case ("overHeadReversed"):
                         if (location.isActive)
-                            this.rgdbdyBall.applyForce(new f.Vector3(-event.gamma, -event.beta / 5, -event.beta));
+                            this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, -this.beta / 5, -this.beta));
                         break;
 
                 }
@@ -259,7 +270,7 @@ namespace MadMaze {
                     if (location.name == "overHead") {
                         this.alignment.innerHTML = "Alignment: " + location.name;
                         location.isActive = true;
-                        this.rgdbdyBall.setVelocity(new f.Vector3(0, 0, 0));
+                        //this.rgdbdyBall.setVelocity(new f.Vector3(0, 0, 0));
                     }
                     else
                         location.isActive = false;
@@ -272,7 +283,7 @@ namespace MadMaze {
                     if (location.name == "overHeadReversed") {
                         this.alignment.innerHTML = "Alignment: " + location.name;
                         location.isActive = true;
-                        this.rgdbdyBall.setVelocity(new f.Vector3(0, 0, 0));
+                        // this.rgdbdyBall.setVelocity(new f.Vector3(0, 0, 0));
                     }
                     else
                         location.isActive = false;

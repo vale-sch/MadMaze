@@ -2,9 +2,8 @@ namespace MadMaze {
   import f = FudgeCore;
   f.Project.registerScriptNamespace(MadMaze);  // Register the namespace to FUDGE for serialization
 
-  export class OnCollisionAlpha extends f.ComponentScript {
-    public static readonly iSubclass: number = f.Component.registerSubclass(OnCollisionAlpha);
-
+  export class OnCollisionStop extends f.ComponentScript {
+    public static readonly iSubclass: number = f.Component.registerSubclass(OnCollisionStop);
 
 
     constructor() {
@@ -13,14 +12,12 @@ namespace MadMaze {
         return;
       this.addEventListener(f.EVENT.COMPONENT_ADD, this.hndEvent);
       this.addEventListener(f.EVENT.COMPONENT_REMOVE, this.hndEvent);
-
     }
 
     // Activate the functions of this component as response to events
     public hndEvent = (_event: Event): void => {
       switch (_event.type) {
         case f.EVENT.COMPONENT_ADD:
-          f.Loop.addEventListener(f.EVENT.LOOP_FRAME, this.update);
           this.node.getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.COLLISION_ENTER, this.collisionEnter);
           this.node.getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.COLLISION_EXIT, this.collisionExit);
           break;
@@ -32,17 +29,14 @@ namespace MadMaze {
     }
     private collisionEnter = (_event: f.EventPhysics): void => {
       if (_event.cmpRigidbody.node.name == "Ball") {
-        this.node.getComponent(f.ComponentMaterial).clrPrimary.a = 1;
+        rgdbdyBall.setVelocity(f.Vector3.ZERO());
       }
 
     }
     private collisionExit = (_event: f.EventPhysics): void => {
       if (_event.cmpRigidbody.node.name == "Ball") {
-        this.node.getComponent(f.ComponentMaterial).clrPrimary.a = 0.3;
+        rgdbdyBall.setVelocity(f.Vector3.ZERO());
       }
-
-    }
-    private update = (): void => {
 
     }
   }
