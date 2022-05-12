@@ -4,20 +4,13 @@ declare namespace MadMaze {
     let spawnPoint: f.Vector3;
     class BallManager {
         private rgdbdyBall;
-        private startButton;
-        private toleranceFactor;
         alignment: HTMLElement;
-        constructor(_rgdBdy: f.ComponentRigidbody, _startButton: HTMLElement);
+        constructor(_rgdBdy: f.ComponentRigidbody);
         private update;
-        getAccelPermission: () => void;
-        getMobileOperatingSystem: () => string;
-        createButtons(): void;
-        createArray(): void;
-        deviceOrientationDistributor: (event: DeviceOrientationEvent) => void;
         private gamma;
         private beta;
+        private speed;
         applyForceAlongDirection: (event: DeviceOrientationEvent) => void;
-        checkForOrientation: (event: DeviceOrientationEvent) => void;
     }
 }
 declare namespace MadMaze {
@@ -34,6 +27,21 @@ declare namespace MadMaze {
     }
 }
 declare namespace MadMaze {
+    class DeviceManager {
+        private startButton;
+        private ballManager;
+        private toleranceFactor;
+        alignment: HTMLElement;
+        constructor(_startButton: HTMLElement, _ballManager: BallManager);
+        getAccelPermission: () => void;
+        getMobileOperatingSystem: () => string;
+        createButtons(): void;
+        createArray(): void;
+        deviceOrientationDistributor: (event: DeviceOrientationEvent) => void;
+        checkForOrientation: (event: DeviceOrientationEvent) => void;
+    }
+}
+declare namespace MadMaze {
     class LocationBool {
         isActive: boolean;
         name: string;
@@ -42,6 +50,7 @@ declare namespace MadMaze {
 }
 declare namespace MadMaze {
     import f = FudgeCore;
+    let madeMazeGraph: f.Graph;
     let rgdbdyBall: f.ComponentRigidbody;
     let cmpCamera: f.ComponentCamera;
 }
@@ -63,10 +72,11 @@ declare namespace MadMaze {
     import f = FudgeCore;
     class OnCollisionStop extends f.ComponentScript {
         static readonly iSubclass: number;
+        hasToChangeAngle: string;
         constructor();
         hndEvent: (_event: Event) => void;
-        private collisionEnter;
-        private collisionExit;
+        private OnTriggerEnter;
+        private OnTriggerExit;
     }
 }
 declare namespace MadMaze {

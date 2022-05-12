@@ -3,10 +3,10 @@ namespace MadMaze {
     export class CameraFollow {
         private cmpCamera: f.ComponentCamera;
         private ballNode: f.Node;
-        private delayCameraX: f.Control = new f.Control("delayCameraX", 1, f.CONTROL_TYPE.PROPORTIONAL, true);
-        private delayCameraZ: f.Control = new f.Control("delayCameraZ", 1, f.CONTROL_TYPE.PROPORTIONAL, true);
-        private delayRotX: f.Control = new f.Control("delayRotX", 1, f.CONTROL_TYPE.PROPORTIONAL, true);
-        private delayRotZ: f.Control = new f.Control("delayRotZ", 1, f.CONTROL_TYPE.PROPORTIONAL, true);
+        private delayCameraX: f.Control = new f.Control("delayCameraX", 1, f.CONTROL_TYPE.PROPORTIONAL);
+        private delayCameraZ: f.Control = new f.Control("delayCameraZ", 1, f.CONTROL_TYPE.PROPORTIONAL);
+        private delayRotX: f.Control = new f.Control("delayRotX", 1, f.CONTROL_TYPE.PROPORTIONAL);
+        private delayRotZ: f.Control = new f.Control("delayRotZ", 1, f.CONTROL_TYPE.PROPORTIONAL);
         constructor(_cmpCamera: f.ComponentCamera, _ballNode: f.Node) {
             this.cmpCamera = _cmpCamera;
             this.ballNode = _ballNode;
@@ -26,7 +26,7 @@ namespace MadMaze {
                             this.delayCameraX.setInput(this.ballNode.mtxWorld.translation.x);
                             this.delayCameraZ.setInput(this.ballNode.mtxWorld.translation.z - 5);
                             this.cmpCamera.mtxPivot.translation = new f.Vector3(this.delayCameraX.getOutput(), this.ballNode.mtxWorld.translation.y + 10, this.delayCameraZ.getOutput());
-                            this.delayRotX.setInput(45);
+                            this.delayRotX.setInput(50);
                             this.delayRotZ.setInput(0);
                             this.cmpCamera.mtxPivot.rotation = new f.Vector3(this.delayRotX.getOutput(), 0, this.delayRotZ.getOutput());
 
@@ -71,7 +71,7 @@ namespace MadMaze {
                             this.delayCameraX.setInput(this.ballNode.mtxWorld.translation.x);
                             this.delayCameraZ.setInput(this.ballNode.mtxWorld.translation.z + 10);
                             this.cmpCamera.mtxPivot.translation = new f.Vector3(this.delayCameraX.getOutput(), this.ballNode.mtxWorld.translation.y + 10, this.delayCameraZ.getOutput());
-                            this.delayRotX.setInput(115);
+                            this.delayRotX.setInput(65);
                             this.delayRotZ.setInput(0);
 
                             this.cmpCamera.mtxPivot.rotation = new f.Vector3(this.delayRotX.getOutput(), 0, this.delayCameraZ.getOutput());

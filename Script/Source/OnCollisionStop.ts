@@ -4,7 +4,7 @@ namespace MadMaze {
 
   export class OnCollisionStop extends f.ComponentScript {
     public static readonly iSubclass: number = f.Component.registerSubclass(OnCollisionStop);
-
+    public hasToChangeAngle: string;
 
     constructor() {
       super();
@@ -18,8 +18,8 @@ namespace MadMaze {
     public hndEvent = (_event: Event): void => {
       switch (_event.type) {
         case f.EVENT.COMPONENT_ADD:
-          this.node.getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.COLLISION_ENTER, this.collisionEnter);
-          this.node.getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.COLLISION_EXIT, this.collisionExit);
+          this.node.getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.TRIGGER_ENTER, this.OnTriggerEnter);
+          this.node.getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.TRIGGER_EXIT, this.OnTriggerExit);
           break;
         case f.EVENT.COMPONENT_REMOVE:
           this.removeEventListener(f.EVENT.COMPONENT_ADD, this.hndEvent);
@@ -27,15 +27,20 @@ namespace MadMaze {
           break;
       }
     }
-    private collisionEnter = (_event: f.EventPhysics): void => {
+    private OnTriggerEnter = (_event: f.EventPhysics): void => {
       if (_event.cmpRigidbody.node.name == "Ball") {
         rgdbdyBall.setVelocity(f.Vector3.ZERO());
       }
 
     }
-    private collisionExit = (_event: f.EventPhysics): void => {
+    private OnTriggerExit = (_event: f.EventPhysics): void => {
       if (_event.cmpRigidbody.node.name == "Ball") {
         rgdbdyBall.setVelocity(f.Vector3.ZERO());
+        this.node.activate(false);
+        this.node.getComponent(f.ComponentRigidbody).activate(false);
+        if (this.hasToChangeAngle == "rotate") {
+          cmpCamera.mtxPivot.rotateX(45);
+        }
       }
 
     }

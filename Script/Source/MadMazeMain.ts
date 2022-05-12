@@ -5,7 +5,7 @@ namespace MadMaze {
   f.Debug.info("Main Program Template running!");
   f.Project.registerScriptNamespace(MadMaze);
   let viewport: f.Viewport;
-  let madeMazeGraph: f.Graph;
+  export let madeMazeGraph: f.Graph;
   export let rgdbdyBall: f.ComponentRigidbody;
   export let cmpCamera: f.ComponentCamera;
   let camera: f.Node;
@@ -35,9 +35,9 @@ namespace MadMaze {
 
     rgdbdyBall = madeMazeGraph.getChildrenByName("Ball")[0].getComponent(f.ComponentRigidbody);
     spawnPoint = madeMazeGraph.getChildrenByName("Level1")[0].getChild(0).getComponent(f.ComponentTransform).mtxLocal.translation;
-    let ballManager: BallManager = new BallManager(rgdbdyBall, startButton);
+    let deviceManager: DeviceManager = new DeviceManager(startButton, new BallManager(rgdbdyBall));
     if (f.Project.mode != f.MODE.EDITOR)
-      startButton.addEventListener("click", ballManager.getAccelPermission);
+      startButton.addEventListener("click", deviceManager.getAccelPermission);
     new CameraFollow(cmpCamera, rgdbdyBall.node);
     viewport.draw();
     f.Loop.addEventListener(f.EVENT.LOOP_FRAME, update);
