@@ -85,9 +85,9 @@ namespace MadMaze {
                     case ("setUpNormal"):
                         if (location.isActive) {
                             if (event.beta < 90)
-                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma / 2, this.beta / 6, -this.beta));
+                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma / 2, this.beta / 2, -this.beta));
                             else
-                                this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 2, this.beta / 6, -this.beta));
+                                this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 2, this.beta / 2, -this.beta));
                         }
                         break;
 

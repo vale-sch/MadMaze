@@ -16,13 +16,14 @@ declare namespace MadMaze {
 declare namespace MadMaze {
     import f = FudgeCore;
     class CameraFollow {
+        private cameraParent;
         private cmpCamera;
         private ballNode;
-        private delayCameraX;
-        private delayCameraZ;
-        private delayRotX;
-        private delayRotZ;
-        constructor(_cmpCamera: f.ComponentCamera, _ballNode: f.Node);
+        private delayCameraTransX;
+        private delayCameraTransZ;
+        private delayCameraRotX;
+        private delayCameraRotZ;
+        constructor(_cmpCamera: f.Node, _cameraParent: f.Node, _ballNode: f.Node);
         private update;
     }
 }
@@ -53,6 +54,7 @@ declare namespace MadMaze {
     let madeMazeGraph: f.Graph;
     let rgdbdyBall: f.ComponentRigidbody;
     let cmpCamera: f.ComponentCamera;
+    let cameraParent: f.Node;
 }
 declare namespace MadMaze {
     import f = FudgeCore;

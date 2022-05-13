@@ -39,7 +39,7 @@ namespace MadMaze {
         this.node.activate(false);
         this.node.getComponent(f.ComponentRigidbody).activate(false);
         if (this.hasToChangeAngle == "rotate") {
-          cmpCamera.mtxPivot.rotateX(45);
+          // cmpCamera.mtxPivot.rotateZ(-90);
         }
       }
 
