@@ -6,14 +6,10 @@ namespace MadMaze {
         private ballManager: BallManager;
         private toleranceFactor: number = 30;
 
-        public alignment: HTMLElement;
 
         constructor(_startButton: HTMLElement, _ballManager: BallManager) {
             this.ballManager = _ballManager;
             this.startButton = _startButton;
-            this.alignment = document.getElementById("alignment");
-            this.alignment.style.fontSize = "48px";
-            this.alignment.style.fontWeight = "bold";
         }
 
         public getAccelPermission = (): void => {
@@ -117,10 +113,8 @@ namespace MadMaze {
             //normal
             if (event.beta - this.toleranceFactor < 20 && event.beta + this.toleranceFactor > 20 && event.gamma - this.toleranceFactor < 20 && event.gamma + this.toleranceFactor > 20) {
                 for (let orientation of orientations) {
-                    if (orientation.alignment == Alignment.NORMAL) {
-                        this.alignment.innerHTML = "Alignment: " + orientation.alignment;
+                    if (orientation.alignment == Alignment.NORMAL)
                         orientation.isActive = true;
-                    }
                     else
                         orientation.isActive = false;
                 }
@@ -134,7 +128,6 @@ namespace MadMaze {
                             if (location.alignment == Alignment.LEFTSIDE && location.isActive)
                                 return;
                         }
-                        this.alignment.innerHTML = "Alignment: " + location.alignment;
                         location.isActive = true;
                     }
                     else
@@ -146,10 +139,8 @@ namespace MadMaze {
             if (event.gamma - this.toleranceFactor < -90 && event.gamma + this.toleranceFactor > -90) {
                 for (let location of orientations) {
                     if (location.alignment == Alignment.RIGHTSIDE && location.isActive) return;
-                    if (location.alignment == Alignment.LEFTSIDE) {
-                        this.alignment.innerHTML = "Alignment: " + location.alignment;
+                    if (location.alignment == Alignment.LEFTSIDE)
                         location.isActive = true;
-                    }
                     else
                         location.isActive = false;
                 }
@@ -158,10 +149,8 @@ namespace MadMaze {
             //setUpReversed
             if (event.beta - this.toleranceFactor < -90 && event.beta + this.toleranceFactor > -90) {
                 for (let location of orientations) {
-                    if (location.alignment == Alignment.SETUPREVERSED) {
-                        this.alignment.innerHTML = "Alignment: " + location.alignment;
+                    if (location.alignment == Alignment.SETUPREVERSED)
                         location.isActive = true;
-                    }
                     else
                         location.isActive = false;
                 }
@@ -170,10 +159,8 @@ namespace MadMaze {
             //setUpNormal
             if (event.beta - this.toleranceFactor < 90 && event.beta + this.toleranceFactor > 90) {
                 for (let location of orientations) {
-                    if (location.alignment == Alignment.SETUPNORMAL) {
-                        this.alignment.innerHTML = "Alignment: " + location.alignment;
+                    if (location.alignment == Alignment.SETUPNORMAL)
                         location.isActive = true;
-                    }
                     else
                         location.isActive = false;
                 }
@@ -182,11 +169,8 @@ namespace MadMaze {
             //overhead
             if (event.beta - this.toleranceFactor < 180 && event.beta + this.toleranceFactor > 180 && event.gamma - this.toleranceFactor < 0 && event.gamma + this.toleranceFactor > 0) {
                 for (let location of orientations) {
-                    if (location.alignment == Alignment.OVERHEAD) {
-                        this.alignment.innerHTML = "Alignment: " + location.alignment;
+                    if (location.alignment == Alignment.OVERHEAD)
                         location.isActive = true;
-                        //this.rgdbdyBall.setVelocity(new f.Vector3(0, 0, 0));
-                    }
                     else
                         location.isActive = false;
                 }
@@ -195,11 +179,8 @@ namespace MadMaze {
             //overHeadReversed
             if (event.beta - this.toleranceFactor < -180 && event.beta + this.toleranceFactor > -180 && event.gamma - this.toleranceFactor < 0 && event.gamma + this.toleranceFactor > 0) {
                 for (let location of orientations) {
-                    if (location.alignment == Alignment.OVERHEADREVERSED) {
-                        this.alignment.innerHTML = "Alignment: " + location.alignment;
+                    if (location.alignment == Alignment.OVERHEADREVERSED)
                         location.isActive = true;
-                        // this.rgdbdyBall.setVelocity(new f.Vector3(0, 0, 0));
-                    }
                     else
                         location.isActive = false;
                 }

@@ -30,7 +30,9 @@ namespace MadMaze {
     }
     private triggerEnter = (_event: f.EventPhysics): void => {
       if (_event.cmpRigidbody.node.name == "Ball") {
-        this.node.getParent().getComponent(f.ComponentRigidbody).activate(false);
+        LevelManager.level++;
+        LevelManager.checkForNextLevel();
+        LevelManager.loadNextLevel();
       }
 
     }

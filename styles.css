@@ -16,7 +16,7 @@ canvas.fullscreen {
   height: 100vh;
 }
 
-#accelButton {
+#startButton {
   width: 100%;
   height: 100px;
   position: fixed;

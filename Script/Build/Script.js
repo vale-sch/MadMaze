@@ -6,13 +6,9 @@ var MadMaze;
     MadMaze.spawnPoint = f.Vector3.ZERO();
     class BallManager {
         rgdbdyBall;
-        alignment;
         constructor(_rgdBdy) {
             this.rgdbdyBall = _rgdBdy;
             //this.rgdbdyBall.mass = 5;
-            this.alignment = document.getElementById("alignment");
-            this.alignment.style.fontSize = "48px";
-            this.alignment.style.fontWeight = "bold";
             f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update);
             f.Loop.start();
         }
@@ -235,13 +231,9 @@ var MadMaze;
         startButton;
         ballManager;
         toleranceFactor = 30;
-        alignment;
         constructor(_startButton, _ballManager) {
             this.ballManager = _ballManager;
             this.startButton = _startButton;
-            this.alignment = document.getElementById("alignment");
-            this.alignment.style.fontSize = "48px";
-            this.alignment.style.fontWeight = "bold";
         }
         getAccelPermission = () => {
             let device = this.getMobileOperatingSystem();
@@ -334,10 +326,8 @@ var MadMaze;
             //normal
             if (event.beta - this.toleranceFactor < 20 && event.beta + this.toleranceFactor > 20 && event.gamma - this.toleranceFactor < 20 && event.gamma + this.toleranceFactor > 20) {
                 for (let orientation of MadMaze.orientations) {
-                    if (orientation.alignment == MadMaze.Alignment.NORMAL) {
-                        this.alignment.innerHTML = "Alignment: " + orientation.alignment;
+                    if (orientation.alignment == MadMaze.Alignment.NORMAL)
                         orientation.isActive = true;
-                    }
                     else
                         orientation.isActive = false;
                 }
@@ -350,7 +340,6 @@ var MadMaze;
                             if (location.alignment == MadMaze.Alignment.LEFTSIDE && location.isActive)
                                 return;
                         }
-                        this.alignment.innerHTML = "Alignment: " + location.alignment;
                         location.isActive = true;
                     }
                     else
@@ -362,10 +351,8 @@ var MadMaze;
                 for (let location of MadMaze.orientations) {
                     if (location.alignment == MadMaze.Alignment.RIGHTSIDE && location.isActive)
                         return;
-                    if (location.alignment == MadMaze.Alignment.LEFTSIDE) {
-                        this.alignment.innerHTML = "Alignment: " + location.alignment;
+                    if (location.alignment == MadMaze.Alignment.LEFTSIDE)
                         location.isActive = true;
-                    }
                     else
                         location.isActive = false;
                 }
@@ -373,10 +360,8 @@ var MadMaze;
             //setUpReversed
             if (event.beta - this.toleranceFactor < -90 && event.beta + this.toleranceFactor > -90) {
                 for (let location of MadMaze.orientations) {
-                    if (location.alignment == MadMaze.Alignment.SETUPREVERSED) {
-                        this.alignment.innerHTML = "Alignment: " + location.alignment;
+                    if (location.alignment == MadMaze.Alignment.SETUPREVERSED)
                         location.isActive = true;
-                    }
                     else
                         location.isActive = false;
                 }
@@ -384,10 +369,8 @@ var MadMaze;
             //setUpNormal
             if (event.beta - this.toleranceFactor < 90 && event.beta + this.toleranceFactor > 90) {
                 for (let location of MadMaze.orientations) {
-                    if (location.alignment == MadMaze.Alignment.SETUPNORMAL) {
-                        this.alignment.innerHTML = "Alignment: " + location.alignment;
+                    if (location.alignment == MadMaze.Alignment.SETUPNORMAL)
                         location.isActive = true;
-                    }
                     else
                         location.isActive = false;
                 }
@@ -395,11 +378,8 @@ var MadMaze;
             //overhead
             if (event.beta - this.toleranceFactor < 180 && event.beta + this.toleranceFactor > 180 && event.gamma - this.toleranceFactor < 0 && event.gamma + this.toleranceFactor > 0) {
                 for (let location of MadMaze.orientations) {
-                    if (location.alignment == MadMaze.Alignment.OVERHEAD) {
-                        this.alignment.innerHTML = "Alignment: " + location.alignment;
+                    if (location.alignment == MadMaze.Alignment.OVERHEAD)
                         location.isActive = true;
-                        //this.rgdbdyBall.setVelocity(new f.Vector3(0, 0, 0));
-                    }
                     else
                         location.isActive = false;
                 }
@@ -407,11 +387,8 @@ var MadMaze;
             //overHeadReversed
             if (event.beta - this.toleranceFactor < -180 && event.beta + this.toleranceFactor > -180 && event.gamma - this.toleranceFactor < 0 && event.gamma + this.toleranceFactor > 0) {
                 for (let location of MadMaze.orientations) {
-                    if (location.alignment == MadMaze.Alignment.OVERHEADREVERSED) {
-                        this.alignment.innerHTML = "Alignment: " + location.alignment;
+                    if (location.alignment == MadMaze.Alignment.OVERHEADREVERSED)
                         location.isActive = true;
-                        // this.rgdbdyBall.setVelocity(new f.Vector3(0, 0, 0));
-                    }
                     else
                         location.isActive = false;
                 }
@@ -422,18 +399,59 @@ var MadMaze;
 })(MadMaze || (MadMaze = {}));
 var MadMaze;
 (function (MadMaze) {
-    let LevelGraph;
-    (function (LevelGraph) {
-        LevelGraph["LEVEL1"] = "Level1";
-        LevelGraph["LEVEL2"] = "Level2";
-        LevelGraph["LEVEL3"] = "Level3";
-    })(LevelGraph = MadMaze.LevelGraph || (MadMaze.LevelGraph = {}));
+    var f = FudgeCore;
+    let Levels;
+    (function (Levels) {
+        Levels["LEVEL1"] = "Graph|2022-05-17T15:39:18.443Z|44479";
+        Levels["LEVEL2"] = "Graph|2022-05-17T15:48:08.487Z|74649";
+        Levels["LEVEL3"] = "Graph|2022-05-17T15:48:20.157Z|38212";
+    })(Levels = MadMaze.Levels || (MadMaze.Levels = {}));
     class LevelManager {
-        static level = 0;
-        static levelGraph;
-        constructor(_level, _levelGraph) {
-            LevelManager.level = _level;
-            LevelManager.levelGraph = _levelGraph;
+        static level = 1;
+        static nextLevelGraph = Levels.LEVEL1;
+        static levelOverview;
+        constructor() {
+            LevelManager.levelOverview = document.getElementById("level");
+            LevelManager.levelOverview.style.fontSize = "50px";
+            LevelManager.levelOverview.style.fontWeight = "bold";
+            LevelManager.levelOverview.style.textAlign = "center";
+            LevelManager.levelOverview.style.color = "green";
+        }
+        static loadNextLevel() {
+            MadMaze.madeMazeGraph.getChild(MadMaze.madeMazeGraph.nChildren - 1).getChildren().forEach(child => {
+                if (child.getComponent(f.ComponentRigidbody))
+                    child.removeComponent(child.getComponent(f.ComponentRigidbody));
+                child.getChildren().forEach(childOfChild => {
+                    if (childOfChild.getComponent(f.ComponentRigidbody))
+                        childOfChild.removeComponent(childOfChild.getComponent(f.ComponentRigidbody));
+                    childOfChild.getChildren().forEach(childOfChildofChild => {
+                        if (childOfChildofChild.getComponent(f.ComponentRigidbody))
+                            childOfChildofChild.removeComponent(childOfChildofChild.getComponent(f.ComponentRigidbody));
+                    });
+                });
+            });
+            MadMaze.madeMazeGraph.removeChild(MadMaze.madeMazeGraph.getChild(MadMaze.madeMazeGraph.nChildren - 1));
+            let nextLevel = f.Project.resources[this.nextLevelGraph];
+            MadMaze.madeMazeGraph.appendChild(nextLevel);
+            MadMaze.rgdbdyBall.setPosition(nextLevel.getChildrenByName("spawnPoint")[0].mtxLocal.translation);
+            MadMaze.rgdbdyBall.setVelocity(f.Vector3.ZERO());
+            this.levelOverview.innerHTML = "Level: " + this.level;
+        }
+        static initilizeScene() {
+            let scene = f.Project.resources[this.nextLevelGraph];
+            MadMaze.madeMazeGraph.appendChild(scene);
+            this.levelOverview.innerHTML = "Level: " + this.level;
+        }
+        static checkForNextLevel() {
+            switch (LevelManager.level) {
+                case (1):
+                    this.nextLevelGraph = Levels.LEVEL1;
+                    break;
+                case (2):
+                    this.nextLevelGraph = Levels.LEVEL2;
+                    break;
+                case (3): this.nextLevelGraph = Levels.LEVEL3;
+            }
         }
     }
     MadMaze.LevelManager = LevelManager;
@@ -444,7 +462,7 @@ var MadMaze;
     f.Debug.info("Main Program Template running!");
     f.Project.registerScriptNamespace(MadMaze);
     let viewport;
-    let startButton = document.getElementById("accelButton");
+    let startButton = document.getElementById("startButton");
     if (f.Project.mode != f.MODE.EDITOR)
         window.addEventListener("load", init);
     async function init() {
@@ -456,6 +474,8 @@ var MadMaze;
             alert("Nothing to render. Create a graph with at least a mesh, material and probably some light");
             return;
         }
+        new MadMaze.LevelManager();
+        MadMaze.LevelManager.initilizeScene();
         // setup the viewport
         MadMaze.cameraParent = MadMaze.madeMazeGraph.getChildrenByName("Camera")[0];
         MadMaze.cmpCamera = MadMaze.cameraParent.getChild(0).getComponent(f.ComponentCamera);
@@ -467,7 +487,6 @@ var MadMaze;
         if (f.Project.mode != f.MODE.EDITOR)
             startButton.addEventListener("click", deviceManager.getAccelPermission);
         new MadMaze.CameraFollow(MadMaze.cmpCamera.node, MadMaze.cameraParent, MadMaze.rgdbdyBall.node);
-        new MadMaze.LevelManager(1, MadMaze.LevelGraph.LEVEL1);
         viewport.draw();
         f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, update);
         f.Loop.start();
@@ -599,7 +618,9 @@ var MadMaze;
         };
         triggerEnter = (_event) => {
             if (_event.cmpRigidbody.node.name == "Ball") {
-                this.node.getParent().getComponent(f.ComponentRigidbody).activate(false);
+                MadMaze.LevelManager.level++;
+                MadMaze.LevelManager.checkForNextLevel();
+                MadMaze.LevelManager.loadNextLevel();
             }
         };
         update = () => {

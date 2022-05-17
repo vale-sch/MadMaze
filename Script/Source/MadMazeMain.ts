@@ -9,7 +9,7 @@ namespace MadMaze {
   export let rgdbdyBall: f.ComponentRigidbody;
   export let cmpCamera: f.ComponentCamera;
   export let cameraParent: f.Node;
-  let startButton: HTMLElement = document.getElementById("accelButton");
+  let startButton: HTMLElement = document.getElementById("startButton");
   if (f.Project.mode != f.MODE.EDITOR)
     window.addEventListener("load", init);
 
@@ -26,19 +26,20 @@ namespace MadMaze {
       alert("Nothing to render. Create a graph with at least a mesh, material and probably some light");
       return;
     }
+    new LevelManager()
+    LevelManager.initilizeScene();
     // setup the viewport
     cameraParent = madeMazeGraph.getChildrenByName("Camera")[0];
     cmpCamera = cameraParent.getChild(0).getComponent(f.ComponentCamera);
     let canvas = document.querySelector("canvas");
     viewport = new FudgeCore.Viewport();
     viewport.initialize("InteractiveViewport", madeMazeGraph, cmpCamera, canvas);
-
     rgdbdyBall = madeMazeGraph.getChildrenByName("Ball")[0].getComponent(f.ComponentRigidbody);
     let deviceManager: DeviceManager = new DeviceManager(startButton, new BallManager(rgdbdyBall));
     if (f.Project.mode != f.MODE.EDITOR)
       startButton.addEventListener("click", deviceManager.getAccelPermission);
     new CameraFollow(cmpCamera.node, cameraParent, rgdbdyBall.node);
-    new LevelManager(1, LevelGraph.LEVEL1);
+
     viewport.draw();
     f.Loop.addEventListener(f.EVENT.LOOP_FRAME, update);
     f.Loop.start();

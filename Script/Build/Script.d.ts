@@ -4,7 +4,6 @@ declare namespace MadMaze {
     let spawnPoint: f.Vector3;
     class BallManager {
         private rgdbdyBall;
-        alignment: HTMLElement;
         constructor(_rgdBdy: f.ComponentRigidbody);
         private update;
         private gamma;
@@ -41,7 +40,6 @@ declare namespace MadMaze {
         private startButton;
         private ballManager;
         private toleranceFactor;
-        alignment: HTMLElement;
         constructor(_startButton: HTMLElement, _ballManager: BallManager);
         getAccelPermission: () => void;
         getMobileOperatingSystem: () => string;
@@ -52,15 +50,19 @@ declare namespace MadMaze {
     }
 }
 declare namespace MadMaze {
-    enum LevelGraph {
-        LEVEL1 = "Level1",
-        LEVEL2 = "Level2",
-        LEVEL3 = "Level3"
+    enum Levels {
+        LEVEL1 = "Graph|2022-05-17T15:39:18.443Z|44479",
+        LEVEL2 = "Graph|2022-05-17T15:48:08.487Z|74649",
+        LEVEL3 = "Graph|2022-05-17T15:48:20.157Z|38212"
     }
     class LevelManager {
         static level: number;
-        static levelGraph: LevelGraph;
-        constructor(_level: number, _levelGraph: LevelGraph);
+        static nextLevelGraph: Levels;
+        static levelOverview: HTMLElement;
+        constructor();
+        static loadNextLevel(): void;
+        static initilizeScene(): void;
+        static checkForNextLevel(): void;
     }
 }
 declare namespace MadMaze {

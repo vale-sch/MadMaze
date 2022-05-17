@@ -7,14 +7,11 @@ namespace MadMaze {
     export class BallManager {
 
         private rgdbdyBall: f.ComponentRigidbody;
-        public alignment: HTMLElement;
 
         constructor(_rgdBdy: f.ComponentRigidbody) {
             this.rgdbdyBall = _rgdBdy;
             //this.rgdbdyBall.mass = 5;
-            this.alignment = document.getElementById("alignment");
-            this.alignment.style.fontSize = "48px";
-            this.alignment.style.fontWeight = "bold";
+
             f.Loop.addEventListener(f.EVENT.LOOP_FRAME, this.update);
             f.Loop.start();
         }
