@@ -1,6 +1,5 @@
 import f = FudgeCore;
 declare namespace MadMaze {
-    let locationBooleans: LocationBool[];
     let spawnPoint: f.Vector3;
     class BallManager {
         private rgdbdyBall;
@@ -15,6 +14,7 @@ declare namespace MadMaze {
 }
 declare namespace MadMaze {
     import f = FudgeCore;
+    let cameraRotX: number;
     class CameraFollow {
         private cameraParent;
         private cmpCamera;
@@ -28,6 +28,7 @@ declare namespace MadMaze {
     }
 }
 declare namespace MadMaze {
+    let locationBooleans: Orientation[];
     class DeviceManager {
         private startButton;
         private ballManager;
@@ -40,13 +41,6 @@ declare namespace MadMaze {
         createArray(): void;
         deviceOrientationDistributor: (event: DeviceOrientationEvent) => void;
         checkForOrientation: (event: DeviceOrientationEvent) => void;
-    }
-}
-declare namespace MadMaze {
-    class LocationBool {
-        isActive: boolean;
-        name: string;
-        constructor(_isActive: boolean, _name: string);
     }
 }
 declare namespace MadMaze {
@@ -90,5 +84,21 @@ declare namespace MadMaze {
         private triggerEnter;
         private triggerExit;
         private update;
+    }
+}
+declare namespace MadMaze {
+    enum Alignment {
+        NORMAL = "NORMAL",
+        RIGHTSIDE = "RIGHTSIDE",
+        LEFTSIDE = "LEFTSIDE",
+        SETUPREVERSED = "SETUPREVERSED",
+        SETUPNORMAL = "SETUPNORMAL",
+        OVERHEAD = "OVERHEAD",
+        OVERHEADREVERSED = "OVERHEADREVERSED"
+    }
+    class Orientation {
+        isActive: boolean;
+        alignment: Alignment;
+        constructor(_isActive: boolean, _alignment: Alignment);
     }
 }

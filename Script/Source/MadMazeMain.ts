@@ -34,7 +34,7 @@ namespace MadMaze {
     viewport.initialize("InteractiveViewport", madeMazeGraph, cmpCamera, canvas);
 
     rgdbdyBall = madeMazeGraph.getChildrenByName("Ball")[0].getComponent(f.ComponentRigidbody);
-    spawnPoint = madeMazeGraph.getChildrenByName("Level1")[0].getChild(0).getComponent(f.ComponentTransform).mtxLocal.translation;
+    //spawnPoint = madeMazeGraph.getChildrenByName("Level1")[0].getChild(0).getComponent(f.ComponentTransform).mtxLocal.translation;
     let deviceManager: DeviceManager = new DeviceManager(startButton, new BallManager(rgdbdyBall));
     if (f.Project.mode != f.MODE.EDITOR)
       startButton.addEventListener("click", deviceManager.getAccelPermission);

@@ -1,5 +1,6 @@
 
 namespace MadMaze {
+    export let locationBooleans: Orientation[] = new Array<Orientation>();
     export class DeviceManager {
 
         private startButton: HTMLElement;
@@ -81,25 +82,25 @@ namespace MadMaze {
             for (let i = 0; i < 7; i++) {
                 switch (i) {
                     case 0:
-                        locationBooleans.push(new LocationBool(false, "normal"));
+                        locationBooleans.push(new Orientation(false, Alignment.NORMAL));
                         break;
                     case 1:
-                        locationBooleans.push(new LocationBool(false, "rightSide"));
+                        locationBooleans.push(new Orientation(false, Alignment.RIGHTSIDE));
                         break;
                     case 2:
-                        locationBooleans.push(new LocationBool(false, "leftSide"));
+                        locationBooleans.push(new Orientation(false, Alignment.LEFTSIDE));
                         break;
                     case 3:
-                        locationBooleans.push(new LocationBool(false, "setUpReversed"));
+                        locationBooleans.push(new Orientation(false, Alignment.SETUPREVERSED));
                         break;
                     case 4:
-                        locationBooleans.push(new LocationBool(false, "setUpNormal"));
+                        locationBooleans.push(new Orientation(false, Alignment.SETUPNORMAL));
                         break;
                     case 5:
-                        locationBooleans.push(new LocationBool(false, "overHead"));
+                        locationBooleans.push(new Orientation(false, Alignment.OVERHEAD));
                         break;
                     case 6:
-                        locationBooleans.push(new LocationBool(false, "overHeadReversed"));
+                        locationBooleans.push(new Orientation(false, Alignment.OVERHEADREVERSED));
                         break;
                 }
             }
@@ -114,11 +115,12 @@ namespace MadMaze {
         }
 
         public checkForOrientation = (event: DeviceOrientationEvent): void => {
+            this.alignment.innerHTML = cmpCamera.node.mtxLocal.rotation.toString();
             //normal
             if (event.beta - this.toleranceFactor < 20 && event.beta + this.toleranceFactor > 20 && event.gamma - this.toleranceFactor < 20 && event.gamma + this.toleranceFactor > 20) {
                 for (let location of locationBooleans) {
-                    if (location.name == "normal") {
-                        this.alignment.innerHTML = "Alignment: " + location.name;
+                    if (location.alignment == Alignment.NORMAL) {
+                        //  this.alignment.innerHTML = "Alignment: " + location.alignment.toString();
                         location.isActive = true;
                     }
                     else
@@ -129,12 +131,12 @@ namespace MadMaze {
             //rightside
             if (event.gamma - this.toleranceFactor < 90 && event.gamma + this.toleranceFactor > 90) {
                 for (let location of locationBooleans) {
-                    if (location.name == "rightSide") {
+                    if (location.alignment == Alignment.RIGHTSIDE) {
                         for (let location of locationBooleans) {
-                            if (location.name == "leftSide" && location.isActive)
+                            if (location.alignment == Alignment.LEFTSIDE && location.isActive)
                                 return;
                         }
-                        this.alignment.innerHTML = "Alignment: " + location.name;
+                        //this.alignment.innerHTML = "Alignment: " + location.alignment;
                         location.isActive = true;
                     }
                     else
@@ -145,9 +147,9 @@ namespace MadMaze {
             //leftside
             if (event.gamma - this.toleranceFactor < -90 && event.gamma + this.toleranceFactor > -90) {
                 for (let location of locationBooleans) {
-                    if (location.name == "rightSide" && location.isActive) return;
-                    if (location.name == "leftSide") {
-                        this.alignment.innerHTML = "Alignment: " + location.name;
+                    if (location.alignment == Alignment.RIGHTSIDE && location.isActive) return;
+                    if (location.alignment == Alignment.LEFTSIDE) {
+                        // this.alignment.innerHTML = "Alignment: " + location.alignment;
                         location.isActive = true;
                     }
                     else
@@ -158,8 +160,8 @@ namespace MadMaze {
             //setUpReversed
             if (event.beta - this.toleranceFactor < -90 && event.beta + this.toleranceFactor > -90) {
                 for (let location of locationBooleans) {
-                    if (location.name == "setUpReversed") {
-                        this.alignment.innerHTML = "Alignment: " + location.name;
+                    if (location.alignment == Alignment.SETUPREVERSED) {
+                        //this.alignment.innerHTML = "Alignment: " + location.alignment;
                         location.isActive = true;
                     }
                     else
@@ -170,8 +172,8 @@ namespace MadMaze {
             //setUpNormal
             if (event.beta - this.toleranceFactor < 90 && event.beta + this.toleranceFactor > 90) {
                 for (let location of locationBooleans) {
-                    if (location.name == "setUpNormal") {
-                        this.alignment.innerHTML = "Alignment: " + location.name;
+                    if (location.alignment == Alignment.SETUPNORMAL) {
+                        //this.alignment.innerHTML = "Alignment: " + location.alignment;
                         location.isActive = true;
                     }
                     else
@@ -182,8 +184,8 @@ namespace MadMaze {
             //overhead
             if (event.beta - this.toleranceFactor < 180 && event.beta + this.toleranceFactor > 180 && event.gamma - this.toleranceFactor < 0 && event.gamma + this.toleranceFactor > 0) {
                 for (let location of locationBooleans) {
-                    if (location.name == "overHead") {
-                        this.alignment.innerHTML = "Alignment: " + location.name;
+                    if (location.alignment == Alignment.OVERHEAD) {
+                        // this.alignment.innerHTML = "Alignment: " + location.alignment.toString();
                         location.isActive = true;
                         //this.rgdbdyBall.setVelocity(new f.Vector3(0, 0, 0));
                     }
@@ -195,8 +197,8 @@ namespace MadMaze {
             //overHeadReversed
             if (event.beta - this.toleranceFactor < -180 && event.beta + this.toleranceFactor > -180 && event.gamma - this.toleranceFactor < 0 && event.gamma + this.toleranceFactor > 0) {
                 for (let location of locationBooleans) {
-                    if (location.name == "overHeadReversed") {
-                        this.alignment.innerHTML = "Alignment: " + location.name;
+                    if (location.alignment == Alignment.OVERHEADREVERSED) {
+                        //this.alignment.innerHTML = "Alignment: " + location.alignment;
                         location.isActive = true;
                         // this.rgdbdyBall.setVelocity(new f.Vector3(0, 0, 0));
                     }
