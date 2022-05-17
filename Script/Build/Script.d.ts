@@ -1,6 +1,6 @@
 import f = FudgeCore;
 declare namespace MadMaze {
-    let locationBooleans: LocationBool[];
+    let orientations: Orientation[];
     let spawnPoint: f.Vector3;
     class BallManager {
         private rgdbdyBall;
@@ -28,6 +28,15 @@ declare namespace MadMaze {
     }
 }
 declare namespace MadMaze {
+    import f = FudgeCore;
+    class Checkpoint extends f.ComponentScript {
+        static readonly iSubclass: number;
+        constructor();
+        hndEvent: (_event: Event) => void;
+        private OnTriggerEnter;
+    }
+}
+declare namespace MadMaze {
     class DeviceManager {
         private startButton;
         private ballManager;
@@ -43,10 +52,15 @@ declare namespace MadMaze {
     }
 }
 declare namespace MadMaze {
-    class LocationBool {
-        isActive: boolean;
-        name: string;
-        constructor(_isActive: boolean, _name: string);
+    enum LevelGraph {
+        LEVEL1 = "Level1",
+        LEVEL2 = "Level2",
+        LEVEL3 = "Level3"
+    }
+    class LevelManager {
+        static level: number;
+        static levelGraph: LevelGraph;
+        constructor(_level: number, _levelGraph: LevelGraph);
     }
 }
 declare namespace MadMaze {
@@ -60,11 +74,6 @@ declare namespace MadMaze {
     import f = FudgeCore;
     class ObstaclesTranslator extends f.ComponentScript {
         static readonly iSubclass: number;
-        private isCross;
-        private verticalNeg;
-        private verticalPos;
-        private rndRotVel;
-        private rndTransVel;
         constructor();
         hndEvent: (_event: Event) => void;
         private update;
@@ -72,9 +81,8 @@ declare namespace MadMaze {
 }
 declare namespace MadMaze {
     import f = FudgeCore;
-    class OnCollisionStop extends f.ComponentScript {
+    class OnTriggerStop extends f.ComponentScript {
         static readonly iSubclass: number;
-        hasToChangeAngle: string;
         constructor();
         hndEvent: (_event: Event) => void;
         private OnTriggerEnter;
@@ -82,13 +90,28 @@ declare namespace MadMaze {
     }
 }
 declare namespace MadMaze {
+    enum Alignment {
+        NORMAL = "NORMAL",
+        RIGHTSIDE = "RIGHTSIDE",
+        LEFTSIDE = "LEFTSIDE",
+        SETUPREVERSED = "SETUPREVERSED",
+        SETUPNORMAL = "SETUPNORMAL",
+        OVERHEAD = "OVERHEAD",
+        OVERHEADREVERSED = "OVERHEADREVERSED"
+    }
+    class Orientation {
+        isActive: boolean;
+        alignment: Alignment;
+        constructor(_isActive: boolean, _alignment: Alignment);
+    }
+}
+declare namespace MadMaze {
     import f = FudgeCore;
-    class OnTriggerDisable extends f.ComponentScript {
+    class Target extends f.ComponentScript {
         static readonly iSubclass: number;
         constructor();
         hndEvent: (_event: Event) => void;
         private triggerEnter;
-        private triggerExit;
         private update;
     }
 }

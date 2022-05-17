@@ -34,12 +34,11 @@ namespace MadMaze {
     viewport.initialize("InteractiveViewport", madeMazeGraph, cmpCamera, canvas);
 
     rgdbdyBall = madeMazeGraph.getChildrenByName("Ball")[0].getComponent(f.ComponentRigidbody);
-    spawnPoint = madeMazeGraph.getChildrenByName("Level1")[0].getChild(0).getComponent(f.ComponentTransform).mtxLocal.translation;
     let deviceManager: DeviceManager = new DeviceManager(startButton, new BallManager(rgdbdyBall));
     if (f.Project.mode != f.MODE.EDITOR)
       startButton.addEventListener("click", deviceManager.getAccelPermission);
     new CameraFollow(cmpCamera.node, cameraParent, rgdbdyBall.node);
-
+    new LevelManager(1, LevelGraph.LEVEL1);
     viewport.draw();
     f.Loop.addEventListener(f.EVENT.LOOP_FRAME, update);
     f.Loop.start();

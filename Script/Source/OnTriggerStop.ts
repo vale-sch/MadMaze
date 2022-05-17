@@ -2,9 +2,8 @@ namespace MadMaze {
   import f = FudgeCore;
   f.Project.registerScriptNamespace(MadMaze);  // Register the namespace to FUDGE for serialization
 
-  export class OnTriggerDisable extends f.ComponentScript {
-    public static readonly iSubclass: number = f.Component.registerSubclass(OnTriggerDisable);
-
+  export class OnTriggerStop extends f.ComponentScript {
+    public static readonly iSubclass: number = f.Component.registerSubclass(OnTriggerStop);
 
     constructor() {
       super();
@@ -12,16 +11,14 @@ namespace MadMaze {
         return;
       this.addEventListener(f.EVENT.COMPONENT_ADD, this.hndEvent);
       this.addEventListener(f.EVENT.COMPONENT_REMOVE, this.hndEvent);
-
     }
 
     // Activate the functions of this component as response to events
     public hndEvent = (_event: Event): void => {
       switch (_event.type) {
         case f.EVENT.COMPONENT_ADD:
-          f.Loop.addEventListener(f.EVENT.LOOP_FRAME, this.update);
-          this.node.getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.TRIGGER_ENTER, this.triggerEnter);
-          this.node.getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.TRIGGER_EXIT, this.triggerExit);
+          this.node.getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.TRIGGER_ENTER, this.OnTriggerEnter);
+          this.node.getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.TRIGGER_EXIT, this.OnTriggerExit);
           break;
         case f.EVENT.COMPONENT_REMOVE:
           this.removeEventListener(f.EVENT.COMPONENT_ADD, this.hndEvent);
@@ -29,19 +26,18 @@ namespace MadMaze {
           break;
       }
     }
-    private triggerEnter = (_event: f.EventPhysics): void => {
+    private OnTriggerEnter = (_event: f.EventPhysics): void => {
       if (_event.cmpRigidbody.node.name == "Ball") {
-        this.node.getParent().getComponent(f.ComponentRigidbody).activate(false);
+        rgdbdyBall.setVelocity(f.Vector3.ZERO());
       }
 
     }
-    private triggerExit = (_event: f.EventPhysics): void => {
+    private OnTriggerExit = (_event: f.EventPhysics): void => {
       if (_event.cmpRigidbody.node.name == "Ball") {
-        this.node.getParent().getComponent(f.ComponentRigidbody).activate(true);
+        rgdbdyBall.setVelocity(f.Vector3.ZERO());
+        this.node.activate(false);
+        this.node.getComponent(f.ComponentRigidbody).activate(false);
       }
-
-    }
-    private update = (): void => {
 
     }
   }

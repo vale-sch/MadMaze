@@ -2,7 +2,7 @@ import f = FudgeCore;
 namespace MadMaze {
 
 
-    export let locationBooleans: LocationBool[] = new Array<LocationBool>();
+    export let orientations: Orientation[] = new Array<Orientation>();
     export let spawnPoint: f.Vector3 = f.Vector3.ZERO();
     export class BallManager {
 
@@ -26,7 +26,7 @@ namespace MadMaze {
                 madeMazeGraph.getChildren().forEach(child => {
                     child.getChildren().forEach(childOfChild => {
                         childOfChild.getChildren().forEach(childOfChildofChild => {
-                            if (!childOfChildofChild.isActive) {
+                            if (!childOfChildofChild.isActive && childOfChildofChild.name == "stopperMesh") {
                                 childOfChildofChild.activate(true);
                                 if (childOfChildofChild.getComponent(f.ComponentRigidbody))
                                     childOfChildofChild.getComponent(f.ComponentRigidbody).activate(true);
@@ -46,14 +46,14 @@ namespace MadMaze {
         public applyForceAlongDirection = (event: DeviceOrientationEvent): void => {
             this.gamma = event.gamma * this.speed;
             this.beta = event.beta * this.speed;
-            locationBooleans.forEach(location => {
-                switch (location.name) {
-                    case ("normal"):
+            orientations.forEach(location => {
+                switch (location.alignment) {
+                    case (Alignment.NORMAL):
                         if (location.isActive)
                             this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, -5, -this.beta));
                         break;
 
-                    case ("rightSide"):
+                    case (Alignment.RIGHTSIDE):
                         if (location.isActive) {
                             if (Math.abs(event.beta) > 100) {
                                 this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 4, 750 / Math.abs(this.gamma), -this.beta / 15));
@@ -63,7 +63,7 @@ namespace MadMaze {
                         }
                         break;
 
-                    case ("leftSide"):
+                    case (Alignment.LEFTSIDE):
                         if (location.isActive) {
                             if (Math.abs(event.beta) > 100) {
                                 this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 4, 750 / Math.abs(this.gamma), -this.beta / 15));
@@ -73,7 +73,7 @@ namespace MadMaze {
                         }
                         break;
 
-                    case ("setUpReversed"):
+                    case (Alignment.SETUPREVERSED):
                         if (location.isActive) {
                             if (event.beta > -90)
                                 this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, -this.beta / 2, -this.beta));
@@ -82,7 +82,7 @@ namespace MadMaze {
                         }
                         break;
 
-                    case ("setUpNormal"):
+                    case (Alignment.SETUPNORMAL):
                         if (location.isActive) {
                             if (event.beta < 90)
                                 this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma / 2, this.beta / 2, -this.beta));
@@ -91,12 +91,12 @@ namespace MadMaze {
                         }
                         break;
 
-                    case ("overHead"):
+                    case (Alignment.OVERHEAD):
                         if (location.isActive)
                             this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, this.beta / 5, this.beta));
                         break;
 
-                    case ("overHeadReversed"):
+                    case (Alignment.OVERHEADREVERSED):
                         if (location.isActive)
                             this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, -this.beta / 5, -this.beta));
                         break;

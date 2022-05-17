@@ -20,84 +20,84 @@ namespace MadMaze {
             f.Loop.start();
         }
         private update = (_event: Event): void => {
-            locationBooleans.forEach(location => {
-                switch (location.name) {
-                    case ("normal"):
-                        if (location.isActive) {
+            orientations.forEach(orientation => {
+                switch (orientation.alignment) {
+                    case (Alignment.NORMAL):
+                        if (orientation.isActive) {
                             this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x);
                             this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z - 5);
                             this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 10, this.delayCameraTransZ.getOutput());
                             this.delayCameraRotX.setInput(50);
                             this.delayCameraRotZ.setInput(0);
+                            this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
+
+                        }
+                        break;
+                    case (Alignment.LEFTSIDE):
+                        if (orientation.isActive) {
+                            this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x - 8);
+                            this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z);
+                            this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 15, this.delayCameraTransZ.getOutput());
+                            this.delayCameraRotX.setInput(90);
+                            this.delayCameraRotZ.setInput(25);
                             this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, this.delayCameraRotZ.getOutput());
 
                         }
                         break;
-                    case ("leftSide"):
-                        if (location.isActive) {
-                            this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x - 8);
-                            this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z);
-                            this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 15, this.delayCameraTransZ.getOutput());
-
-                            this.delayCameraRotZ.setInput(25);
-                            this.cmpCamera.mtxLocal.rotation = new f.Vector3(90, 0, this.delayCameraRotZ.getOutput());
-
-                        }
-                        break;
-                    case ("rightSide"):
-                        if (location.isActive) {
+                    case (Alignment.RIGHTSIDE):
+                        if (orientation.isActive) {
                             this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x + 8);
                             this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z);
                             this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 15, this.delayCameraTransZ.getOutput());
-
+                            this.delayCameraRotX.setInput(90);
                             this.delayCameraRotZ.setInput(-25);
-                            this.cmpCamera.mtxLocal.rotation = new f.Vector3(90, 0, this.delayCameraRotZ.getOutput());
+                            this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, this.delayCameraRotZ.getOutput());
 
                         }
                         break;
-                    case ("setUpReversed"):
-                        if (location.isActive) {
+                    case (Alignment.SETUPREVERSED):
+                        if (orientation.isActive) {
                             this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x);
                             this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z - 10);
                             this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 10, this.delayCameraTransZ.getOutput());
                             this.delayCameraRotX.setInput(65);
                             this.delayCameraRotZ.setInput(0);
 
-                            this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, this.delayCameraTransZ.getOutput());
+                            this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
 
                         }
                         break;
-                    case ("setUpNormal"):
-                        if (location.isActive) {
+                    case (Alignment.SETUPNORMAL):
+                        if (orientation.isActive) {
                             this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x);
                             this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z + 10);
                             this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 10, this.delayCameraTransZ.getOutput());
                             this.delayCameraRotX.setInput(115);
                             this.delayCameraRotZ.setInput(0);
 
-                            this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, this.delayCameraTransZ.getOutput());
+                            this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
 
                         }
                         break;
-                    case ("overHead"):
-                        if (location.isActive) {
+                    case (Alignment.OVERHEAD):
+                        if (orientation.isActive) {
                             this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x);
                             this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z);
                             this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 10, this.delayCameraTransZ.getOutput());
                             this.delayCameraRotX.setInput(90);
                             this.delayCameraRotZ.setInput(0);
-                            this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, this.delayCameraRotZ.getOutput());
+                            this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
 
                         }
                         break;
-                    case ("overHeadReversed"):
-                        if (location.isActive) {
+                    case (Alignment.OVERHEADREVERSED):
+                        if (orientation.isActive) {
                             this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x);
                             this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z);
                             this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 10, this.delayCameraTransZ.getOutput());
                             this.delayCameraRotX.setInput(90);
                             this.delayCameraRotZ.setInput(0);
-                            this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, this.delayCameraRotZ.getOutput());
+                            this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
 
                         }
                         break;
