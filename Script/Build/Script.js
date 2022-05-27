@@ -402,8 +402,8 @@ var MadMaze;
     var f = FudgeCore;
     let Levels;
     (function (Levels) {
-        Levels["LEVEL1"] = "Graph|2022-05-17T15:39:18.443Z|44479";
-        Levels["LEVEL2"] = "Graph|2022-05-17T15:48:08.487Z|74649";
+        Levels["LEVEL1"] = "Graph|2022-05-17T15:48:08.487Z|74649";
+        Levels["LEVEL2"] = "Graph|2022-05-17T15:39:18.443Z|44479";
         Levels["LEVEL3"] = "Graph|2022-05-17T15:48:20.157Z|38212";
     })(Levels = MadMaze.Levels || (MadMaze.Levels = {}));
     class LevelManager {

@@ -1,3 +1,4 @@
+/// <reference types="../../Core/FudgeCore" />
 import f = FudgeCore;
 declare namespace MadMaze {
     let orientations: Orientation[];
@@ -51,8 +52,8 @@ declare namespace MadMaze {
 }
 declare namespace MadMaze {
     enum Levels {
-        LEVEL1 = "Graph|2022-05-17T15:39:18.443Z|44479",
-        LEVEL2 = "Graph|2022-05-17T15:48:08.487Z|74649",
+        LEVEL1 = "Graph|2022-05-17T15:48:08.487Z|74649",
+        LEVEL2 = "Graph|2022-05-17T15:39:18.443Z|44479",
         LEVEL3 = "Graph|2022-05-17T15:48:20.157Z|38212"
     }
     class LevelManager {

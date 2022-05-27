@@ -20,17 +20,8 @@ namespace MadMaze {
                 this.rgdbdyBall.setPosition(spawnPoint);
                 this.rgdbdyBall.setVelocity(f.Vector3.ZERO());
 
-                madeMazeGraph.getChildren().forEach(child => {
-                    child.getChildren().forEach(childOfChild => {
-                        childOfChild.getChildren().forEach(childOfChildofChild => {
-                            if (!childOfChildofChild.isActive && childOfChildofChild.name == "stopperMesh") {
-                                childOfChildofChild.activate(true);
-                                if (childOfChildofChild.getComponent(f.ComponentRigidbody))
-                                    childOfChildofChild.getComponent(f.ComponentRigidbody).activate(true);
-                            }
-                        });
-                    });
-                });
+                LevelManager.loadNextLevel();
+
             }
         }
 
