@@ -128,12 +128,12 @@ var MadMaze;
                         MadMaze.isCameraFly = false;
                         return;
                     }
-                this.delayCameraTransX.setDelay(500);
-                this.delayCameraTransY.setDelay(500);
-                this.delayCameraTransZ.setDelay(500);
-                this.delayCameraRotX.setDelay(600);
-                this.delayCameraRotY.setDelay(600);
-                this.delayCameraRotZ.setDelay(600);
+                this.delayCameraTransX.setDelay(1000);
+                this.delayCameraTransY.setDelay(1000);
+                this.delayCameraTransZ.setDelay(1000);
+                this.delayCameraRotX.setDelay(1000);
+                this.delayCameraRotY.setDelay(1000);
+                this.delayCameraRotZ.setDelay(1000);
                 this.delayCameraTransX.setInput(MadMaze.cameraFlyPoints[MadMaze.flyIncrement].mtxLocal.translation.x);
                 this.delayCameraTransY.setInput(MadMaze.cameraFlyPoints[MadMaze.flyIncrement].mtxLocal.translation.y);
                 this.delayCameraTransZ.setInput(MadMaze.cameraFlyPoints[MadMaze.flyIncrement].mtxLocal.translation.z);
