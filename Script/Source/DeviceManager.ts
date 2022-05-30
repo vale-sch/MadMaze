@@ -36,6 +36,7 @@ namespace MadMaze {
             }
             this.createButtons();
             this.createArray();
+            new CameraFollow(cmpCamera.node, cameraParent, rgdbdyBall.node);
         }
 
         public getMobileOperatingSystem = (): string => {

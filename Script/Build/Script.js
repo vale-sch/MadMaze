@@ -4,6 +4,7 @@ var MadMaze;
 (function (MadMaze) {
     MadMaze.orientations = new Array();
     MadMaze.spawnPoint = f.Vector3.ZERO();
+    MadMaze.lowestBorder = 0;
     class BallManager {
         rgdbdyBall;
         constructor(_rgdBdy) {
@@ -13,13 +14,11 @@ var MadMaze;
             f.Loop.start();
         }
         update = (_event) => {
-            if (this.rgdbdyBall.getPosition().y < -1) {
-                this.rgdbdyBall.setPosition(MadMaze.spawnPoint);
-                this.rgdbdyBall.setVelocity(f.Vector3.ZERO());
+            if (this.rgdbdyBall.getPosition().y < MadMaze.lowestBorder) {
                 MadMaze.madeMazeGraph.getChildren().forEach(child => {
                     child.getChildren().forEach(childOfChild => {
                         childOfChild.getChildren().forEach(childOfChildofChild => {
-                            if (!childOfChildofChild.isActive && childOfChildofChild.name == "stopperMesh") {
+                            if (!childOfChildofChild.isActive) {
                                 childOfChildofChild.activate(true);
                                 if (childOfChildofChild.getComponent(f.ComponentRigidbody))
                                     childOfChildofChild.getComponent(f.ComponentRigidbody).activate(true);
@@ -27,6 +26,8 @@ var MadMaze;
                         });
                     });
                 });
+                MadMaze.rgdbdyBall.setVelocity(f.Vector3.ZERO());
+                MadMaze.rgdbdyBall.setPosition(MadMaze.spawnPoint);
             }
         };
         gamma = 0;
@@ -35,56 +36,57 @@ var MadMaze;
         applyForceAlongDirection = (event) => {
             this.gamma = event.gamma * this.speed;
             this.beta = event.beta * this.speed;
-            MadMaze.orientations.forEach(location => {
-                switch (location.alignment) {
-                    case (MadMaze.Alignment.NORMAL):
-                        if (location.isActive)
-                            this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, -5, -this.beta));
-                        break;
-                    case (MadMaze.Alignment.RIGHTSIDE):
-                        if (location.isActive) {
-                            if (Math.abs(event.beta) > 100) {
-                                this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 4, 750 / Math.abs(this.gamma), -this.beta / 15));
-                                return;
+            if (!MadMaze.isCameraFly)
+                MadMaze.orientations.forEach(location => {
+                    switch (location.alignment) {
+                        case (MadMaze.Alignment.NORMAL):
+                            if (location.isActive)
+                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, -5, -this.beta));
+                            break;
+                        case (MadMaze.Alignment.RIGHTSIDE):
+                            if (location.isActive) {
+                                if (Math.abs(event.beta) > 100) {
+                                    this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 4, 750 / Math.abs(this.gamma), -this.beta / 15));
+                                    return;
+                                }
+                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma / 4, this.gamma / 10, -this.beta));
                             }
-                            this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma / 4, this.gamma / 10, -this.beta));
-                        }
-                        break;
-                    case (MadMaze.Alignment.LEFTSIDE):
-                        if (location.isActive) {
-                            if (Math.abs(event.beta) > 100) {
-                                this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 4, 750 / Math.abs(this.gamma), -this.beta / 15));
-                                return;
+                            break;
+                        case (MadMaze.Alignment.LEFTSIDE):
+                            if (location.isActive) {
+                                if (Math.abs(event.beta) > 100) {
+                                    this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 4, 750 / Math.abs(this.gamma), -this.beta / 15));
+                                    return;
+                                }
+                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma / 4, -this.gamma / 10, -this.beta));
                             }
-                            this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma / 4, -this.gamma / 10, -this.beta));
-                        }
-                        break;
-                    case (MadMaze.Alignment.SETUPREVERSED):
-                        if (location.isActive) {
-                            if (event.beta > -90)
-                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, -this.beta / 2, -this.beta));
-                            else
-                                this.rgdbdyBall.applyForce(new f.Vector3(this.gamma, -this.beta / 2, -this.beta));
-                        }
-                        break;
-                    case (MadMaze.Alignment.SETUPNORMAL):
-                        if (location.isActive) {
-                            if (event.beta < 90)
-                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma / 2, this.beta / 2, -this.beta));
-                            else
-                                this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 2, this.beta / 2, -this.beta));
-                        }
-                        break;
-                    case (MadMaze.Alignment.OVERHEAD):
-                        if (location.isActive)
-                            this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, this.beta / 5, this.beta));
-                        break;
-                    case (MadMaze.Alignment.OVERHEADREVERSED):
-                        if (location.isActive)
-                            this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, -this.beta / 5, -this.beta));
-                        break;
-                }
-            });
+                            break;
+                        case (MadMaze.Alignment.SETUPREVERSED):
+                            if (location.isActive) {
+                                if (event.beta > -90)
+                                    this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, -this.beta / 2, -this.beta));
+                                else
+                                    this.rgdbdyBall.applyForce(new f.Vector3(this.gamma, -this.beta / 2, -this.beta));
+                            }
+                            break;
+                        case (MadMaze.Alignment.SETUPNORMAL):
+                            if (location.isActive) {
+                                if (event.beta < 90)
+                                    this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma / 2, this.beta / 2, -this.beta));
+                                else
+                                    this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 2, this.beta / 2, -this.beta));
+                            }
+                            break;
+                        case (MadMaze.Alignment.OVERHEAD):
+                            if (location.isActive)
+                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, this.beta / 5, this.beta));
+                            break;
+                        case (MadMaze.Alignment.OVERHEADREVERSED):
+                            if (location.isActive)
+                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, -this.beta / 5, -this.beta));
+                            break;
+                    }
+                });
         };
     }
     MadMaze.BallManager = BallManager;
@@ -92,100 +94,133 @@ var MadMaze;
 var MadMaze;
 (function (MadMaze) {
     var f = FudgeCore;
+    MadMaze.isCameraFly = true;
+    MadMaze.flyIncrement = 0;
     class CameraFollow {
         cameraParent;
         cmpCamera;
         ballNode;
         delayCameraTransX = new f.Control("delayCameraX", 1, 0 /* PROPORTIONAL */);
+        delayCameraTransY = new f.Control("delayCameraY", 1, 0 /* PROPORTIONAL */);
         delayCameraTransZ = new f.Control("delayCameraZ", 1, 0 /* PROPORTIONAL */);
         delayCameraRotX = new f.Control("delayRotX", 1, 0 /* PROPORTIONAL */);
+        delayCameraRotY = new f.Control("delayRotY", 1, 0 /* PROPORTIONAL */);
         delayCameraRotZ = new f.Control("delayRotZ", 1, 0 /* PROPORTIONAL */);
         constructor(_cmpCamera, _cameraParent, _ballNode) {
             this.cameraParent = _cameraParent;
             this.cmpCamera = _cmpCamera;
             this.ballNode = _ballNode;
-            this.delayCameraTransX.setDelay(350);
-            this.delayCameraTransZ.setDelay(350);
-            this.delayCameraRotX.setDelay(500);
-            this.delayCameraRotZ.setDelay(500);
             f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update);
             f.Loop.start();
         }
         update = (_event) => {
-            MadMaze.orientations.forEach(orientation => {
-                switch (orientation.alignment) {
-                    case (MadMaze.Alignment.NORMAL):
-                        if (orientation.isActive) {
-                            this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x);
-                            this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z - 5);
-                            this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 10, this.delayCameraTransZ.getOutput());
-                            this.delayCameraRotX.setInput(50);
-                            this.delayCameraRotZ.setInput(0);
-                            this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
-                        }
-                        break;
-                    case (MadMaze.Alignment.LEFTSIDE):
-                        if (orientation.isActive) {
-                            this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x - 8);
-                            this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z);
-                            this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 15, this.delayCameraTransZ.getOutput());
-                            this.delayCameraRotX.setInput(90);
-                            this.delayCameraRotZ.setInput(25);
-                            this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, this.delayCameraRotZ.getOutput());
-                        }
-                        break;
-                    case (MadMaze.Alignment.RIGHTSIDE):
-                        if (orientation.isActive) {
-                            this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x + 8);
-                            this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z);
-                            this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 15, this.delayCameraTransZ.getOutput());
-                            this.delayCameraRotX.setInput(90);
-                            this.delayCameraRotZ.setInput(-25);
-                            this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, this.delayCameraRotZ.getOutput());
-                        }
-                        break;
-                    case (MadMaze.Alignment.SETUPREVERSED):
-                        if (orientation.isActive) {
-                            this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x);
-                            this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z - 10);
-                            this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 10, this.delayCameraTransZ.getOutput());
-                            this.delayCameraRotX.setInput(65);
-                            this.delayCameraRotZ.setInput(0);
-                            this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
-                        }
-                        break;
-                    case (MadMaze.Alignment.SETUPNORMAL):
-                        if (orientation.isActive) {
-                            this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x);
-                            this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z + 10);
-                            this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 10, this.delayCameraTransZ.getOutput());
-                            this.delayCameraRotX.setInput(115);
-                            this.delayCameraRotZ.setInput(0);
-                            this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
-                        }
-                        break;
-                    case (MadMaze.Alignment.OVERHEAD):
-                        if (orientation.isActive) {
-                            this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x);
-                            this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z);
-                            this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 10, this.delayCameraTransZ.getOutput());
-                            this.delayCameraRotX.setInput(90);
-                            this.delayCameraRotZ.setInput(0);
-                            this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
-                        }
-                        break;
-                    case (MadMaze.Alignment.OVERHEADREVERSED):
-                        if (orientation.isActive) {
-                            this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x);
-                            this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z);
-                            this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 10, this.delayCameraTransZ.getOutput());
-                            this.delayCameraRotX.setInput(90);
-                            this.delayCameraRotZ.setInput(0);
-                            this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
-                        }
-                        break;
-                }
-            });
+            if (MadMaze.isCameraFly) {
+                if (MadMaze.cameraFlyPoints != null)
+                    if (MadMaze.flyIncrement == MadMaze.cameraFlyPoints.length) {
+                        this.delayCameraTransX.setDelay(150);
+                        this.delayCameraTransY.setDelay(150);
+                        this.delayCameraTransZ.setDelay(150);
+                        this.delayCameraRotX.setDelay(500);
+                        this.delayCameraRotY.setDelay(500);
+                        this.delayCameraRotZ.setDelay(500);
+                        this.cmpCamera.mtxLocal.rotation = new f.Vector3(0, 0, 0);
+                        ;
+                        MadMaze.isCameraFly = false;
+                        return;
+                    }
+                this.delayCameraTransX.setDelay(500);
+                this.delayCameraTransY.setDelay(500);
+                this.delayCameraTransZ.setDelay(500);
+                this.delayCameraRotX.setDelay(600);
+                this.delayCameraRotY.setDelay(600);
+                this.delayCameraRotZ.setDelay(600);
+                this.delayCameraTransX.setInput(MadMaze.cameraFlyPoints[MadMaze.flyIncrement].mtxLocal.translation.x);
+                this.delayCameraTransY.setInput(MadMaze.cameraFlyPoints[MadMaze.flyIncrement].mtxLocal.translation.y);
+                this.delayCameraTransZ.setInput(MadMaze.cameraFlyPoints[MadMaze.flyIncrement].mtxLocal.translation.z);
+                this.delayCameraRotX.setInput(MadMaze.cameraFlyPoints[MadMaze.flyIncrement].mtxLocal.rotation.x);
+                this.delayCameraRotY.setInput(MadMaze.cameraFlyPoints[MadMaze.flyIncrement].mtxLocal.rotation.y);
+                this.delayCameraRotZ.setInput(MadMaze.cameraFlyPoints[MadMaze.flyIncrement].mtxLocal.rotation.z);
+                this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.delayCameraTransY.getOutput(), this.delayCameraTransZ.getOutput());
+                this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), this.delayCameraRotY.getOutput(), this.delayCameraRotZ.getOutput());
+                ;
+                if (f.Vector3.DIFFERENCE(this.cameraParent.mtxLocal.translation, MadMaze.cameraFlyPoints[MadMaze.flyIncrement].mtxLocal.translation).magnitude < 2)
+                    MadMaze.flyIncrement++;
+            }
+            if (!MadMaze.isCameraFly)
+                MadMaze.orientations.forEach(orientation => {
+                    switch (orientation.alignment) {
+                        case (MadMaze.Alignment.NORMAL):
+                            if (orientation.isActive) {
+                                this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x);
+                                this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z - 5);
+                                this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 10, this.delayCameraTransZ.getOutput());
+                                this.delayCameraRotX.setInput(50);
+                                this.delayCameraRotZ.setInput(0);
+                                this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
+                            }
+                            break;
+                        case (MadMaze.Alignment.LEFTSIDE):
+                            if (orientation.isActive) {
+                                this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x - 8);
+                                this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z);
+                                this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 15, this.delayCameraTransZ.getOutput());
+                                this.delayCameraRotX.setInput(90);
+                                this.delayCameraRotZ.setInput(25);
+                                this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, this.delayCameraRotZ.getOutput());
+                            }
+                            break;
+                        case (MadMaze.Alignment.RIGHTSIDE):
+                            if (orientation.isActive) {
+                                this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x + 8);
+                                this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z);
+                                this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 15, this.delayCameraTransZ.getOutput());
+                                this.delayCameraRotX.setInput(90);
+                                this.delayCameraRotZ.setInput(-25);
+                                this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, this.delayCameraRotZ.getOutput());
+                            }
+                            break;
+                        case (MadMaze.Alignment.SETUPREVERSED):
+                            if (orientation.isActive) {
+                                this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x);
+                                this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z - 10);
+                                this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 10, this.delayCameraTransZ.getOutput());
+                                this.delayCameraRotX.setInput(65);
+                                this.delayCameraRotZ.setInput(0);
+                                this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
+                            }
+                            break;
+                        case (MadMaze.Alignment.SETUPNORMAL):
+                            if (orientation.isActive) {
+                                this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x);
+                                this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z + 10);
+                                this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 10, this.delayCameraTransZ.getOutput());
+                                this.delayCameraRotX.setInput(115);
+                                this.delayCameraRotZ.setInput(0);
+                                this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
+                            }
+                            break;
+                        case (MadMaze.Alignment.OVERHEAD):
+                            if (orientation.isActive) {
+                                this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x);
+                                this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z);
+                                this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 10, this.delayCameraTransZ.getOutput());
+                                this.delayCameraRotX.setInput(90);
+                                this.delayCameraRotZ.setInput(0);
+                                this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
+                            }
+                            break;
+                        case (MadMaze.Alignment.OVERHEADREVERSED):
+                            if (orientation.isActive) {
+                                this.delayCameraTransX.setInput(this.ballNode.mtxWorld.translation.x);
+                                this.delayCameraTransZ.setInput(this.ballNode.mtxWorld.translation.z);
+                                this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 10, this.delayCameraTransZ.getOutput());
+                                this.delayCameraRotX.setInput(90);
+                                this.delayCameraRotZ.setInput(0);
+                                this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
+                            }
+                            break;
+                    }
+                });
         };
     }
     MadMaze.CameraFollow = CameraFollow;
@@ -196,6 +231,7 @@ var MadMaze;
     f.Project.registerScriptNamespace(MadMaze); // Register the namespace to FUDGE for serialization
     class Checkpoint extends f.ComponentScript {
         static iSubclass = f.Component.registerSubclass(Checkpoint);
+        hasActivated = false;
         constructor() {
             super();
             if (f.Project.mode == f.MODE.EDITOR)
@@ -216,10 +252,10 @@ var MadMaze;
             }
         };
         OnTriggerEnter = (_event) => {
-            if (_event.cmpRigidbody.node.name == "Ball") {
+            if (_event.cmpRigidbody.node.name == "Ball" && !this.hasActivated) {
                 MadMaze.spawnPoint = this.node.mtxWorld.translation;
-                this.node.activate(false);
-                this.node.getComponent(f.ComponentRigidbody).activate(false);
+                this.node.getParent().removeChild(this.node);
+                this.hasActivated = true;
             }
         };
     }
@@ -260,6 +296,7 @@ var MadMaze;
             }
             this.createButtons();
             this.createArray();
+            new MadMaze.CameraFollow(MadMaze.cmpCamera.node, MadMaze.cameraParent, MadMaze.rgdbdyBall.node);
         };
         getMobileOperatingSystem = () => {
             var userAgent = navigator.userAgent || navigator.vendor;
@@ -409,6 +446,7 @@ var MadMaze;
     class LevelManager {
         static level = 1;
         static nextLevelGraph = Levels.LEVEL1;
+        static previousGraph;
         static levelOverview;
         constructor() {
             LevelManager.levelOverview = document.getElementById("level");
@@ -418,7 +456,7 @@ var MadMaze;
             LevelManager.levelOverview.style.color = "green";
         }
         static loadNextLevel() {
-            MadMaze.madeMazeGraph.getChild(MadMaze.madeMazeGraph.nChildren - 1).getChildren().forEach(child => {
+            this.previousGraph.getChildren().forEach(child => {
                 if (child.getComponent(f.ComponentRigidbody))
                     child.removeComponent(child.getComponent(f.ComponentRigidbody));
                 child.getChildren().forEach(childOfChild => {
@@ -430,27 +468,51 @@ var MadMaze;
                     });
                 });
             });
-            MadMaze.madeMazeGraph.removeChild(MadMaze.madeMazeGraph.getChild(MadMaze.madeMazeGraph.nChildren - 1));
-            let nextLevel = f.Project.resources[this.nextLevelGraph];
-            MadMaze.madeMazeGraph.appendChild(nextLevel);
-            MadMaze.rgdbdyBall.setPosition(nextLevel.getChildrenByName("spawnPoint")[0].mtxLocal.translation);
+            MadMaze.madeMazeGraph.removeChild(this.previousGraph);
+            let levelToLoad = f.Project.resources[this.nextLevelGraph];
+            MadMaze.isCameraFly = true;
+            MadMaze.flyIncrement = 0;
+            MadMaze.cameraFlyPoints = new Array(levelToLoad.getChildrenByName("cameraFlyPoints")[0].nChildren - 1);
+            let increment = 0;
+            levelToLoad.getChildrenByName("cameraFlyPoints")[0].getChildren().forEach(flyPoint => {
+                MadMaze.cameraFlyPoints[increment] = flyPoint.getComponent(f.ComponentTransform);
+                increment++;
+            });
+            MadMaze.madeMazeGraph.appendChild(levelToLoad);
+            this.previousGraph = levelToLoad;
+            MadMaze.rgdbdyBall.setPosition(levelToLoad.getChildrenByName("spawnPoint")[0].mtxLocal.translation);
             MadMaze.rgdbdyBall.setVelocity(f.Vector3.ZERO());
             this.levelOverview.innerHTML = "Level: " + this.level;
         }
         static initilizeScene() {
             let scene = f.Project.resources[this.nextLevelGraph];
             MadMaze.madeMazeGraph.appendChild(scene);
+            this.previousGraph = scene;
             this.levelOverview.innerHTML = "Level: " + this.level;
+            MadMaze.cameraFlyPoints = new Array(this.previousGraph.getChildrenByName("cameraFlyPoints")[0].nChildren - 1);
+            let increment = 0;
+            this.previousGraph.getChildrenByName("cameraFlyPoints")[0].getChildren().forEach(flyPoint => {
+                MadMaze.cameraFlyPoints[increment] = flyPoint.getComponent(f.ComponentTransform);
+                increment++;
+            });
+            MadMaze.lowestBorder = -7;
         }
         static checkForNextLevel() {
             switch (LevelManager.level) {
                 case (1):
+                    MadMaze.lowestBorder = -7;
                     this.nextLevelGraph = Levels.LEVEL1;
                     break;
                 case (2):
+                    MadMaze.lowestBorder = -1;
+                    MadMaze.isCameraFly = true;
                     this.nextLevelGraph = Levels.LEVEL2;
                     break;
-                case (3): this.nextLevelGraph = Levels.LEVEL3;
+                case (3):
+                    this.nextLevelGraph = Levels.LEVEL3;
+                    MadMaze.isCameraFly = true;
+                    MadMaze.lowestBorder = -1;
+                    break;
             }
         }
     }
@@ -486,7 +548,6 @@ var MadMaze;
         let deviceManager = new MadMaze.DeviceManager(startButton, new MadMaze.BallManager(MadMaze.rgdbdyBall));
         if (f.Project.mode != f.MODE.EDITOR)
             startButton.addEventListener("click", deviceManager.getAccelPermission);
-        new MadMaze.CameraFollow(MadMaze.cmpCamera.node, MadMaze.cameraParent, MadMaze.rgdbdyBall.node);
         viewport.draw();
         f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, update);
         f.Loop.start();

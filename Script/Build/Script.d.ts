@@ -3,6 +3,7 @@ import f = FudgeCore;
 declare namespace MadMaze {
     let orientations: Orientation[];
     let spawnPoint: f.Vector3;
+    let lowestBorder: number;
     class BallManager {
         private rgdbdyBall;
         constructor(_rgdBdy: f.ComponentRigidbody);
@@ -15,13 +16,18 @@ declare namespace MadMaze {
 }
 declare namespace MadMaze {
     import f = FudgeCore;
+    let isCameraFly: boolean;
+    let cameraFlyPoints: Array<f.ComponentTransform>;
+    let flyIncrement: number;
     class CameraFollow {
         private cameraParent;
         private cmpCamera;
         private ballNode;
         private delayCameraTransX;
+        private delayCameraTransY;
         private delayCameraTransZ;
         private delayCameraRotX;
+        private delayCameraRotY;
         private delayCameraRotZ;
         constructor(_cmpCamera: f.Node, _cameraParent: f.Node, _ballNode: f.Node);
         private update;
@@ -31,6 +37,7 @@ declare namespace MadMaze {
     import f = FudgeCore;
     class Checkpoint extends f.ComponentScript {
         static readonly iSubclass: number;
+        private hasActivated;
         constructor();
         hndEvent: (_event: Event) => void;
         private OnTriggerEnter;
@@ -51,6 +58,7 @@ declare namespace MadMaze {
     }
 }
 declare namespace MadMaze {
+    import f = FudgeCore;
     enum Levels {
         LEVEL1 = "Graph|2022-05-17T15:48:08.487Z|74649",
         LEVEL2 = "Graph|2022-05-17T15:39:18.443Z|44479",
@@ -59,6 +67,7 @@ declare namespace MadMaze {
     class LevelManager {
         static level: number;
         static nextLevelGraph: Levels;
+        static previousGraph: f.Graph;
         static levelOverview: HTMLElement;
         constructor();
         static loadNextLevel(): void;

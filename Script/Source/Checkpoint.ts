@@ -4,7 +4,7 @@ namespace MadMaze {
 
   export class Checkpoint extends f.ComponentScript {
     public static readonly iSubclass: number = f.Component.registerSubclass(Checkpoint);
-
+    private hasActivated: boolean = false;
     constructor() {
       super();
       if (f.Project.mode == f.MODE.EDITOR)
@@ -26,11 +26,13 @@ namespace MadMaze {
       }
     }
     private OnTriggerEnter = (_event: f.EventPhysics): void => {
-      if (_event.cmpRigidbody.node.name == "Ball") {
+      if (_event.cmpRigidbody.node.name == "Ball" && !this.hasActivated) {
         spawnPoint = this.node.mtxWorld.translation;
-        this.node.activate(false);
-        this.node.getComponent(f.ComponentRigidbody).activate(false);
+        this.node.getParent().removeChild(this.node);
+        this.hasActivated = true;
       }
+
     }
+
   }
 }

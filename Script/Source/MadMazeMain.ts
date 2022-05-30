@@ -38,7 +38,9 @@ namespace MadMaze {
     let deviceManager: DeviceManager = new DeviceManager(startButton, new BallManager(rgdbdyBall));
     if (f.Project.mode != f.MODE.EDITOR)
       startButton.addEventListener("click", deviceManager.getAccelPermission);
-    new CameraFollow(cmpCamera.node, cameraParent, rgdbdyBall.node);
+
+
+
 
     viewport.draw();
     f.Loop.addEventListener(f.EVENT.LOOP_FRAME, update);
