@@ -59,10 +59,13 @@ declare namespace MadMaze {
 }
 declare namespace MadMaze {
     import f = FudgeCore;
+    let startPoint: f.Vector3;
     enum Levels {
-        LEVEL1 = "Graph|2022-05-17T15:48:08.487Z|74649",
-        LEVEL2 = "Graph|2022-05-17T15:39:18.443Z|44479",
-        LEVEL3 = "Graph|2022-05-17T15:48:20.157Z|38212"
+        LEVEL1 = "Graph|2022-05-17T15:48:20.157Z|38212",
+        LEVEL2 = "Graph|2022-05-17T15:48:08.487Z|74649",
+        LEVEL3 = "Graph|2022-05-17T15:39:18.443Z|44479",
+        LEVEL4 = "Graph|2022-05-31T15:35:07.044Z|09570",
+        LEVEL5 = "Graph|2022-05-31T15:46:28.921Z|74068"
     }
     class LevelManager {
         static level: number;
@@ -89,6 +92,16 @@ declare namespace MadMaze {
         constructor();
         hndEvent: (_event: Event) => void;
         private update;
+    }
+}
+declare namespace MadMaze {
+    import f = FudgeCore;
+    class OnTriggerOpen extends f.ComponentScript {
+        static readonly iSubclass: number;
+        constructor();
+        hndEvent: (_event: Event) => void;
+        private OnTriggerEnter;
+        private OnTriggerExit;
     }
 }
 declare namespace MadMaze {
@@ -124,6 +137,5 @@ declare namespace MadMaze {
         constructor();
         hndEvent: (_event: Event) => void;
         private triggerEnter;
-        private update;
     }
 }

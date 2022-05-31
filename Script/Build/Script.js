@@ -27,7 +27,10 @@ var MadMaze;
                     });
                 });
                 MadMaze.rgdbdyBall.setVelocity(f.Vector3.ZERO());
-                MadMaze.rgdbdyBall.setPosition(MadMaze.spawnPoint);
+                if (MadMaze.spawnPoint != null)
+                    MadMaze.rgdbdyBall.setPosition(MadMaze.spawnPoint);
+                else
+                    MadMaze.rgdbdyBall.setPosition(MadMaze.startPoint);
             }
         };
         gamma = 0;
@@ -78,12 +81,24 @@ var MadMaze;
                             }
                             break;
                         case (MadMaze.Alignment.OVERHEAD):
-                            if (location.isActive)
-                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, this.beta / 5, this.beta));
+                            if (location.isActive) {
+                                let zFactor = 0;
+                                if (Math.abs(this.beta) > 80)
+                                    zFactor = 6;
+                                else
+                                    zFactor = -6;
+                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, this.beta / 5, zFactor));
+                            }
                             break;
                         case (MadMaze.Alignment.OVERHEADREVERSED):
-                            if (location.isActive)
-                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, -this.beta / 5, -this.beta));
+                            if (location.isActive) {
+                                let zFactor = 0;
+                                if (Math.abs(this.beta) > 80)
+                                    zFactor = 6;
+                                else
+                                    zFactor = -6;
+                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, -this.beta / 5, zFactor));
+                            }
                             break;
                     }
                 });
@@ -128,12 +143,12 @@ var MadMaze;
                         MadMaze.isCameraFly = false;
                         return;
                     }
-                this.delayCameraTransX.setDelay(1000);
-                this.delayCameraTransY.setDelay(1000);
-                this.delayCameraTransZ.setDelay(1000);
-                this.delayCameraRotX.setDelay(1000);
-                this.delayCameraRotY.setDelay(1000);
-                this.delayCameraRotZ.setDelay(1000);
+                this.delayCameraTransX.setDelay(500);
+                this.delayCameraTransY.setDelay(500);
+                this.delayCameraTransZ.setDelay(500);
+                this.delayCameraRotX.setDelay(600);
+                this.delayCameraRotY.setDelay(600);
+                this.delayCameraRotZ.setDelay(600);
                 this.delayCameraTransX.setInput(MadMaze.cameraFlyPoints[MadMaze.flyIncrement].mtxLocal.translation.x);
                 this.delayCameraTransY.setInput(MadMaze.cameraFlyPoints[MadMaze.flyIncrement].mtxLocal.translation.y);
                 this.delayCameraTransZ.setInput(MadMaze.cameraFlyPoints[MadMaze.flyIncrement].mtxLocal.translation.z);
@@ -143,6 +158,7 @@ var MadMaze;
                 this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.delayCameraTransY.getOutput(), this.delayCameraTransZ.getOutput());
                 this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), this.delayCameraRotY.getOutput(), this.delayCameraRotZ.getOutput());
                 ;
+                MadMaze.rgdbdyBall.setVelocity(f.Vector3.ZERO());
                 if (f.Vector3.DIFFERENCE(this.cameraParent.mtxLocal.translation, MadMaze.cameraFlyPoints[MadMaze.flyIncrement].mtxLocal.translation).magnitude < 2)
                     MadMaze.flyIncrement++;
             }
@@ -439,9 +455,11 @@ var MadMaze;
     var f = FudgeCore;
     let Levels;
     (function (Levels) {
-        Levels["LEVEL1"] = "Graph|2022-05-17T15:48:08.487Z|74649";
-        Levels["LEVEL2"] = "Graph|2022-05-17T15:39:18.443Z|44479";
-        Levels["LEVEL3"] = "Graph|2022-05-17T15:48:20.157Z|38212";
+        Levels["LEVEL1"] = "Graph|2022-05-17T15:48:20.157Z|38212";
+        Levels["LEVEL2"] = "Graph|2022-05-17T15:48:08.487Z|74649";
+        Levels["LEVEL3"] = "Graph|2022-05-17T15:39:18.443Z|44479";
+        Levels["LEVEL4"] = "Graph|2022-05-31T15:35:07.044Z|09570";
+        Levels["LEVEL5"] = "Graph|2022-05-31T15:46:28.921Z|74068";
     })(Levels = MadMaze.Levels || (MadMaze.Levels = {}));
     class LevelManager {
         static level = 1;
@@ -456,6 +474,7 @@ var MadMaze;
             LevelManager.levelOverview.style.color = "green";
         }
         static loadNextLevel() {
+            MadMaze.spawnPoint = null;
             this.previousGraph.getChildren().forEach(child => {
                 if (child.getComponent(f.ComponentRigidbody))
                     child.removeComponent(child.getComponent(f.ComponentRigidbody));
@@ -470,7 +489,9 @@ var MadMaze;
             });
             MadMaze.madeMazeGraph.removeChild(this.previousGraph);
             let levelToLoad = f.Project.resources[this.nextLevelGraph];
-            MadMaze.isCameraFly = true;
+            MadMaze.rgdbdyBall.setVelocity(f.Vector3.ZERO());
+            MadMaze.startPoint = levelToLoad.getChildrenByName("startPoint")[0].getComponent(f.ComponentTransform).mtxLocal.translation;
+            MadMaze.rgdbdyBall.setPosition(MadMaze.startPoint);
             MadMaze.flyIncrement = 0;
             MadMaze.cameraFlyPoints = new Array(levelToLoad.getChildrenByName("cameraFlyPoints")[0].nChildren - 1);
             let increment = 0;
@@ -480,31 +501,32 @@ var MadMaze;
             });
             MadMaze.madeMazeGraph.appendChild(levelToLoad);
             this.previousGraph = levelToLoad;
-            MadMaze.rgdbdyBall.setPosition(levelToLoad.getChildrenByName("spawnPoint")[0].mtxLocal.translation);
-            MadMaze.rgdbdyBall.setVelocity(f.Vector3.ZERO());
             this.levelOverview.innerHTML = "Level: " + this.level;
+            MadMaze.isCameraFly = true;
         }
         static initilizeScene() {
             let scene = f.Project.resources[this.nextLevelGraph];
             MadMaze.madeMazeGraph.appendChild(scene);
             this.previousGraph = scene;
             this.levelOverview.innerHTML = "Level: " + this.level;
+            MadMaze.startPoint = scene.getChildrenByName("startPoint")[0].getComponent(f.ComponentTransform).mtxLocal.translation;
+            MadMaze.rgdbdyBall.setPosition(MadMaze.startPoint);
             MadMaze.cameraFlyPoints = new Array(this.previousGraph.getChildrenByName("cameraFlyPoints")[0].nChildren - 1);
             let increment = 0;
             this.previousGraph.getChildrenByName("cameraFlyPoints")[0].getChildren().forEach(flyPoint => {
                 MadMaze.cameraFlyPoints[increment] = flyPoint.getComponent(f.ComponentTransform);
                 increment++;
             });
-            MadMaze.lowestBorder = -7;
+            MadMaze.lowestBorder = -55;
         }
         static checkForNextLevel() {
             switch (LevelManager.level) {
                 case (1):
-                    MadMaze.lowestBorder = -7;
+                    MadMaze.lowestBorder = -55;
                     this.nextLevelGraph = Levels.LEVEL1;
                     break;
                 case (2):
-                    MadMaze.lowestBorder = -1;
+                    MadMaze.lowestBorder = -8;
                     MadMaze.isCameraFly = true;
                     this.nextLevelGraph = Levels.LEVEL2;
                     break;
@@ -512,6 +534,16 @@ var MadMaze;
                     this.nextLevelGraph = Levels.LEVEL3;
                     MadMaze.isCameraFly = true;
                     MadMaze.lowestBorder = -1;
+                    break;
+                case (4):
+                    this.nextLevelGraph = Levels.LEVEL4;
+                    MadMaze.isCameraFly = true;
+                    MadMaze.lowestBorder = -1;
+                    break;
+                case (5):
+                    this.nextLevelGraph = Levels.LEVEL4;
+                    MadMaze.isCameraFly = true;
+                    MadMaze.lowestBorder = -18;
                     break;
             }
         }
@@ -536,6 +568,7 @@ var MadMaze;
             alert("Nothing to render. Create a graph with at least a mesh, material and probably some light");
             return;
         }
+        MadMaze.rgdbdyBall = MadMaze.madeMazeGraph.getChildrenByName("Ball")[0].getComponent(f.ComponentRigidbody);
         new MadMaze.LevelManager();
         MadMaze.LevelManager.initilizeScene();
         // setup the viewport
@@ -544,7 +577,6 @@ var MadMaze;
         let canvas = document.querySelector("canvas");
         viewport = new FudgeCore.Viewport();
         viewport.initialize("InteractiveViewport", MadMaze.madeMazeGraph, MadMaze.cmpCamera, canvas);
-        MadMaze.rgdbdyBall = MadMaze.madeMazeGraph.getChildrenByName("Ball")[0].getComponent(f.ComponentRigidbody);
         let deviceManager = new MadMaze.DeviceManager(startButton, new MadMaze.BallManager(MadMaze.rgdbdyBall));
         if (f.Project.mode != f.MODE.EDITOR)
             startButton.addEventListener("click", deviceManager.getAccelPermission);
@@ -586,6 +618,45 @@ var MadMaze;
         };
     }
     MadMaze.ObstaclesTranslator = ObstaclesTranslator;
+})(MadMaze || (MadMaze = {}));
+var MadMaze;
+(function (MadMaze) {
+    var f = FudgeCore;
+    f.Project.registerScriptNamespace(MadMaze); // Register the namespace to FUDGE for serialization
+    class OnTriggerOpen extends f.ComponentScript {
+        static iSubclass = f.Component.registerSubclass(OnTriggerOpen);
+        constructor() {
+            super();
+            if (f.Project.mode == f.MODE.EDITOR)
+                return;
+            this.addEventListener("componentAdd" /* COMPONENT_ADD */, this.hndEvent);
+            this.addEventListener("componentRemove" /* COMPONENT_REMOVE */, this.hndEvent);
+        }
+        // Activate the functions of this component as response to events
+        hndEvent = (_event) => {
+            switch (_event.type) {
+                case "componentAdd" /* COMPONENT_ADD */:
+                    this.node.getComponent(f.ComponentRigidbody).addEventListener("TriggerEnteredCollision" /* TRIGGER_ENTER */, this.OnTriggerEnter);
+                    this.node.getComponent(f.ComponentRigidbody).addEventListener("TriggerLeftCollision" /* TRIGGER_EXIT */, this.OnTriggerExit);
+                    break;
+                case "componentRemove" /* COMPONENT_REMOVE */:
+                    this.removeEventListener("componentAdd" /* COMPONENT_ADD */, this.hndEvent);
+                    this.removeEventListener("componentRemove" /* COMPONENT_REMOVE */, this.hndEvent);
+                    break;
+            }
+        };
+        OnTriggerEnter = (_event) => {
+            if (_event.cmpRigidbody.node.name == "Ball") {
+                this.node.getParent().getComponent(f.ComponentRigidbody).activate(false);
+            }
+        };
+        OnTriggerExit = (_event) => {
+            if (_event.cmpRigidbody.node.name == "Ball") {
+                this.node.getParent().getComponent(f.ComponentRigidbody).activate(true);
+            }
+        };
+    }
+    MadMaze.OnTriggerOpen = OnTriggerOpen;
 })(MadMaze || (MadMaze = {}));
 var MadMaze;
 (function (MadMaze) {
@@ -668,7 +739,6 @@ var MadMaze;
         hndEvent = (_event) => {
             switch (_event.type) {
                 case "componentAdd" /* COMPONENT_ADD */:
-                    f.Loop.addEventListener("loopFrame" /* LOOP_FRAME */, this.update);
                     this.node.getComponent(f.ComponentRigidbody).addEventListener("TriggerEnteredCollision" /* TRIGGER_ENTER */, this.triggerEnter);
                     break;
                 case "componentRemove" /* COMPONENT_REMOVE */:
@@ -679,12 +749,11 @@ var MadMaze;
         };
         triggerEnter = (_event) => {
             if (_event.cmpRigidbody.node.name == "Ball") {
+                MadMaze.rgdbdyBall.setVelocity(f.Vector3.ZERO());
                 MadMaze.LevelManager.level++;
                 MadMaze.LevelManager.checkForNextLevel();
                 MadMaze.LevelManager.loadNextLevel();
             }
-        };
-        update = () => {
         };
     }
     MadMaze.Target = Target;

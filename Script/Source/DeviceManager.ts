@@ -4,7 +4,7 @@ namespace MadMaze {
 
         private startButton: HTMLElement;
         private ballManager: BallManager;
-        private toleranceFactor: number = 30;
+        private toleranceFactor: number = 15;
 
 
         constructor(_startButton: HTMLElement, _ballManager: BallManager) {

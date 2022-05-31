@@ -33,17 +33,16 @@ namespace MadMaze {
                         this.delayCameraRotX.setDelay(500);
                         this.delayCameraRotY.setDelay(500);
                         this.delayCameraRotZ.setDelay(500);
-
                         this.cmpCamera.mtxLocal.rotation = new f.Vector3(0, 0, 0);;
                         isCameraFly = false;
                         return;
                     }
-                this.delayCameraTransX.setDelay(1000);
-                this.delayCameraTransY.setDelay(1000);
-                this.delayCameraTransZ.setDelay(1000);
-                this.delayCameraRotX.setDelay(1000);
-                this.delayCameraRotY.setDelay(1000);
-                this.delayCameraRotZ.setDelay(1000);
+                this.delayCameraTransX.setDelay(500);
+                this.delayCameraTransY.setDelay(500);
+                this.delayCameraTransZ.setDelay(500);
+                this.delayCameraRotX.setDelay(600);
+                this.delayCameraRotY.setDelay(600);
+                this.delayCameraRotZ.setDelay(600);
                 this.delayCameraTransX.setInput(cameraFlyPoints[flyIncrement].mtxLocal.translation.x);
                 this.delayCameraTransY.setInput(cameraFlyPoints[flyIncrement].mtxLocal.translation.y);
                 this.delayCameraTransZ.setInput(cameraFlyPoints[flyIncrement].mtxLocal.translation.z);
@@ -53,14 +52,12 @@ namespace MadMaze {
                 this.delayCameraRotZ.setInput(cameraFlyPoints[flyIncrement].mtxLocal.rotation.z);
                 this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.delayCameraTransY.getOutput(), this.delayCameraTransZ.getOutput());
                 this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), this.delayCameraRotY.getOutput(), this.delayCameraRotZ.getOutput());;
-
+                rgdbdyBall.setVelocity(f.Vector3.ZERO());
 
                 if (f.Vector3.DIFFERENCE(this.cameraParent.mtxLocal.translation, cameraFlyPoints[flyIncrement].mtxLocal.translation).magnitude < 2)
                     flyIncrement++;
-
-
-
             }
+
             if (!isCameraFly)
                 orientations.forEach(orientation => {
                     switch (orientation.alignment) {

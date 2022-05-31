@@ -1,11 +1,13 @@
 
 namespace MadMaze {
     import f = FudgeCore;
-
+    export let startPoint: f.Vector3;
     export enum Levels {
-        LEVEL1 = "Graph|2022-05-17T15:48:08.487Z|74649",
-        LEVEL2 = "Graph|2022-05-17T15:39:18.443Z|44479",
-        LEVEL3 = "Graph|2022-05-17T15:48:20.157Z|38212",
+        LEVEL1 = "Graph|2022-05-17T15:48:20.157Z|38212",
+        LEVEL2 = "Graph|2022-05-17T15:48:08.487Z|74649",
+        LEVEL3 = "Graph|2022-05-17T15:39:18.443Z|44479",
+        LEVEL4 = "Graph|2022-05-31T15:35:07.044Z|09570",
+        LEVEL5 = "Graph|2022-05-31T15:46:28.921Z|74068",
     }
     export class LevelManager {
         public static level: number = 1;
@@ -20,6 +22,7 @@ namespace MadMaze {
             LevelManager.levelOverview.style.color = "green";
         }
         public static loadNextLevel(): void {
+            spawnPoint = null;
             this.previousGraph.getChildren().forEach(child => {
                 if (child.getComponent(f.ComponentRigidbody))
                     child.removeComponent(child.getComponent(f.ComponentRigidbody));
@@ -34,23 +37,20 @@ namespace MadMaze {
             });
             madeMazeGraph.removeChild(this.previousGraph);
             let levelToLoad: f.Graph = <f.Graph>f.Project.resources[this.nextLevelGraph];
-            isCameraFly = true;
+            rgdbdyBall.setVelocity(f.Vector3.ZERO());
+            startPoint = levelToLoad.getChildrenByName("startPoint")[0].getComponent(f.ComponentTransform).mtxLocal.translation;
+            rgdbdyBall.setPosition(startPoint);
             flyIncrement = 0;
             cameraFlyPoints = new Array<f.ComponentTransform>(levelToLoad.getChildrenByName("cameraFlyPoints")[0].nChildren - 1);
             let increment: number = 0;
-
             levelToLoad.getChildrenByName("cameraFlyPoints")[0].getChildren().forEach(flyPoint => {
                 cameraFlyPoints[increment] = flyPoint.getComponent(f.ComponentTransform);
                 increment++;
             });
             madeMazeGraph.appendChild(levelToLoad);
-
             this.previousGraph = levelToLoad;
-
-
-            rgdbdyBall.setPosition(levelToLoad.getChildrenByName("spawnPoint")[0].mtxLocal.translation);
-            rgdbdyBall.setVelocity(f.Vector3.ZERO());
             this.levelOverview.innerHTML = "Level: " + this.level;
+            isCameraFly = true;
         }
 
         public static initilizeScene(): void {
@@ -58,6 +58,9 @@ namespace MadMaze {
             madeMazeGraph.appendChild(scene);
             this.previousGraph = scene;
             this.levelOverview.innerHTML = "Level: " + this.level;
+            startPoint = scene.getChildrenByName("startPoint")[0].getComponent(f.ComponentTransform).mtxLocal.translation;
+            rgdbdyBall.setPosition(startPoint);
+
             cameraFlyPoints = new Array<f.ComponentTransform>(this.previousGraph.getChildrenByName("cameraFlyPoints")[0].nChildren - 1);
             let increment: number = 0;
 
@@ -66,22 +69,30 @@ namespace MadMaze {
                 increment++;
             });
 
-            lowestBorder = -7;
+            lowestBorder = -55;
         }
         public static checkForNextLevel(): void {
             switch (LevelManager.level) {
                 case (1):
-                    lowestBorder = -7;
+                    lowestBorder = -55;
                     this.nextLevelGraph = Levels.LEVEL1;
                     break;
                 case (2):
-                    lowestBorder = -1;
+                    lowestBorder = -8;
                     isCameraFly = true;
                     this.nextLevelGraph = Levels.LEVEL2;
                     break;
                 case (3): this.nextLevelGraph = Levels.LEVEL3;
                     isCameraFly = true;
                     lowestBorder = -1;
+                    break;
+                case (4): this.nextLevelGraph = Levels.LEVEL4;
+                    isCameraFly = true;
+                    lowestBorder = -18;
+                    break;
+                case (5): this.nextLevelGraph = Levels.LEVEL5;
+                    isCameraFly = true;
+                    lowestBorder = -18;
                     break;
             }
         }

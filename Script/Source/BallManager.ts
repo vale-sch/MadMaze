@@ -30,7 +30,10 @@ namespace MadMaze {
                     });
                 });
                 rgdbdyBall.setVelocity(f.Vector3.ZERO());
-                rgdbdyBall.setPosition(spawnPoint);
+                if (spawnPoint != null)
+                    rgdbdyBall.setPosition(spawnPoint);
+                else
+                    rgdbdyBall.setPosition(startPoint);
             }
         }
 
@@ -90,13 +93,27 @@ namespace MadMaze {
                             break;
 
                         case (Alignment.OVERHEAD):
-                            if (location.isActive)
-                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, this.beta / 5, this.beta));
+                            if (location.isActive) {
+                                let zFactor: number = 0;
+                                if (Math.abs(this.beta) > 80)
+                                    zFactor = 6;
+                                else
+                                    zFactor = -6;
+                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, this.beta / 5, zFactor));
+                            }
+
                             break;
 
                         case (Alignment.OVERHEADREVERSED):
-                            if (location.isActive)
-                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, -this.beta / 5, -this.beta));
+                            if (location.isActive) {
+                                let zFactor: number = 0;
+                                if (Math.abs(this.beta) > 80)
+                                    zFactor = 6;
+                                else
+                                    zFactor = -6;
+                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, -this.beta / 5, zFactor));
+                            }
+
                             break;
 
                     }

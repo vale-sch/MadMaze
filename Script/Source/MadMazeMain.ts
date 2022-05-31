@@ -26,6 +26,7 @@ namespace MadMaze {
       alert("Nothing to render. Create a graph with at least a mesh, material and probably some light");
       return;
     }
+    rgdbdyBall = madeMazeGraph.getChildrenByName("Ball")[0].getComponent(f.ComponentRigidbody);
     new LevelManager()
     LevelManager.initilizeScene();
     // setup the viewport
@@ -34,7 +35,7 @@ namespace MadMaze {
     let canvas = document.querySelector("canvas");
     viewport = new FudgeCore.Viewport();
     viewport.initialize("InteractiveViewport", madeMazeGraph, cmpCamera, canvas);
-    rgdbdyBall = madeMazeGraph.getChildrenByName("Ball")[0].getComponent(f.ComponentRigidbody);
+
     let deviceManager: DeviceManager = new DeviceManager(startButton, new BallManager(rgdbdyBall));
     if (f.Project.mode != f.MODE.EDITOR)
       startButton.addEventListener("click", deviceManager.getAccelPermission);

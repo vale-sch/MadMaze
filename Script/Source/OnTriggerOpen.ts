@@ -2,9 +2,8 @@ namespace MadMaze {
   import f = FudgeCore;
   f.Project.registerScriptNamespace(MadMaze);  // Register the namespace to FUDGE for serialization
 
-  export class Target extends f.ComponentScript {
-    public static readonly iSubclass: number = f.Component.registerSubclass(Target);
-
+  export class OnTriggerOpen extends f.ComponentScript {
+    public static readonly iSubclass: number = f.Component.registerSubclass(OnTriggerOpen);
 
     constructor() {
       super();
@@ -12,14 +11,14 @@ namespace MadMaze {
         return;
       this.addEventListener(f.EVENT.COMPONENT_ADD, this.hndEvent);
       this.addEventListener(f.EVENT.COMPONENT_REMOVE, this.hndEvent);
-
     }
 
     // Activate the functions of this component as response to events
     public hndEvent = (_event: Event): void => {
       switch (_event.type) {
         case f.EVENT.COMPONENT_ADD:
-          this.node.getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.TRIGGER_ENTER, this.triggerEnter);
+          this.node.getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.TRIGGER_ENTER, this.OnTriggerEnter);
+          this.node.getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.TRIGGER_EXIT, this.OnTriggerExit);
           break;
         case f.EVENT.COMPONENT_REMOVE:
           this.removeEventListener(f.EVENT.COMPONENT_ADD, this.hndEvent);
@@ -27,12 +26,16 @@ namespace MadMaze {
           break;
       }
     }
-    private triggerEnter = (_event: f.EventPhysics): void => {
+    private OnTriggerEnter = (_event: f.EventPhysics): void => {
       if (_event.cmpRigidbody.node.name == "Ball") {
-        rgdbdyBall.setVelocity(f.Vector3.ZERO());
-        LevelManager.level++;
-        LevelManager.checkForNextLevel();
-        LevelManager.loadNextLevel();
+        this.node.getParent().getComponent(f.ComponentRigidbody).activate(false);
+      }
+
+    }
+    private OnTriggerExit = (_event: f.EventPhysics): void => {
+      if (_event.cmpRigidbody.node.name == "Ball") {
+        this.node.getParent().getComponent(f.ComponentRigidbody).activate(true);
+
       }
 
     }
