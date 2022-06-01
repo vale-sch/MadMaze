@@ -28,7 +28,6 @@ namespace MadMaze {
     private OnTriggerEnter = (_event: f.EventPhysics): void => {
       if (_event.cmpRigidbody.node.name == "Ball" && !this.hasActivated) {
         spawnPoint = this.node.mtxWorld.translation;
-        // lowestBorder = spawnPoint.y - 2;
         this.node.getParent().removeChild(this.node);
         this.hasActivated = true;
       }

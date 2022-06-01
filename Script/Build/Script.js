@@ -67,9 +67,9 @@ var MadMaze;
                         case (MadMaze.Alignment.SETUPREVERSED):
                             if (location.isActive) {
                                 if (event.beta > -90)
-                                    this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, -this.beta / 2, -this.beta));
+                                    this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma / 2, -this.beta / 2, -this.beta));
                                 else
-                                    this.rgdbdyBall.applyForce(new f.Vector3(this.gamma, -this.beta / 2, -this.beta));
+                                    this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 2, -this.beta / 2, -this.beta));
                             }
                             break;
                         case (MadMaze.Alignment.SETUPNORMAL):
@@ -282,7 +282,7 @@ var MadMaze;
     class DeviceManager {
         startButton;
         ballManager;
-        toleranceFactor = 30;
+        toleranceFactor = 20;
         constructor(_startButton, _ballManager) {
             this.ballManager = _ballManager;
             this.startButton = _startButton;
@@ -377,7 +377,7 @@ var MadMaze;
         };
         checkForOrientation = (event) => {
             //normal
-            if (event.beta - this.toleranceFactor < 20 && event.beta + this.toleranceFactor > 20 && event.gamma - this.toleranceFactor < 20 && event.gamma + this.toleranceFactor > 20) {
+            if (event.beta - this.toleranceFactor < 15 && event.beta + this.toleranceFactor > 15 && event.gamma - this.toleranceFactor < 15 && event.gamma + this.toleranceFactor > 15) {
                 for (let orientation of MadMaze.orientations) {
                     if (orientation.alignment == MadMaze.Alignment.NORMAL)
                         orientation.isActive = true;
@@ -527,23 +527,19 @@ var MadMaze;
                     break;
                 case (2):
                     MadMaze.lowestBorder = -8;
-                    MadMaze.isCameraFly = true;
                     this.nextLevelGraph = Levels.LEVEL2;
                     break;
                 case (3):
-                    this.nextLevelGraph = Levels.LEVEL3;
-                    MadMaze.isCameraFly = true;
                     MadMaze.lowestBorder = -1;
+                    this.nextLevelGraph = Levels.LEVEL3;
                     break;
                 case (4):
+                    MadMaze.lowestBorder = -20;
                     this.nextLevelGraph = Levels.LEVEL4;
-                    MadMaze.isCameraFly = true;
-                    MadMaze.lowestBorder = -1;
                     break;
                 case (5):
-                    this.nextLevelGraph = Levels.LEVEL4;
-                    MadMaze.isCameraFly = true;
                     MadMaze.lowestBorder = -18;
+                    this.nextLevelGraph = Levels.LEVEL5;
                     break;
             }
         }

@@ -4,7 +4,7 @@ namespace MadMaze {
 
         private startButton: HTMLElement;
         private ballManager: BallManager;
-        private toleranceFactor: number = 15;
+        private toleranceFactor: number = 20;
 
 
         constructor(_startButton: HTMLElement, _ballManager: BallManager) {
@@ -112,7 +112,7 @@ namespace MadMaze {
 
         public checkForOrientation = (event: DeviceOrientationEvent): void => {
             //normal
-            if (event.beta - this.toleranceFactor < 20 && event.beta + this.toleranceFactor > 20 && event.gamma - this.toleranceFactor < 20 && event.gamma + this.toleranceFactor > 20) {
+            if (event.beta - this.toleranceFactor < 15 && event.beta + this.toleranceFactor > 15 && event.gamma - this.toleranceFactor < 15 && event.gamma + this.toleranceFactor > 15) {
                 for (let orientation of orientations) {
                     if (orientation.alignment == Alignment.NORMAL)
                         orientation.isActive = true;

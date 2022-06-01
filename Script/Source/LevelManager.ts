@@ -79,20 +79,19 @@ namespace MadMaze {
                     break;
                 case (2):
                     lowestBorder = -8;
-                    isCameraFly = true;
                     this.nextLevelGraph = Levels.LEVEL2;
                     break;
-                case (3): this.nextLevelGraph = Levels.LEVEL3;
-                    isCameraFly = true;
+                case (3):
                     lowestBorder = -1;
+                    this.nextLevelGraph = Levels.LEVEL3;
                     break;
-                case (4): this.nextLevelGraph = Levels.LEVEL4;
-                    isCameraFly = true;
-                    lowestBorder = -18;
+                case (4):
+                    lowestBorder = -20;
+                    this.nextLevelGraph = Levels.LEVEL4;
                     break;
-                case (5): this.nextLevelGraph = Levels.LEVEL5;
-                    isCameraFly = true;
+                case (5):
                     lowestBorder = -18;
+                    this.nextLevelGraph = Levels.LEVEL5;
                     break;
             }
         }
