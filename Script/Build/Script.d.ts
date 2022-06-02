@@ -61,7 +61,6 @@ declare namespace MadMaze {
 declare namespace MadMaze {
     import f = FudgeCore;
     let startPoint: f.Vector3;
-    let levelOverview: HTMLElement;
     enum Levels {
         LEVEL1 = "Graph|2022-05-17T15:48:20.157Z|38212",
         LEVEL2 = "Graph|2022-05-17T15:48:08.487Z|74649",

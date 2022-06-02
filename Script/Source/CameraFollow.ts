@@ -42,18 +42,13 @@ namespace MadMaze {
                         }
                         if (spawnPoint != null && !this.hasCheckedSpawnPoint) {
                             let nearestLocation: number = 0;
-                            let increment: number = 0;
-                            cameraFlyPoints.forEach(cameraFlyPoint => {
-                                let actualLocation: number = f.Vector3.DIFFERENCE(cameraFlyPoint.mtxLocal.translation, spawnPoint).magnitude;
+                            for (let i: number = 1; i < cameraFlyPoints.length - 1; i++) {
+                                let actualLocation: number = f.Vector3.DIFFERENCE(cameraFlyPoints[i].mtxLocal.translation, spawnPoint).magnitude;
                                 if (nearestLocation == 0 || nearestLocation > actualLocation) {
-                                    if (increment != cameraFlyPoints.length - 1 && increment != 0) {
-                                        nearestLocation = actualLocation;
-                                        flyIncrement = increment;
-                                        levelOverview.innerHTML = increment.toString();
-                                    }
+                                    nearestLocation = actualLocation;
+                                    flyIncrement = i;
                                 }
-                                increment++;
-                            });
+                            }
                             this.hasCheckedSpawnPoint = true;
                         }
                         this.delayCameraTransX.setDelay(500);

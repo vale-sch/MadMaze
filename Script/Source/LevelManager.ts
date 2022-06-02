@@ -2,12 +2,6 @@
 namespace MadMaze {
     import f = FudgeCore;
     export let startPoint: f.Vector3;
-    export let levelOverview: HTMLElement;
-    levelOverview = document.getElementById("level");
-    levelOverview.style.fontSize = "70px";
-    levelOverview.style.fontWeight = "bold";
-    levelOverview.style.textAlign = "center";
-    levelOverview.style.color = "green";
     export enum Levels {
         LEVEL1 = "Graph|2022-05-17T15:48:20.157Z|38212",
         LEVEL2 = "Graph|2022-05-17T15:48:08.487Z|74649",
@@ -54,14 +48,14 @@ namespace MadMaze {
             });
             madeMazeGraph.appendChild(levelToLoad);
             this.previousGraph = levelToLoad;
-            // this.levelOverview.innerHTML = "Level: " + this.level;
+            this.levelOverview.innerHTML = "Level: " + this.level;
         }
 
         public static initilizeScene(): void {
             let scene: f.Graph = <f.Graph>f.Project.resources[this.nextLevelGraph];
             madeMazeGraph.appendChild(scene);
             this.previousGraph = scene;
-            //this.levelOverview.innerHTML = "Level: " + this.level;
+            this.levelOverview.innerHTML = "Level: " + this.level;
             startPoint = scene.getChildrenByName("startPoint")[0].getComponent(f.ComponentTransform).mtxLocal.translation;
             rgdbdyBall.setPosition(startPoint);
             cameraFlyPoints = new Array<f.ComponentTransform>(this.previousGraph.getChildrenByName("cameraFlyPoints")[0].nChildren - 1);

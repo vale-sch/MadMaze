@@ -154,18 +154,13 @@ var MadMaze;
                         }
                         if (MadMaze.spawnPoint != null && !this.hasCheckedSpawnPoint) {
                             let nearestLocation = 0;
-                            let increment = 0;
-                            MadMaze.cameraFlyPoints.forEach(cameraFlyPoint => {
-                                let actualLocation = f.Vector3.DIFFERENCE(cameraFlyPoint.mtxLocal.translation, MadMaze.spawnPoint).magnitude;
+                            for (let i = 1; i < MadMaze.cameraFlyPoints.length - 1; i++) {
+                                let actualLocation = f.Vector3.DIFFERENCE(MadMaze.cameraFlyPoints[i].mtxLocal.translation, MadMaze.spawnPoint).magnitude;
                                 if (nearestLocation == 0 || nearestLocation > actualLocation) {
-                                    if (increment != MadMaze.cameraFlyPoints.length - 1 && increment != 0) {
-                                        nearestLocation = actualLocation;
-                                        MadMaze.flyIncrement = increment;
-                                        MadMaze.levelOverview.innerHTML = increment.toString();
-                                    }
+                                    nearestLocation = actualLocation;
+                                    MadMaze.flyIncrement = i;
                                 }
-                                increment++;
-                            });
+                            }
                             this.hasCheckedSpawnPoint = true;
                         }
                         this.delayCameraTransX.setDelay(500);
@@ -484,11 +479,6 @@ var MadMaze;
 var MadMaze;
 (function (MadMaze) {
     var f = FudgeCore;
-    MadMaze.levelOverview = document.getElementById("level");
-    MadMaze.levelOverview.style.fontSize = "70px";
-    MadMaze.levelOverview.style.fontWeight = "bold";
-    MadMaze.levelOverview.style.textAlign = "center";
-    MadMaze.levelOverview.style.color = "green";
     let Levels;
     (function (Levels) {
         Levels["LEVEL1"] = "Graph|2022-05-17T15:48:20.157Z|38212";
@@ -536,13 +526,13 @@ var MadMaze;
             });
             MadMaze.madeMazeGraph.appendChild(levelToLoad);
             this.previousGraph = levelToLoad;
-            // this.levelOverview.innerHTML = "Level: " + this.level;
+            this.levelOverview.innerHTML = "Level: " + this.level;
         }
         static initilizeScene() {
             let scene = f.Project.resources[this.nextLevelGraph];
             MadMaze.madeMazeGraph.appendChild(scene);
             this.previousGraph = scene;
-            //this.levelOverview.innerHTML = "Level: " + this.level;
+            this.levelOverview.innerHTML = "Level: " + this.level;
             MadMaze.startPoint = scene.getChildrenByName("startPoint")[0].getComponent(f.ComponentTransform).mtxLocal.translation;
             MadMaze.rgdbdyBall.setPosition(MadMaze.startPoint);
             MadMaze.cameraFlyPoints = new Array(this.previousGraph.getChildrenByName("cameraFlyPoints")[0].nChildren - 1);
