@@ -33,6 +33,7 @@ namespace MadMaze {
         LevelManager.level++;
         LevelManager.checkForNextLevel();
         LevelManager.loadNextLevel();
+        OverlayCanvas.showDiv();
       }
 
     }

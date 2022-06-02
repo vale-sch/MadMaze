@@ -37,6 +37,8 @@ namespace MadMaze {
             this.createButtons();
             this.createArray();
             new CameraFollow(cmpCamera.node, cameraParent, rgdbdyBall.node);
+            OverlayCanvas.initializeButtons();
+            OverlayCanvas.showDiv();
         }
 
         public getMobileOperatingSystem = (): string => {
@@ -64,6 +66,7 @@ namespace MadMaze {
             refreshButt.style.position = "absolute";
             refreshButt.style.top = "0%";
             refreshButt.style.right = "0%";
+            // refreshButt.hidden = true;
             document.body.appendChild(refreshButt);
 
             refreshButt.addEventListener("pointerdown", (event) => {
@@ -107,7 +110,8 @@ namespace MadMaze {
 
         public deviceOrientationDistributor = (event: DeviceOrientationEvent): void => {
             this.ballManager.applyForceAlongDirection(event);
-            this.checkForOrientation(event);
+            if (!isCameraFly)
+                this.checkForOrientation(event);
         }
 
         public checkForOrientation = (event: DeviceOrientationEvent): void => {

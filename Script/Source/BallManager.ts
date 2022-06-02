@@ -3,7 +3,7 @@ namespace MadMaze {
 
 
     export let orientations: Orientation[] = new Array<Orientation>();
-    export let spawnPoint: f.Vector3 = f.Vector3.ZERO();
+    export let spawnPoint: f.Vector3 = null;
     export let lowestBorder: number = 0;
     export class BallManager {
 
@@ -17,6 +17,11 @@ namespace MadMaze {
             f.Loop.start();
         }
         private update = (_event: Event): void => {
+            if (OverlayCanvas.isInOverlayMode) {
+                rgdbdyBall.setVelocity(f.Vector3.ZERO());
+                rgdbdyBall.setRotation(f.Vector3.ZERO());
+            }
+
             if (this.rgdbdyBall.getPosition().y < lowestBorder) {
                 madeMazeGraph.getChildren().forEach(child => {
                     child.getChildren().forEach(childOfChild => {
@@ -34,6 +39,7 @@ namespace MadMaze {
                     rgdbdyBall.setPosition(spawnPoint);
                 else
                     rgdbdyBall.setPosition(startPoint);
+                OverlayCanvas.showDiv();
             }
         }
 
@@ -46,78 +52,79 @@ namespace MadMaze {
         public applyForceAlongDirection = (event: DeviceOrientationEvent): void => {
             this.gamma = event.gamma * this.speed;
             this.beta = event.beta * this.speed;
-            if (!isCameraFly)
-                orientations.forEach(location => {
-                    switch (location.alignment) {
-                        case (Alignment.NORMAL):
-                            if (location.isActive)
-                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, -5, -this.beta));
-                            break;
+            if (!OverlayCanvas.isInOverlayMode)
+                if (!isCameraFly)
+                    orientations.forEach(location => {
+                        switch (location.alignment) {
+                            case (Alignment.NORMAL):
+                                if (location.isActive)
+                                    this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, -5, -this.beta));
+                                break;
 
-                        case (Alignment.RIGHTSIDE):
-                            if (location.isActive) {
-                                if (Math.abs(event.beta) > 100) {
-                                    this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 4, 750 / Math.abs(this.gamma), -this.beta / 15));
-                                    return;
+                            case (Alignment.RIGHTSIDE):
+                                if (location.isActive) {
+                                    if (Math.abs(event.beta) > 100) {
+                                        this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 4, 750 / Math.abs(this.gamma), -this.beta / 15));
+                                        return;
+                                    }
+                                    this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma / 4, this.gamma / 10, -this.beta));
                                 }
-                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma / 4, this.gamma / 10, -this.beta));
-                            }
-                            break;
+                                break;
 
-                        case (Alignment.LEFTSIDE):
-                            if (location.isActive) {
-                                if (Math.abs(event.beta) > 100) {
-                                    this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 4, 750 / Math.abs(this.gamma), -this.beta / 15));
-                                    return;
+                            case (Alignment.LEFTSIDE):
+                                if (location.isActive) {
+                                    if (Math.abs(event.beta) > 100) {
+                                        this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 4, 750 / Math.abs(this.gamma), -this.beta / 15));
+                                        return;
+                                    }
+                                    this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma / 4, -this.gamma / 10, -this.beta));
                                 }
-                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma / 4, -this.gamma / 10, -this.beta));
-                            }
-                            break;
+                                break;
 
-                        case (Alignment.SETUPREVERSED):
-                            if (location.isActive) {
-                                if (event.beta > -90)
-                                    this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma / 2, -this.beta / 2, -this.beta));
-                                else
-                                    this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 2, -this.beta / 2, -this.beta));
-                            }
-                            break;
+                            case (Alignment.SETUPREVERSED):
+                                if (location.isActive) {
+                                    if (event.beta > -90)
+                                        this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma / 2, -this.beta / 2, -this.beta));
+                                    else
+                                        this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 2, -this.beta / 2, -this.beta));
+                                }
+                                break;
 
-                        case (Alignment.SETUPNORMAL):
-                            if (location.isActive) {
-                                if (event.beta < 90)
-                                    this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma / 2, this.beta / 2, -this.beta));
-                                else
-                                    this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 2, this.beta / 2, -this.beta));
-                            }
-                            break;
+                            case (Alignment.SETUPNORMAL):
+                                if (location.isActive) {
+                                    if (event.beta < 90)
+                                        this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma / 2, this.beta / 2, -this.beta));
+                                    else
+                                        this.rgdbdyBall.applyForce(new f.Vector3(this.gamma / 2, this.beta / 2, -this.beta));
+                                }
+                                break;
 
-                        case (Alignment.OVERHEAD):
-                            if (location.isActive) {
-                                let zFactor: number = 0;
-                                if (Math.abs(this.beta) > 80)
-                                    zFactor = 6;
-                                else
-                                    zFactor = -6;
-                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, this.beta / 5, zFactor));
-                            }
+                            case (Alignment.OVERHEAD):
+                                if (location.isActive) {
+                                    let zFactor: number = 0;
+                                    if (Math.abs(this.beta) > 80)
+                                        zFactor = 6;
+                                    else
+                                        zFactor = -6;
+                                    this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, this.beta / 5, zFactor));
+                                }
 
-                            break;
+                                break;
 
-                        case (Alignment.OVERHEADREVERSED):
-                            if (location.isActive) {
-                                let zFactor: number = 0;
-                                if (Math.abs(this.beta) > 80)
-                                    zFactor = 6;
-                                else
-                                    zFactor = -6;
-                                this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, -this.beta / 5, zFactor));
-                            }
+                            case (Alignment.OVERHEADREVERSED):
+                                if (location.isActive) {
+                                    let zFactor: number = 0;
+                                    if (Math.abs(this.beta) > 80)
+                                        zFactor = 6;
+                                    else
+                                        zFactor = -6;
+                                    this.rgdbdyBall.applyForce(new f.Vector3(-this.gamma, -this.beta / 5, zFactor));
+                                }
 
-                            break;
+                                break;
 
-                    }
-                });
+                        }
+                    });
         }
     }
 }

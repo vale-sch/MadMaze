@@ -1,6 +1,6 @@
 namespace MadMaze {
     import f = FudgeCore;
-    export let isCameraFly: boolean = true;
+    export let isCameraFly: boolean = false;
     export let cameraFlyPoints: Array<f.ComponentTransform>;
     export let flyIncrement: number = 0;
 
@@ -15,6 +15,7 @@ namespace MadMaze {
         private delayCameraRotX: f.Control = new f.Control("delayRotX", 1, f.CONTROL_TYPE.PROPORTIONAL);
         private delayCameraRotY: f.Control = new f.Control("delayRotY", 1, f.CONTROL_TYPE.PROPORTIONAL);
         private delayCameraRotZ: f.Control = new f.Control("delayRotZ", 1, f.CONTROL_TYPE.PROPORTIONAL);
+        private hasCheckedSpawnPoint: boolean = false;
         constructor(_cmpCamera: f.Node, _cameraParent: f.Node, _ballNode: f.Node) {
             this.cameraParent = _cameraParent;
             this.cmpCamera = _cmpCamera;
@@ -24,40 +25,57 @@ namespace MadMaze {
             f.Loop.start();
         }
         private update = (_event: Event): void => {
-            if (isCameraFly) {
-                if (cameraFlyPoints != null)
-                    if (flyIncrement == cameraFlyPoints.length) {
-                        this.delayCameraTransX.setDelay(150);
-                        this.delayCameraTransY.setDelay(150);
-                        this.delayCameraTransZ.setDelay(150);
-                        this.delayCameraRotX.setDelay(500);
-                        this.delayCameraRotY.setDelay(500);
-                        this.delayCameraRotZ.setDelay(500);
-                        this.cmpCamera.mtxLocal.rotation = new f.Vector3(0, 0, 0);;
-                        isCameraFly = false;
-                        return;
-                    }
-                this.delayCameraTransX.setDelay(500);
-                this.delayCameraTransY.setDelay(500);
-                this.delayCameraTransZ.setDelay(500);
-                this.delayCameraRotX.setDelay(600);
-                this.delayCameraRotY.setDelay(600);
-                this.delayCameraRotZ.setDelay(600);
-                this.delayCameraTransX.setInput(cameraFlyPoints[flyIncrement].mtxLocal.translation.x);
-                this.delayCameraTransY.setInput(cameraFlyPoints[flyIncrement].mtxLocal.translation.y);
-                this.delayCameraTransZ.setInput(cameraFlyPoints[flyIncrement].mtxLocal.translation.z);
+            if (!OverlayCanvas.isInOverlayMode)
+                if (isCameraFly) {
+                    if (cameraFlyPoints != null) {
+                        if (flyIncrement == cameraFlyPoints.length) {
+                            this.delayCameraTransX.setDelay(150);
+                            this.delayCameraTransY.setDelay(150);
+                            this.delayCameraTransZ.setDelay(150);
+                            this.delayCameraRotX.setDelay(500);
+                            this.delayCameraRotY.setDelay(500);
+                            this.delayCameraRotZ.setDelay(500);
+                            this.cmpCamera.mtxLocal.rotation = new f.Vector3(0, 0, 0);;
+                            isCameraFly = false;
+                            this.hasCheckedSpawnPoint = false;
+                            return;
+                        }
+                        if (spawnPoint != null && !this.hasCheckedSpawnPoint) {
+                            let nearestLocation: number = 0;
+                            let increment: number = 0;
+                            cameraFlyPoints.forEach(cameraFlyPoint => {
+                                let actualLocation: number = f.Vector3.DIFFERENCE(cameraFlyPoint.mtxLocal.translation, spawnPoint).magnitude;
+                                if (nearestLocation == 0 || nearestLocation > actualLocation) {
+                                    if (increment != cameraFlyPoints.length - 1 && increment != 0) {
+                                        nearestLocation = actualLocation;
+                                        flyIncrement = increment;
+                                        levelOverview.innerHTML = increment.toString();
+                                    }
+                                }
+                                increment++;
+                            });
+                            this.hasCheckedSpawnPoint = true;
+                        }
+                        this.delayCameraTransX.setDelay(500);
+                        this.delayCameraTransY.setDelay(500);
+                        this.delayCameraTransZ.setDelay(500);
+                        this.delayCameraRotX.setDelay(600);
+                        this.delayCameraRotY.setDelay(600);
+                        this.delayCameraRotZ.setDelay(600);
+                        this.delayCameraTransX.setInput(cameraFlyPoints[flyIncrement].mtxLocal.translation.x);
+                        this.delayCameraTransY.setInput(cameraFlyPoints[flyIncrement].mtxLocal.translation.y);
+                        this.delayCameraTransZ.setInput(cameraFlyPoints[flyIncrement].mtxLocal.translation.z);
 
-                this.delayCameraRotX.setInput(cameraFlyPoints[flyIncrement].mtxLocal.rotation.x);
-                this.delayCameraRotY.setInput(cameraFlyPoints[flyIncrement].mtxLocal.rotation.y);
-                this.delayCameraRotZ.setInput(cameraFlyPoints[flyIncrement].mtxLocal.rotation.z);
-                this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.delayCameraTransY.getOutput(), this.delayCameraTransZ.getOutput());
-                this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), this.delayCameraRotY.getOutput(), this.delayCameraRotZ.getOutput());;
-                rgdbdyBall.setVelocity(f.Vector3.ZERO());
+                        this.delayCameraRotX.setInput(cameraFlyPoints[flyIncrement].mtxLocal.rotation.x);
+                        this.delayCameraRotY.setInput(cameraFlyPoints[flyIncrement].mtxLocal.rotation.y);
+                        this.delayCameraRotZ.setInput(cameraFlyPoints[flyIncrement].mtxLocal.rotation.z);
+                        this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.delayCameraTransY.getOutput(), this.delayCameraTransZ.getOutput());
+                        this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), this.delayCameraRotY.getOutput(), this.delayCameraRotZ.getOutput());;
+                        if (f.Vector3.DIFFERENCE(this.cameraParent.mtxLocal.translation, cameraFlyPoints[flyIncrement].mtxLocal.translation).magnitude < 2)
+                            flyIncrement++;
+                    } else isCameraFly = false;
 
-                if (f.Vector3.DIFFERENCE(this.cameraParent.mtxLocal.translation, cameraFlyPoints[flyIncrement].mtxLocal.translation).magnitude < 2)
-                    flyIncrement++;
-            }
-
+                }
             if (!isCameraFly)
                 orientations.forEach(orientation => {
                     switch (orientation.alignment) {

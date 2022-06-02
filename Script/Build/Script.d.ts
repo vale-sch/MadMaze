@@ -29,6 +29,7 @@ declare namespace MadMaze {
         private delayCameraRotX;
         private delayCameraRotY;
         private delayCameraRotZ;
+        private hasCheckedSpawnPoint;
         constructor(_cmpCamera: f.Node, _cameraParent: f.Node, _ballNode: f.Node);
         private update;
     }
@@ -60,6 +61,7 @@ declare namespace MadMaze {
 declare namespace MadMaze {
     import f = FudgeCore;
     let startPoint: f.Vector3;
+    let levelOverview: HTMLElement;
     enum Levels {
         LEVEL1 = "Graph|2022-05-17T15:48:20.157Z|38212",
         LEVEL2 = "Graph|2022-05-17T15:48:08.487Z|74649",
@@ -128,6 +130,19 @@ declare namespace MadMaze {
         isActive: boolean;
         alignment: Alignment;
         constructor(_isActive: boolean, _alignment: Alignment);
+    }
+}
+declare namespace MadMaze {
+    class OverlayCanvas {
+        static overlayDiv: HTMLElement;
+        static continueButton: HTMLElement;
+        static showTrackButton: HTMLElement;
+        static isInOverlayMode: boolean;
+        static initializeButtons(): void;
+        static showDiv(): void;
+        private static hideDiv;
+        static showTrack: () => void;
+        static continueGame: () => void;
     }
 }
 declare namespace MadMaze {

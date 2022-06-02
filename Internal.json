@@ -4781,7 +4781,7 @@
                 {
                   "ƒ.ComponentTransform": {
                     "local": {
-                      "translation": "[0, 2, 0]",
+                      "translation": "[0, 1, 0]",
                       "rotation": "[0, 0, 0]",
                       "scaling": "[1, 1, 1]"
                     },
@@ -8219,7 +8219,7 @@
                       {
                         "ƒ.ComponentTransform": {
                           "local": {
-                            "translation": "[0, 12, -5]",
+                            "translation": "[0, 12, -3]",
                             "rotation": "[40, 0, 0]",
                             "scaling": "[1, 1, 1]"
                           },
@@ -8243,7 +8243,8 @@
                           }
                         }
                       }
-                    ]
+                    ],
+                    "ComponentMaterial": []
                   },
                   "children": []
                 }
@@ -8409,7 +8410,7 @@
                       {
                         "ƒ.ComponentTransform": {
                           "local": {
-                            "translation": "[0.20000000298023224, 2, -8]",
+                            "translation": "[0.6000000238418579, 2, -5]",
                             "rotation": "[40, 0, 0]",
                             "scaling": "[1, 1, 1]"
                           },
@@ -8450,7 +8451,7 @@
                 {
                   "ƒ.ComponentTransform": {
                     "local": {
-                      "translation": "[0, 2, 0]",
+                      "translation": "[0, 1, 0]",
                       "rotation": "[0, 0, 0]",
                       "scaling": "[1, 1, 1]"
                     },
@@ -9652,7 +9653,7 @@
                       {
                         "ƒ.ComponentTransform": {
                           "local": {
-                            "translation": "[0, -30, -40]",
+                            "translation": "[0, -20, -40]",
                             "rotation": "[20, 0, 0]",
                             "scaling": "[1, 1, 1]"
                           },
@@ -9676,7 +9677,8 @@
                           }
                         }
                       }
-                    ]
+                    ],
+                    "ComponentMaterial": []
                   },
                   "children": []
                 }
@@ -9690,7 +9692,46 @@
                       {
                         "ƒ.ComponentTransform": {
                           "local": {
-                            "translation": "[0, -45, 12]",
+                            "translation": "[0, -40, -40]",
+                            "rotation": "[20, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "ComponentMesh": [
+                      {
+                        "ƒ.ComponentMesh": {
+                          "idMesh": "MeshSphere|2022-03-16T16:05:22.559Z|43344",
+                          "pivot": {
+                            "translation": "[0, 0, 0]",
+                            "rotation": "[0, 0, 0]",
+                            "scaling": "[1, 1, 1]"
+                          },
+                          "Component": {
+                            "active": true
+                          }
+                        }
+                      }
+                    ],
+                    "ComponentMaterial": []
+                  },
+                  "children": []
+                }
+              },
+              {
+                "ƒ.Node": {
+                  "name": "Point",
+                  "active": true,
+                  "components": {
+                    "ComponentTransform": [
+                      {
+                        "ƒ.ComponentTransform": {
+                          "local": {
+                            "translation": "[0, -44, 10]",
                             "rotation": "[40, 0, 0]",
                             "scaling": "[1, 1, 1]"
                           },
@@ -9714,7 +9755,8 @@
                           }
                         }
                       }
-                    ]
+                    ],
+                    "ComponentMaterial": []
                   },
                   "children": []
                 }
@@ -9731,7 +9773,7 @@
                 {
                   "ƒ.ComponentTransform": {
                     "local": {
-                      "translation": "[0, 4, 0]",
+                      "translation": "[0, 1, 0]",
                       "rotation": "[0, 0, 0]",
                       "scaling": "[1, 1, 1]"
                     },
@@ -11970,6 +12012,29 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "ƒ.Node": {
+            "name": "startPoint",
+            "active": true,
+            "components": {
+              "ComponentTransform": [
+                {
+                  "ƒ.ComponentTransform": {
+                    "local": {
+                      "translation": "[0, 2, 0]",
+                      "rotation": "[0, 0, 0]",
+                      "scaling": "[1, 1, 1]"
+                    },
+                    "Component": {
+                      "active": true
+                    }
+                  }
+                }
+              ]
+            },
+            "children": []
           }
         }
       ],

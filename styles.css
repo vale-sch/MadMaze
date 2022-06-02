@@ -24,3 +24,25 @@ canvas.fullscreen {
   font-size: 75px;
   font-weight: bold;
 }
+
+#game {
+  width: 60%;
+  height: 100px;
+  position: fixed;
+  top: 35%;
+  font-size: 75px;
+  font-weight: bold;
+  margin-left: 20%;
+
+}
+
+#cameraFly {
+  width: 60%;
+  height: 100px;
+  position: fixed;
+  top: 45%;
+  font-size: 75px;
+  font-weight: bold;
+  margin-left: 20%;
+
+}
