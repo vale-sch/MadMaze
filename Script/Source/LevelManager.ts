@@ -2,7 +2,6 @@
 namespace MadMaze {
     import f = FudgeCore;
     export let startPoint: f.Vector3;
-<<<<<<< HEAD
     export let levelOverview: HTMLElement;
     if (f.Project.mode != f.MODE.EDITOR) {
         levelOverview = document.getElementById("level");
@@ -12,8 +11,6 @@ namespace MadMaze {
         levelOverview.style.color = "green";
     }
 
-=======
->>>>>>> 88aa1cbd0496bd56769954d308bfbf3bd3781668
     export enum Levels {
         LEVEL1 = "Graph|2022-05-17T15:48:20.157Z|38212",
         LEVEL2 = "Graph|2022-05-17T15:48:08.487Z|74649",

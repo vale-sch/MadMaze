@@ -479,7 +479,6 @@ var MadMaze;
 var MadMaze;
 (function (MadMaze) {
     var f = FudgeCore;
-<<<<<<< HEAD
     if (f.Project.mode != f.MODE.EDITOR) {
         MadMaze.levelOverview = document.getElementById("level");
         MadMaze.levelOverview.style.fontSize = "70px";
@@ -487,8 +486,6 @@ var MadMaze;
         MadMaze.levelOverview.style.textAlign = "center";
         MadMaze.levelOverview.style.color = "green";
     }
-=======
->>>>>>> 88aa1cbd0496bd56769954d308bfbf3bd3781668
     let Levels;
     (function (Levels) {
         Levels["LEVEL1"] = "Graph|2022-05-17T15:48:20.157Z|38212";
