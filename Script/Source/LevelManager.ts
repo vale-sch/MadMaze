@@ -3,11 +3,14 @@ namespace MadMaze {
     import f = FudgeCore;
     export let startPoint: f.Vector3;
     export let levelOverview: HTMLElement;
-    levelOverview = document.getElementById("level");
-    levelOverview.style.fontSize = "70px";
-    levelOverview.style.fontWeight = "bold";
-    levelOverview.style.textAlign = "center";
-    levelOverview.style.color = "green";
+    if (f.Project.mode != f.MODE.EDITOR) {
+        levelOverview = document.getElementById("level");
+        levelOverview.style.fontSize = "70px";
+        levelOverview.style.fontWeight = "bold";
+        levelOverview.style.textAlign = "center";
+        levelOverview.style.color = "green";
+    }
+
     export enum Levels {
         LEVEL1 = "Graph|2022-05-17T15:48:20.157Z|38212",
         LEVEL2 = "Graph|2022-05-17T15:48:08.487Z|74649",

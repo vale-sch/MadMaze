@@ -484,11 +484,13 @@ var MadMaze;
 var MadMaze;
 (function (MadMaze) {
     var f = FudgeCore;
-    MadMaze.levelOverview = document.getElementById("level");
-    MadMaze.levelOverview.style.fontSize = "70px";
-    MadMaze.levelOverview.style.fontWeight = "bold";
-    MadMaze.levelOverview.style.textAlign = "center";
-    MadMaze.levelOverview.style.color = "green";
+    if (f.Project.mode != f.MODE.EDITOR) {
+        MadMaze.levelOverview = document.getElementById("level");
+        MadMaze.levelOverview.style.fontSize = "70px";
+        MadMaze.levelOverview.style.fontWeight = "bold";
+        MadMaze.levelOverview.style.textAlign = "center";
+        MadMaze.levelOverview.style.color = "green";
+    }
     let Levels;
     (function (Levels) {
         Levels["LEVEL1"] = "Graph|2022-05-17T15:48:20.157Z|38212";
