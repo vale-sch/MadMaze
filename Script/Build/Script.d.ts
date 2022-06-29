@@ -1,6 +1,6 @@
 /// <reference types="../../Core/FudgeCore" />
-import f = FudgeCore;
 declare namespace MadMaze {
+    import f = FudgeCore;
     let orientations: Orientation[];
     let spawnPoint: f.Vector3;
     let lowestBorder: number;

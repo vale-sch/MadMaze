@@ -1,7 +1,7 @@
 "use strict";
-var f = FudgeCore;
 var MadMaze;
 (function (MadMaze) {
+    var f = FudgeCore;
     MadMaze.orientations = new Array();
     MadMaze.spawnPoint = null;
     MadMaze.lowestBorder = 0;
