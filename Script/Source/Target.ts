@@ -19,7 +19,7 @@ namespace MadMaze {
     public hndEvent = (_event: Event): void => {
       switch (_event.type) {
         case f.EVENT.COMPONENT_ADD:
-          this.node.getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.TRIGGER_ENTER, this.triggerEnter);
+          this.node.getComponent(f.ComponentRigidbody).addEventListener(f.EVENT_PHYSICS.TRIGGER_ENTER, this.OnTriggerEnter);
           break;
         case f.EVENT.COMPONENT_REMOVE:
           this.removeEventListener(f.EVENT.COMPONENT_ADD, this.hndEvent);
@@ -27,7 +27,7 @@ namespace MadMaze {
           break;
       }
     }
-    private triggerEnter = (_event: f.EventPhysics): void => {
+    private OnTriggerEnter = (_event: f.EventPhysics): void => {
       if (_event.cmpRigidbody.node.name == "Ball") {
         rgdbdyBall.setVelocity(f.Vector3.ZERO());
         LevelManager.level++;
