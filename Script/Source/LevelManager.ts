@@ -60,7 +60,7 @@ namespace MadMaze {
             this.levelOverview.innerHTML = "Level: " + this.level;
         }
 
-        public static initilizeScene(): void {
+        public static initializeScene(): void {
             let scene: f.Graph = <f.Graph>f.Project.resources[this.nextLevelGraph];
             madeMazeGraph.appendChild(scene);
             this.previousGraph = scene;

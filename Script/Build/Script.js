@@ -535,7 +535,7 @@ var MadMaze;
             this.previousGraph = levelToLoad;
             this.levelOverview.innerHTML = "Level: " + this.level;
         }
-        static initilizeScene() {
+        static initializeScene() {
             let scene = f.Project.resources[this.nextLevelGraph];
             MadMaze.madeMazeGraph.appendChild(scene);
             this.previousGraph = scene;
@@ -597,7 +597,7 @@ var MadMaze;
         }
         MadMaze.rgdbdyBall = MadMaze.madeMazeGraph.getChildrenByName("Ball")[0].getComponent(f.ComponentRigidbody);
         new MadMaze.LevelManager();
-        MadMaze.LevelManager.initilizeScene();
+        MadMaze.LevelManager.initializeScene();
         // setup the viewport
         MadMaze.cameraParent = MadMaze.madeMazeGraph.getChildrenByName("Camera")[0];
         MadMaze.cmpCamera = MadMaze.cameraParent.getChild(0).getComponent(f.ComponentCamera);

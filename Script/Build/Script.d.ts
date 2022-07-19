@@ -76,7 +76,7 @@ declare namespace MadMaze {
         static levelOverview: HTMLElement;
         constructor();
         static loadNextLevel(): void;
-        static initilizeScene(): void;
+        static initializeScene(): void;
         static checkForNextLevel(): void;
     }
 }
