@@ -6,5 +6,6 @@ Studienarbeit bei Jirka Dell'Oro-Friedl // SoSe 2022
 
 ![QR Code](QRToGame.png)
 
-# Documentation
-- [Click Here](https://github.com/vale-sch/MadMaze/blob/main/MadMaze-Dokumentation.pdf) 
+# Overview
+- [Documentation](https://github.com/vale-sch/MadMaze/blob/main/MadMaze-Dokumentation.pdf) 
+- [Scripts](https://github.com/vale-sch/MadMaze/blob/main/MadMaze-Dokumentation.pdf) 
