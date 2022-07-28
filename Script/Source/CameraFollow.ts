@@ -6,7 +6,7 @@ namespace MadMaze {
 
     export class CameraFollow {
         private cameraParent: f.Node;
-        private cmpCamera: f.Node;
+        private cameraNode: f.Node;
         private ballNode: f.Node;
         private delayCameraTransX: f.Control = new f.Control("delayCameraX", 1, f.CONTROL_TYPE.PROPORTIONAL);
         private delayCameraTransY: f.Control = new f.Control("delayCameraY", 1, f.CONTROL_TYPE.PROPORTIONAL);
@@ -18,7 +18,7 @@ namespace MadMaze {
         private hasCheckedSpawnPoint: boolean = false;
         constructor(_cmpCamera: f.Node, _cameraParent: f.Node, _ballNode: f.Node) {
             this.cameraParent = _cameraParent;
-            this.cmpCamera = _cmpCamera;
+            this.cameraNode = _cmpCamera;
             this.ballNode = _ballNode;
 
             f.Loop.addEventListener(f.EVENT.LOOP_FRAME, this.update);
@@ -35,7 +35,7 @@ namespace MadMaze {
                             this.delayCameraRotX.setDelay(500);
                             this.delayCameraRotY.setDelay(500);
                             this.delayCameraRotZ.setDelay(500);
-                            this.cmpCamera.mtxLocal.rotation = new f.Vector3(0, 0, 0);;
+                            this.cameraNode.mtxLocal.rotation = new f.Vector3(0, 0, 0);;
                             isCameraFly = false;
                             this.hasCheckedSpawnPoint = false;
                             return;
@@ -65,7 +65,7 @@ namespace MadMaze {
                         this.delayCameraRotY.setInput(cameraFlyPoints[flyIncrement].mtxLocal.rotation.y);
                         this.delayCameraRotZ.setInput(cameraFlyPoints[flyIncrement].mtxLocal.rotation.z);
                         this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.delayCameraTransY.getOutput(), this.delayCameraTransZ.getOutput());
-                        this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), this.delayCameraRotY.getOutput(), this.delayCameraRotZ.getOutput());;
+                        this.cameraNode.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), this.delayCameraRotY.getOutput(), this.delayCameraRotZ.getOutput());;
                         if (f.Vector3.DIFFERENCE(this.cameraParent.mtxLocal.translation, cameraFlyPoints[flyIncrement].mtxLocal.translation).magnitude < 2)
                             flyIncrement++;
                     } else isCameraFly = false;
@@ -81,7 +81,7 @@ namespace MadMaze {
                                 this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 10, this.delayCameraTransZ.getOutput());
                                 this.delayCameraRotX.setInput(50);
                                 this.delayCameraRotZ.setInput(0);
-                                this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
+                                this.cameraNode.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
 
                             }
                             break;
@@ -92,7 +92,7 @@ namespace MadMaze {
                                 this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 15, this.delayCameraTransZ.getOutput());
                                 this.delayCameraRotX.setInput(90);
                                 this.delayCameraRotZ.setInput(25);
-                                this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, this.delayCameraRotZ.getOutput());
+                                this.cameraNode.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, this.delayCameraRotZ.getOutput());
 
                             }
                             break;
@@ -103,7 +103,7 @@ namespace MadMaze {
                                 this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 15, this.delayCameraTransZ.getOutput());
                                 this.delayCameraRotX.setInput(90);
                                 this.delayCameraRotZ.setInput(-25);
-                                this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, this.delayCameraRotZ.getOutput());
+                                this.cameraNode.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, this.delayCameraRotZ.getOutput());
 
                             }
                             break;
@@ -115,7 +115,7 @@ namespace MadMaze {
                                 this.delayCameraRotX.setInput(65);
                                 this.delayCameraRotZ.setInput(0);
 
-                                this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
+                                this.cameraNode.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
 
                             }
                             break;
@@ -127,7 +127,7 @@ namespace MadMaze {
                                 this.delayCameraRotX.setInput(115);
                                 this.delayCameraRotZ.setInput(0);
 
-                                this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
+                                this.cameraNode.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
 
                             }
                             break;
@@ -138,7 +138,7 @@ namespace MadMaze {
                                 this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 10, this.delayCameraTransZ.getOutput());
                                 this.delayCameraRotX.setInput(90);
                                 this.delayCameraRotZ.setInput(0);
-                                this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
+                                this.cameraNode.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
 
                             }
                             break;
@@ -149,7 +149,7 @@ namespace MadMaze {
                                 this.cameraParent.mtxLocal.translation = new f.Vector3(this.delayCameraTransX.getOutput(), this.ballNode.mtxWorld.translation.y + 10, this.delayCameraTransZ.getOutput());
                                 this.delayCameraRotX.setInput(90);
                                 this.delayCameraRotZ.setInput(0);
-                                this.cmpCamera.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
+                                this.cameraNode.mtxLocal.rotation = new f.Vector3(this.delayCameraRotX.getOutput(), 0, 0);
 
                             }
                             break;

@@ -1,6 +1,6 @@
 /// <reference types="../../Core/FudgeCore" />
-import f = FudgeCore;
 declare namespace MadMaze {
+    import f = FudgeCore;
     let orientations: Orientation[];
     let spawnPoint: f.Vector3;
     let lowestBorder: number;
@@ -21,7 +21,7 @@ declare namespace MadMaze {
     let flyIncrement: number;
     class CameraFollow {
         private cameraParent;
-        private cmpCamera;
+        private cameraNode;
         private ballNode;
         private delayCameraTransX;
         private delayCameraTransY;
@@ -53,7 +53,7 @@ declare namespace MadMaze {
         getAccelPermission: () => void;
         getMobileOperatingSystem: () => string;
         createButtons(): void;
-        createArray(): void;
+        createOrientationArray(): void;
         deviceOrientationDistributor: (event: DeviceOrientationEvent) => void;
         checkForOrientation: (event: DeviceOrientationEvent) => void;
     }
@@ -61,6 +61,7 @@ declare namespace MadMaze {
 declare namespace MadMaze {
     import f = FudgeCore;
     let startPoint: f.Vector3;
+    let levelOverview: HTMLElement;
     enum Levels {
         LEVEL1 = "Graph|2022-05-17T15:48:20.157Z|38212",
         LEVEL2 = "Graph|2022-05-17T15:48:08.487Z|74649",
@@ -75,7 +76,7 @@ declare namespace MadMaze {
         static levelOverview: HTMLElement;
         constructor();
         static loadNextLevel(): void;
-        static initilizeScene(): void;
+        static initializeScene(): void;
         static checkForNextLevel(): void;
     }
 }
@@ -85,15 +86,6 @@ declare namespace MadMaze {
     let rgdbdyBall: f.ComponentRigidbody;
     let cmpCamera: f.ComponentCamera;
     let cameraParent: f.Node;
-}
-declare namespace MadMaze {
-    import f = FudgeCore;
-    class ObstaclesTranslator extends f.ComponentScript {
-        static readonly iSubclass: number;
-        constructor();
-        hndEvent: (_event: Event) => void;
-        private update;
-    }
 }
 declare namespace MadMaze {
     import f = FudgeCore;
@@ -150,6 +142,6 @@ declare namespace MadMaze {
         static readonly iSubclass: number;
         constructor();
         hndEvent: (_event: Event) => void;
-        private triggerEnter;
+        private OnTriggerEnter;
     }
 }

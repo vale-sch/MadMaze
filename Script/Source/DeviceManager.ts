@@ -35,7 +35,7 @@ namespace MadMaze {
                     break;
             }
             this.createButtons();
-            this.createArray();
+            this.createOrientationArray();
             new CameraFollow(cmpCamera.node, cameraParent, rgdbdyBall.node);
             OverlayCanvas.initializeButtons();
             OverlayCanvas.showDiv();
@@ -77,7 +77,7 @@ namespace MadMaze {
         }
 
 
-        public createArray(): void {
+        public createOrientationArray(): void {
             for (let i = 0; i < 7; i++) {
                 switch (i) {
                     case 0:

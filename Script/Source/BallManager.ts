@@ -1,6 +1,6 @@
-import f = FudgeCore;
-namespace MadMaze {
 
+namespace MadMaze {
+    import f = FudgeCore;
 
     export let orientations: Orientation[] = new Array<Orientation>();
     export let spawnPoint: f.Vector3 = null;

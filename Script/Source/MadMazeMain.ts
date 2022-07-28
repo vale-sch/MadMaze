@@ -28,7 +28,7 @@ namespace MadMaze {
     }
     rgdbdyBall = madeMazeGraph.getChildrenByName("Ball")[0].getComponent(f.ComponentRigidbody);
     new LevelManager()
-    LevelManager.initilizeScene();
+    LevelManager.initializeScene();
     // setup the viewport
     cameraParent = madeMazeGraph.getChildrenByName("Camera")[0];
     cmpCamera = cameraParent.getChild(0).getComponent(f.ComponentCamera);
